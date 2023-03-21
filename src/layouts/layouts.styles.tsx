@@ -11,5 +11,5 @@ export const LayoutOutletContainer = styled(Box)(() => ({
   width: "100%",
   flex: 1,
   overflowY: "auto",
-  padding: "0px 40px",
+  // padding: "0px 30px",
 }));

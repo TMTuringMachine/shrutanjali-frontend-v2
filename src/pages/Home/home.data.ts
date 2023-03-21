@@ -1,0 +1,17 @@
+export const songs: string[] = [
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958011/Screenshot_2023-03-04_at_6.51.52_PM_wljffn.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958011/Screenshot_2023-03-04_at_6.51.31_PM_zhzjj3.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958010/Screenshot_2023-03-04_at_6.50.17_PM_egry0g.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958010/Screenshot_2023-03-04_at_6.51.39_PM_saktno.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958009/Screenshot_2023-03-04_at_6.51.19_PM_cgjx4p.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958008/Screenshot_2023-03-04_at_6.51.01_PM_mmueas.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958008/Screenshot_2023-03-04_at_6.50.30_PM_faqzct.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958007/Screenshot_2023-03-04_at_6.50.02_PM_a3ns6a.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958007/Screenshot_2023-03-04_at_6.50.43_PM_exy6tl.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958006/Screenshot_2023-03-04_at_6.48.44_PM_yq0paw.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958006/Screenshot_2023-03-04_at_6.49.11_PM_yhg83x.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958005/Screenshot_2023-03-04_at_6.48.29_PM_cznnn9.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958005/Screenshot_2023-03-04_at_6.48.57_PM_hetexs.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958005/Screenshot_2023-03-04_at_6.49.45_PM_wzepyf.png",
+  "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958004/Screenshot_2023-03-04_at_6.48.14_PM_uayfze.png",
+];

@@ -7,6 +7,9 @@ const palette: PaletteOptions = {
   secondary: {
     main: "#00ff00",
   },
+  background: {
+    default: "#ffffff",
+  },
 };
 
 export default palette;

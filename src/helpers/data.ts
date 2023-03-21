@@ -1,0 +1,109 @@
+import { Song } from "../interfaces/song.interface";
+
+export const songs: Song[] = [
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958011/Screenshot_2023-03-04_at_6.51.52_PM_wljffn.png",
+    name: "Gokul Se Jaane Vaale 1",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958011/Screenshot_2023-03-04_at_6.51.31_PM_zhzjj3.png",
+    name: "Gokul Se Jaane Vaale 2",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958010/Screenshot_2023-03-04_at_6.50.17_PM_egry0g.png",
+    name: "Gokul Se Jaane Vaale 3",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958010/Screenshot_2023-03-04_at_6.51.39_PM_saktno.png",
+    name: "Gokul Se Jaane Vaale 4",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958009/Screenshot_2023-03-04_at_6.51.19_PM_cgjx4p.png",
+    name: "Gokul Se Jaane Vaale 5",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958008/Screenshot_2023-03-04_at_6.51.01_PM_mmueas.png",
+    name: "Gokul Se Jaane Vaale 6",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958008/Screenshot_2023-03-04_at_6.50.30_PM_faqzct.png",
+    name: "Gokul Se Jaane Vaale 7",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958007/Screenshot_2023-03-04_at_6.50.02_PM_a3ns6a.png",
+    name: "Gokul Se Jaane Vaale 8",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958007/Screenshot_2023-03-04_at_6.50.43_PM_exy6tl.png",
+    name: "Gokul Se Jaane Vaale 9",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958006/Screenshot_2023-03-04_at_6.48.44_PM_yq0paw.png",
+    name: "Gokul Se Jaane Vaale 10",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958006/Screenshot_2023-03-04_at_6.49.11_PM_yhg83x.png",
+    name: "Gokul Se Jaane Vaale 11",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958005/Screenshot_2023-03-04_at_6.48.29_PM_cznnn9.png",
+    name: "Gokul Se Jaane Vaale 12",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958005/Screenshot_2023-03-04_at_6.48.57_PM_hetexs.png",
+    name: "Gokul Se Jaane Vaale 13",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958005/Screenshot_2023-03-04_at_6.49.45_PM_wzepyf.png",
+    name: "Gokul Se Jaane Vaale 14",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dx1ye2bro/image/upload/v1678958004/Screenshot_2023-03-04_at_6.48.14_PM_uayfze.png",
+    name: "Gokul Se Jaane Vaale 15",
+    shortLyrics:
+      "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+];

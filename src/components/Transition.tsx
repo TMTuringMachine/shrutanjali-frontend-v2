@@ -1,9 +1,13 @@
 import React, { FunctionComponent, ReactNode } from "react";
-import { motion } from "framer-motion";
 
-interface Props {
-  children: ReactNode;
-}
+//libs
+import { motion } from "framer-motion";
+import { styled } from "@mui/material";
+
+const TransitionContainer = styled(motion.div)(() => ({
+  width: "100%",
+  height: "100%",
+}));
 
 const animationConfig = {
   initial: { opacity: 0 },
@@ -17,9 +21,13 @@ const pageTransition = {
   duration: 1,
 };
 
+interface Props {
+  children: ReactNode;
+}
+
 const Transition: FunctionComponent<Props> = ({ children }) => {
   return (
-    <motion.div
+    <TransitionContainer
       variants={animationConfig}
       transition={pageTransition}
       initial="initial"
@@ -28,7 +36,7 @@ const Transition: FunctionComponent<Props> = ({ children }) => {
       className="w-full h-full"
     >
       {children}
-    </motion.div>
+    </TransitionContainer>
   );
 };
 
