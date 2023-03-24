@@ -18,6 +18,8 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/mousewheel";
+import { Icon } from "@iconify/react";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 //components
 import Transition from "../../components/Transition";
@@ -31,6 +33,8 @@ import {
   SongData,
   SongDataContainer,
   WhishListButton,
+  PlayerOptionsContainer,
+  PlayingSong,
 } from "./home.styles";
 
 //data
@@ -38,7 +42,9 @@ import { songs } from "../../helpers/data";
 
 //interfaces
 import { Song } from "../../interfaces/song.interface";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { AnimatePresence } from "framer-motion";
+import FullScreenPlayer from "../../components/FullScreenPlayer/FullScreenPlayer.component";
 
 interface Props {}
 
@@ -47,11 +53,18 @@ SwiperCore.use([Navigation, EffectCoverflow, Mousewheel]);
 const Home: FunctionComponent<Props> = () => {
   const [activeSong, setActiveSong] = useState<Song | null>(null);
   const [showWishlist, setShowWishlist] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  const fullScreenHandler = useFullScreenHandle();
 
   const toggleWishlistDrawer: MouseEventHandler<
     HTMLButtonElement
   > = (): void => {
     setShowWishlist(!showWishlist);
+  };
+
+  const togglePlay: MouseEventHandler<SVGElement> = (): void => {
+    setIsPlaying(!isPlaying);
   };
 
   return (
@@ -85,6 +98,7 @@ const Home: FunctionComponent<Props> = () => {
                     <CarouselCard
                       song={item}
                       active={isActive}
+                      disabled={isPlaying}
                       // setSong={setActiveSong}
                     />
                   );
@@ -93,6 +107,14 @@ const Home: FunctionComponent<Props> = () => {
             ))}
           </Swiper>
         </SwiperContainer>
+        <AnimatePresence>
+          {isPlaying && (
+            <PlayingSong
+              layoutId={activeSong?.name}
+              url={activeSong?.image}
+            ></PlayingSong>
+          )}
+        </AnimatePresence>
         <SongDataContainer>
           <SongData>
             <Typography>
@@ -102,8 +124,46 @@ const Home: FunctionComponent<Props> = () => {
               {activeSong ? <p>{activeSong.shortLyrics}</p> : null}
             </Typography>
           </SongData>
+          <PlayerOptionsContainer>
+            <Icon icon="basil:book-open-solid" width="35px" height="35px" />
+            <Box className="player-options">
+              <Icon
+                icon="material-symbols:skip-previous-rounded"
+                width="30px"
+                height="30px"
+              />
+              <Icon
+                icon={
+                  isPlaying
+                    ? "material-symbols:pause-circle-rounded"
+                    : "material-symbols:play-circle-rounded"
+                }
+                width="50px"
+                height="50px"
+                onClick={togglePlay}
+              />
+              <Icon
+                icon="material-symbols:skip-next-rounded"
+                width="30px"
+                height="30px"
+              />
+            </Box>
+            <Icon
+              icon="material-symbols:fullscreen-rounded"
+              width="35px"
+              height="35px"
+              onClick={fullScreenHandler.enter}
+            />
+          </PlayerOptionsContainer>
         </SongDataContainer>
-        <WhishListButton onClick={toggleWishlistDrawer}>yo</WhishListButton>
+        <FullScreen handle={fullScreenHandler}>
+          {fullScreenHandler.active ? (
+            <FullScreenPlayer fullScreenHandler={fullScreenHandler} />
+          ) : null}
+        </FullScreen>
+        <WhishListButton onClick={toggleWishlistDrawer}>
+          <Icon icon="mdi:music-circle" width="30px" height="30px" />
+        </WhishListButton>
         <WishlistDrawer
           state={showWishlist}
           toggleDrawer={toggleWishlistDrawer}

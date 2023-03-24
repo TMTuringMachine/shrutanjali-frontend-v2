@@ -10,6 +10,10 @@ const palette: PaletteOptions = {
   background: {
     default: "#ffffff",
   },
+  text: {
+    primary: "#323232",
+    secondary: "#8C8C8C",
+  },
 };
 
 export default palette;

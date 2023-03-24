@@ -9,13 +9,16 @@ import { CarouselCardContainer } from "./CarouselCard.styles";
 interface Props {
   song: Song;
   active: boolean;
+  disabled: boolean;
 }
 
-const CarouselCard: FunctionComponent<Props> = ({ song, active }) => {
-
+const CarouselCard: FunctionComponent<Props> = ({ song, active, disabled }) => {
   return (
-    <CarouselCardContainer url={song.image}>
-    </CarouselCardContainer>
+    <CarouselCardContainer
+      layoutId={song.name}
+      url={song.image}
+      disabled={disabled}
+    ></CarouselCardContainer>
   );
 };
 
