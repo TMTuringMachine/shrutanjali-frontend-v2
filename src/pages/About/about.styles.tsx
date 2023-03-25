@@ -5,9 +5,10 @@ export const AboutContainer = styled(Box)(({}) => ({
   display: 'flex',
   justifyContent: 'space-evenly',
   alignItems: 'flex-end',
-  width: '100%',
+  // width: '100%',
   height: 'calc(100vh - 50px)',
-  overflow: 'hidden',
+  overflowX: 'hidden',
+  flexWrap: 'wrap',
 }));
 
 interface ImageContainerProp {
@@ -16,7 +17,8 @@ interface ImageContainerProp {
 }
 export const ImageContainer = styled(Box)<ImageContainerProp>(
   ({ imgWidth, hover }) => ({
-    width: '50%',
+    flex: 1,
+    flexBasis: '50%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -51,7 +53,7 @@ export const ReadMoreButton = styled(Box)<ReadMoreButtonProps>(
 );
 
 export const ReadMoreContainer = styled(motion.div)(({}) => ({
-  width: '50%',
+  flexBasis: '50%',
   marginBottom: '2rem',
   //   transition: '1s',
 }));
