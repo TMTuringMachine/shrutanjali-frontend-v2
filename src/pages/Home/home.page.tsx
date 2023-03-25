@@ -26,6 +26,9 @@ import Transition from "../../components/Transition";
 import CarouselCard from "../../components/Home/CarouselCard/CarouselCard.component";
 import WishlistDrawer from "../../components/Home/WishlistDrawer/WishlistDrawer.component";
 
+//hooks
+import { useWindowSize } from "../../hooks/useWindowSize";
+
 //styles
 import { PageContainer } from "../page.styles";
 import {
@@ -56,6 +59,7 @@ const Home: FunctionComponent<Props> = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const fullScreenHandler = useFullScreenHandle();
+  const { width } = useWindowSize();
 
   const toggleWishlistDrawer: MouseEventHandler<
     HTMLButtonElement
@@ -84,7 +88,7 @@ const Home: FunctionComponent<Props> = () => {
             }}
             loop
             mousewheel
-            slidesPerView={4}
+            slidesPerView={width > 900 ? 4 : 1}
             centeredSlides
             style={{ overflow: "visible" }}
           >
@@ -158,7 +162,10 @@ const Home: FunctionComponent<Props> = () => {
         </SongDataContainer>
         <FullScreen handle={fullScreenHandler}>
           {fullScreenHandler.active ? (
-            <FullScreenPlayer fullScreenHandler={fullScreenHandler} />
+            <FullScreenPlayer
+              fullScreenHandler={fullScreenHandler}
+              song={activeSong}
+            />
           ) : null}
         </FullScreen>
         <WhishListButton onClick={toggleWishlistDrawer}>

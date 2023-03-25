@@ -16,7 +16,10 @@ export const CarouselCardContainer = styled(motion.div)<CardContainerProps>(
     backgroundImage: `url('${url}')`,
     backgroundPosition: "center",
     backgroundSize: "cover",
-    transition:"filter 0.3s ease-in",
+    transition: "filter 0.3s ease-in",
     filter: disabled ? "grayscale(100%)" : "",
+    [theme.breakpoints.down('md')]:{
+      width:'80vw'
+    }
   })
 );

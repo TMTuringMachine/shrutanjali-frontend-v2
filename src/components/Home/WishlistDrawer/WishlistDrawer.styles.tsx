@@ -16,7 +16,7 @@ export const WishlistDrawerContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const StyledWishlistDrawer = styled(Drawer)(() => ({
+export const StyledWishlistDrawer = styled(Drawer)(({theme}) => ({
   "& .MuiPaper-root": {
     width: "50vw",
     height: "fit-content",
@@ -28,4 +28,10 @@ export const StyledWishlistDrawer = styled(Drawer)(() => ({
     // transform: "translate(-50%,0%)",
     position: "absolute",
   },
+  [theme.breakpoints.down('md')]:{
+    '& .MuiPaper-root':{
+      width:'90vw',
+      left:'5vw'
+    }
+  }
 }));
