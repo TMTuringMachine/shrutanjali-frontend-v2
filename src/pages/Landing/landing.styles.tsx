@@ -5,6 +5,9 @@ export const LandingPageContainer = styled(Box)(({ theme }) => ({
   height: "100vh",
   backgroundColor: theme.palette.background.default,
   display: "flex",
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+  },
 }));
 
 export const NameContainer = styled(Box)(() => ({
@@ -17,12 +20,24 @@ export const NameContainer = styled(Box)(() => ({
   },
 }));
 
-export const ImageContainer = styled(Box)(() => ({
+type ImageProps = {
+  active: boolean;
+};
+
+export const ImageContainer = styled(Box)<ImageProps>(({ active, theme }) => ({
   flex: 1,
   display: "flex",
   justifyContent: "center",
   alignItems: "end",
   "& img": {
     height: "90vh",
+    filter: !active ? "grayscale(100%)" : "",
+    cursor:'pointer'
+  },
+  [theme.breakpoints.down("md")]: {
+    "& img": {
+      height: "60vh",
+      filter:"none"
+    },
   },
 }));

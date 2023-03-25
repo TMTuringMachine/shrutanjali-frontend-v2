@@ -28,6 +28,7 @@ export const SongData = styled(Box)(({ theme }) => ({
   alignItems: "center",
   whiteSpace: "break-spaces",
   zIndex: "99999999",
+  textAlign: "center",
 }));
 
 export const PlayerOptionsContainer = styled(Box)(({ theme }) => ({
@@ -45,6 +46,9 @@ export const PlayerOptionsContainer = styled(Box)(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     gap: "10px",
+  },
+  [theme.breakpoints.down("md")]: {
+    width: "90vw",
   },
 }));
 
@@ -80,5 +84,9 @@ export const PlayingSong = styled(motion.div)<PlayingSongProps>(
     backgroundSize: "cover",
     zIndex: "9999",
     borderRadius: "20px",
+    [theme.breakpoints.down("md")]: {
+      width: "94vw",
+      left: "3vw",
+    },
   })
 );
