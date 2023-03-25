@@ -1,7 +1,7 @@
 import { styled, Box, LinearProgress } from "@mui/material";
 
 type PlayerContainerProps = {
-  url: string;
+  url: string | undefined;
 };
 
 export const PlayerContainer = styled(Box)<PlayerContainerProps>(
