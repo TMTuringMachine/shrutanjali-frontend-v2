@@ -13,6 +13,10 @@ export const PlayerContainer = styled(Box)<PlayerContainerProps>(
     backgroundPosition: "center",
     backgroundSize: "cover",
     // filter:'brightness(70%)'
+    [theme.breakpoints.down("md")]: {
+      backgroundImage: "none",
+      backgroundColor: theme.palette.background.default,
+    },
   })
 );
 
@@ -24,6 +28,10 @@ export const Overlay = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "flex-end",
   padding: theme.spacing(3),
+  [theme.breakpoints.down("md")]: {
+    justifyContent: "start",
+    backgroundColor:'transparent',
+  },
 }));
 
 export const SongInfoContainer = styled(Box)(({ theme }) => ({
@@ -44,6 +52,20 @@ export const SongInfoContainer = styled(Box)(({ theme }) => ({
     fontWeight: 900,
     color: theme.palette.background.default,
   },
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "20px",
+
+    "& img": {
+      width: "90vw",
+      height: "90vw",
+    },
+    "& .song-name": {
+      fontSize: "1.5em",
+      color: theme.palette.text.primary,
+    },
+  },
 }));
 
 export const ProgressBar = styled(LinearProgress)(({ theme }) => ({
@@ -51,6 +73,12 @@ export const ProgressBar = styled(LinearProgress)(({ theme }) => ({
   borderRadius: "20px",
   "& .MuiLinearProgress-bar": {
     backgroundColor: "#fff",
+  },
+  [theme.breakpoints.down("md")]: {
+    backgroundColor: "#0000005c",
+    "& .MuiLinearProgress-bar": {
+      backgroundColor: "#000",
+    },
   },
 }));
 
@@ -70,4 +98,9 @@ export const PlayerOptions = styled(Box)(({ theme }) => ({
     gap: "20px",
   },
 
+  [theme.breakpoints.down("md")]: {
+    "& svg > path": {
+      fill: "#000",
+    },
+  },
 }));
