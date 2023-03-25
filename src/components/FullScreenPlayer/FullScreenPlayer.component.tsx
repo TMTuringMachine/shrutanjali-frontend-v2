@@ -19,7 +19,7 @@ import {
 
 interface Props {
   fullScreenHandler: FullScreenHandle;
-  song: Song;
+  song: Song | null;
 }
 
 const FullScreenPlayer: FunctionComponent<Props> = ({ song }) => {
@@ -37,7 +37,12 @@ const FullScreenPlayer: FunctionComponent<Props> = ({ song }) => {
         </SongInfoContainer>
         <ProgressBar variant="determinate" value={30} />
         <PlayerOptions>
-          <Icon color="white" icon="basil:book-open-solid" width="35px" height="35px" />
+          <Icon
+            color="white"
+            icon="basil:book-open-solid"
+            width="35px"
+            height="35px"
+          />
           <Box className="player-options">
             <Icon
               color="white"
