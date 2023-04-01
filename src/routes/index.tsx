@@ -6,6 +6,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 //components
 import LoadingScreen from '../components/LoadingScreen';
 import AboutGuru from '../pages/About/about.page';
+import AdminLandingPage from '../pages/Admin/Admin.page';
 
 const Loadable = (Component: FunctionComponent) => (props: any) => {
   return (
@@ -45,6 +46,10 @@ export default function Router() {
           element: <AboutGuru />,
         },
       ],
+    },
+    {
+      path: '/admin',
+      element: <AdminLandingPage />,
     },
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
