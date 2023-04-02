@@ -3,11 +3,13 @@ import * as UpChunk from "@mux/upchunk";
 
 const AdminLandingPage = () => {
   const [progress, setProgress] = useState(0);
-  const [statusMessage, setStatusMessage] = useState(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
-  const handleUpload = async (inputRef:any) => {
+  const handleUpload = async (inputRef: any) => {
     try {
-      const response = await fetch("http://localhost:5000/api/mux", { method: "POST" });
+      const response = await fetch("http://localhost:5000/api/mux", {
+        method: "POST",
+      });
       const url = await response.json();
 
       const upload = UpChunk.createUpload({
@@ -23,7 +25,7 @@ const AdminLandingPage = () => {
 
       upload.on("progress", (progress) => {
         setProgress(progress.detail);
-        console.log(progress)
+        console.log(progress);
       });
 
       upload.on("success", () => {
