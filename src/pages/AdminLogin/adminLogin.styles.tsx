@@ -10,12 +10,20 @@ export const AdminLoginPage = styled(Box)(({ theme }) => ({
 
 export const AdminLoginContainer = styled(Box)(({ theme }) => ({
   width: "40vw",
-  height: "50vh",
+  height: "fit-content",
   backgroundColor: theme.palette.background.default,
-  boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+  boxShadow: "rgba(139, 139, 156, 0.2) 0px 7px 29px 0px",
   //   borderRadius:'20px',
   padding: theme.spacing(3),
   display: "flex",
   flexDirection: "column",
-  alignItems:'center'
+  alignItems: "center",
+  gap: "20px",
+  "& form": {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "20px",
+  },
 }));

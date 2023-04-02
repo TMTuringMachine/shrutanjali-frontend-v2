@@ -6,6 +6,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 //components
 import LoadingScreen from "../components/LoadingScreen";
 import AboutGuru from "../pages/About/about.page";
+import AdminLandingPage from "../pages/Admin/Admin.page";
 
 const Loadable = (Component: FunctionComponent) => (props: any) => {
   return (
@@ -47,9 +48,11 @@ export default function Router() {
       ],
     },
     {
-      path: "/admin/login",
-      element: <AdminLogin />,
+      path: "/admin",
+      element: <AdminLandingPage />,
     },
+    { path: "/admin/login", element: <AdminLogin /> },
+    { path: "/admin/dashboard", element: <AdminDashboard /> },
     { path: "*", element: <Navigate to="/404" replace /> },
   ]);
 }
@@ -68,6 +71,10 @@ const Home = Loadable(lazy(() => import("../pages/Home/home.page")));
 //admin pages
 const AdminLogin = Loadable(
   lazy(() => import("../pages/AdminLogin/adminLogin.page"))
+);
+
+const AdminDashboard = Loadable(
+  lazy(() => import("../pages/AdminDashboard/adminDashboard.page"))
 );
 
 //layouts
