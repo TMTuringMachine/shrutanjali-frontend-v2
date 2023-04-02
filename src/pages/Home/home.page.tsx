@@ -103,6 +103,9 @@ const Home: FunctionComponent<Props> = () => {
                       song={item}
                       active={isActive}
                       disabled={isPlaying}
+                      onClick={() => {
+                        setIsPlaying(!isPlaying);
+                      }}
                       // setSong={setActiveSong}
                     />
                   );
