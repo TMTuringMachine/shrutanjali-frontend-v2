@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEventHandler, useState } from "react";
 
 //styles
 import {
@@ -22,8 +22,45 @@ import { Icon } from "@iconify/react";
 import { songs } from "../../../helpers/data";
 import moment from "moment";
 import { Switch } from "@mui/material";
+import { text } from "stream/consumers";
+import DeleteModal from "../../Modals/DeleteModal";
+
+interface DeleteModalState {
+  visible: boolean;
+  text?: string;
+  id: null | string;
+}
 
 const SongsTable = () => {
+  const [deleteModalState, setDeleteModalState] = useState<DeleteModalState>({
+    visible: false,
+    text: "",
+    id: null,
+  });
+
+  const toggleDeleteModal: Function = (name: string, id: string): void => {
+    if (deleteModalState.visible) {
+      setDeleteModalState({
+        ...deleteModalState,
+        visible: !deleteModalState.visible,
+      });
+    } else {
+      setDeleteModalState({
+        visible: true,
+        text: `Do you really want to delete song ${name}`,
+        id: id,
+      });
+    }
+  };
+
+  const handleDeleteSong: MouseEventHandler<HTMLButtonElement> = (): void => {
+    console.log(deleteModalState);
+  };
+
+  const deleteSong = () => {
+    //delete the song
+  };
+
   return (
     <>
       <TableActions>
@@ -76,11 +113,23 @@ const SongsTable = () => {
                     width="20px"
                     height="20px"
                     style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      toggleDeleteModal(song.name, song.id);
+                    }}
                   />
                 </StyledTableCell>
               </TableRow>
             ))}
           </TableBody>
+          <DeleteModal
+            state={deleteModalState.visible}
+            toggleModal={toggleDeleteModal}
+            onNo={() => {
+              toggleDeleteModal();
+            }}
+            onYes={handleDeleteSong}
+            text={deleteModalState.text}
+          />
         </Table>
       </SongsTableContainer>
     </>
