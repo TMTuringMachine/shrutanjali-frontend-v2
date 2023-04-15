@@ -7,7 +7,7 @@ const AdminLandingPage = () => {
 
   const handleUpload = async (inputRef:any) => {
     try {
-      const response = await fetch("http://localhost:5000/api/mux", { method: "POST" });
+      const response = await fetch("https://shrutanjali-api.onrender.com/api/mux", { method: "POST" });
       const url = await response.json();
 
       const upload = UpChunk.createUpload({
