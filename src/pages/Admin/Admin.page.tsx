@@ -75,7 +75,7 @@ const AdminLandingPage = () => {
           <Typography>my player</Typography>
           <Button
             onClick={() => {
-              audioRef.current.play();
+              audioRef?.current.play();
             }}
           >
             PLAY
