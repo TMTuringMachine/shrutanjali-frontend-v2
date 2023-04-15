@@ -1,17 +1,41 @@
-import { Button, Modal, Slide } from "@mui/material";
-import React, { FunctionComponent } from "react";
-import { CustomButton, ModalContainer, StyledTextField } from "../../../global/global.styles";
-import { CustomForm, RootContainer } from "./addSongModal.styles";
+import { Box, Button, Modal, Slide } from "@mui/material";
+import React, { FunctionComponent, useCallback, useState } from "react";
+import {
+  CustomButton,
+  ModalContainer,
+  StyledTextField,
+} from "../../../global/global.styles";
+import {
+  FileOverview,
+  ModalFormContainer,
+  RootContainer,
+} from "./addSongModal.styles";
 import { Icon } from "@iconify/react";
 import { useDropzone } from "react-dropzone";
+import { trimText } from "../../../utils/helper";
 
 interface Props {
   state: boolean;
   toggleModal: Function;
 }
 const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
-  const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
-    useDropzone();
+  const [audioFile, setAudioFile] = useState<File | null>(null);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {
+      audio: [".mp3"],
+    },
+    onDrop: useCallback(
+      (acceptedFiles: File[]) => {
+        setAudioFile(acceptedFiles[0]);
+      },
+      [audioFile]
+    ),
+  });
+
+  const removeFile = () => {
+    setAudioFile(null);
+  };
 
   return (
     <Modal
@@ -24,25 +48,40 @@ const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
         <ModalContainer
           width="30vw"
           left="35vw"
-          height="fit-content"
+          // height="fit-content"
           top="20vh"
         >
           <div className="modal-title">ADD AUDIO FILE</div>
-          <CustomForm>
+          <ModalFormContainer>
             <StyledTextField label="Language" variant="standard" />
-            <RootContainer {...getRootProps({ className: "dropzone" })}>
+            <RootContainer
+              {...getRootProps({ className: "dropzone" })}
+              isActive={isDragActive}
+            >
               <input {...getInputProps()} />
               <Icon
                 icon="material-symbols:cloud-upload"
                 width="50px"
                 height="50px"
               />
-              <p className="root-title">Drag and drop file </p>
+              <p className="root-title">Drag and drop mp3 file </p>
               <p>OR</p>
               <Button>BROWSE FILES</Button>
             </RootContainer>
+            {audioFile && (
+              <FileOverview>
+                <p className="filename">{trimText(audioFile.name, 25)}</p>
+                <Icon
+                  icon="material-symbols:delete-rounded"
+                  width="20px"
+                  height="20px"
+                  style={{ cursor: "pointer" }}
+                  onClick={removeFile}
+                />
+              </FileOverview>
+            )}
             <CustomButton>ADD</CustomButton>
-          </CustomForm>
+          </ModalFormContainer>
         </ModalContainer>
       </Slide>
     </Modal>

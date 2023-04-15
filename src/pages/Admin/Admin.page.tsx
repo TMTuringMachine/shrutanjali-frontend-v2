@@ -10,7 +10,7 @@ const AdminLandingPage = () => {
   const [progress, setProgress] = useState(0);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
-  const audioRef = useRef();
+  const audioRef = useRef<HTMLAudioElement>();
 
   const handleUpload = async (inputRef: any) => {
     try {
@@ -75,7 +75,7 @@ const AdminLandingPage = () => {
           <Typography>my player</Typography>
           <Button
             onClick={() => {
-              audioRef.current.play();
+              audioRef.current?.play()
             }}
           >
             PLAY

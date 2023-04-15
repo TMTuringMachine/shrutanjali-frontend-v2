@@ -15,7 +15,7 @@ import SongsTable from "../../components/AdminDashboard/SongsTable/songsTable.co
 import AddSongModal from "../../components/AdminDashboard/AddSongModal/addSongModal.component";
 
 const AdminDashboard = () => {
-  const [showAddSongModal, setShowAddSongModal] = useState(true);
+  const [showAddSongModal, setShowAddSongModal] = useState(false);
   const toggleAddSongModal = () => {
     setShowAddSongModal(!showAddSongModal);
   };
