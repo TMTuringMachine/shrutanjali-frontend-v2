@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ActionButton,
   ActionPanelContainer,
@@ -12,8 +12,14 @@ import {
 import AdminHeader from "../../components/AdminDashboard/AdminHeader/adminHeader.component";
 import { CustomHeading1 } from "../../global/global.styles";
 import SongsTable from "../../components/AdminDashboard/SongsTable/songsTable.component";
+import AddSongModal from "../../components/AdminDashboard/AddSongModal/addSongModal.component";
 
 const AdminDashboard = () => {
+  const [showAddSongModal, setShowAddSongModal] = useState(true);
+  const toggleAddSongModal = () => {
+    setShowAddSongModal(!showAddSongModal);
+  };
+
   return (
     <AdminDashboardPage>
       <AdminHeader />
@@ -35,9 +41,13 @@ const AdminDashboard = () => {
         <AdminDahboardRight>
           <ActionPanelContainer>
             <p className="panel-header">ACTION PANEL</p>
-            <ActionButton>ADD SONG</ActionButton>
+            <ActionButton onClick={toggleAddSongModal}>ADD SONG</ActionButton>
             <ActionButton>ADD BOOK</ActionButton>
           </ActionPanelContainer>
+          <AddSongModal
+            state={showAddSongModal}
+            toggleModal={toggleAddSongModal}
+          />
         </AdminDahboardRight>
       </AdminDashboardContainer>
     </AdminDashboardPage>
