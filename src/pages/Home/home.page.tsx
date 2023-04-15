@@ -88,7 +88,7 @@ const Home: FunctionComponent<Props> = () => {
             }}
             loop
             mousewheel
-            slidesPerView={width > 900 ? 4 : 1}
+            slidesPerView={width !== undefined && width > 900 ? 4 : 1}
             centeredSlides
             style={{ overflow: "visible" }}
           >
@@ -103,6 +103,9 @@ const Home: FunctionComponent<Props> = () => {
                       song={item}
                       active={isActive}
                       disabled={isPlaying}
+                      onClick={() => {
+                        setIsPlaying(!isPlaying);
+                      }}
                       // setSong={setActiveSong}
                     />
                   );

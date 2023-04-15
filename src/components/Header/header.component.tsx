@@ -11,7 +11,12 @@ interface Props {}
 const Header: FunctionComponent<Props> = () => {
   return (
     <HeaderContainer>
-      <Icon icon="material-symbols:keyboard-double-arrow-left" width="40px" height="40px"  />
+      <Icon
+        icon="material-symbols:keyboard-double-arrow-left"
+        width="40px"
+        height="40px"
+        style={{cursor:'pointer'}}
+      />
     </HeaderContainer>
   );
 };
