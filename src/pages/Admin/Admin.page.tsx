@@ -5,12 +5,14 @@ import * as UpChunk from "@mux/upchunk";
 import MuxAudio from "@mux/mux-audio-react";
 import "./Admin.css";
 import { Box, Button, Typography } from "@mui/material";
+import { CustomButton } from "../../global/global.styles";
+import { pdfTextExtractor } from "../../utils/helper";
 
 const AdminLandingPage = () => {
   const [progress, setProgress] = useState(0);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
-  const audioRef = useRef();
+  const audioRef = useRef<HTMLAudioElement>();
 
   const handleUpload = async (inputRef: any) => {
     try {
@@ -75,12 +77,14 @@ const AdminLandingPage = () => {
           <Typography>my player</Typography>
           <Button
             onClick={() => {
-              audioRef?.current.play();
+              audioRef.current?.play();
             }}
           >
             PLAY
           </Button>
         </Box>
+
+        <CustomButton onClick={pdfTextExtractor}>EXTRACT PDF</CustomButton>
 
         {/* <MuxAudio
           playbackId="AVHkeLWTefZen4Nx5i7cHjdliYnaMoTCtb1UMgVMGc00"

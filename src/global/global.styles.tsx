@@ -36,7 +36,9 @@ type ModalContainerProps = {
 export const ModalContainer = styled(Box)<ModalContainerProps>(
   ({ theme, width, height, left, top }) => ({
     width: width || "50vw",
-    height: height || "80vh",
+    height: height || "fit-content",
+    maxHeight:"80vh",
+    overflowY: "auto",
     position: "absolute",
     top: top || "10vh",
     left: left || "25vw",
