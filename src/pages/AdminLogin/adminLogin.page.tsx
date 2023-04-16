@@ -1,10 +1,13 @@
-import React, { ChangeEventHandler, FormEventHandler, useState } from "react";
+import React, { ChangeEventHandler, FormEventHandler, useEffect, useState } from "react";
 
 //styles
 import { AdminLoginPage, AdminLoginContainer } from "./adminLogin.styles";
 import { TextField, Typography } from "@mui/material";
 import { CustomButton, CustomHeading1 } from "../../global/global.styles";
 import { AdminLoginForm } from "../../interfaces/admin.interface";
+
+//libs
+import { useNavigate } from "react-router-dom";
 
 //hooks
 import useAuth from "../../hooks/useAuth";
@@ -15,7 +18,8 @@ const AdminLogin = () => {
     password: "",
   });
 
-  const { login } = useAuth();
+  const { login, isLoggedIn } = useAuth();
+  const navigate = useNavigate()
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setData({
@@ -30,6 +34,12 @@ const AdminLogin = () => {
     // if (data.username == "" || data.password == "") return;
     login(data);
   };
+
+  useEffect(()=>{
+    if(isLoggedIn){
+      navigate('/admin/dashboard')
+    }
+  },[isLoggedIn])
 
   return (
     <AdminLoginPage>
