@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActionButton,
   ActionPanelContainer,
@@ -14,11 +14,24 @@ import { CustomHeading1 } from "../../global/global.styles";
 import SongsTable from "../../components/AdminDashboard/SongsTable/songsTable.component";
 import AddSongModal from "../../components/AdminDashboard/AddSongModal/addSongModal.component";
 
+import useAuth from "../../hooks/useAuth";
+
+import { useNavigate } from "react-router-dom";
+
 const AdminDashboard = () => {
   const [showAddSongModal, setShowAddSongModal] = useState(false);
   const toggleAddSongModal = () => {
     setShowAddSongModal(!showAddSongModal);
   };
+
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/admin/login')
+    }
+  }, [isLoggedIn]);
 
   return (
     <AdminDashboardPage>

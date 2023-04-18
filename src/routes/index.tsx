@@ -45,6 +45,10 @@ export default function Router() {
           path: "/about",
           element: <AboutGuru />,
         },
+        {
+          path: "/explore",
+          element: <ExplorePage />,
+        },
       ],
     },
     {
@@ -67,6 +71,10 @@ const LandingPage = Loadable(
   lazy(() => import("../pages/Landing/landing.page"))
 );
 const Home = Loadable(lazy(() => import("../pages/Home/home.page")));
+
+const ExplorePage = Loadable(
+  lazy(() => import("../pages/Explore/explore.page"))
+);
 
 //admin pages
 const AdminLogin = Loadable(
