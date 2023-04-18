@@ -28,6 +28,7 @@ import {
 } from "./addSongModal.styles";
 import AudioFileModal from "./audioFileModal";
 import LyricFileModal from "./lyricFileModal";
+import useMedia from "../../../hooks/useMedia";
 
 interface Props {
   state: boolean;
@@ -42,7 +43,10 @@ interface SongForm {
 const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const [showAudioModal, setShowAudioModal] = useState<boolean>(false);
   const [showLyricModal, setShowLyricModal] = useState<boolean>(false);
-
+  const [thumbnail,setThumbnail] = useState<any>();
+  const [title,setTitle] = useState<String>("Default Title");
+  const [isFeatured,setFeatured] = useState<Boolean>(false);
+  const {addMedia} = useMedia();
   const toggleAudioModal = () => {
     setShowAudioModal(!showAudioModal);
   };
@@ -51,11 +55,25 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
     setShowLyricModal(!showLyricModal);
   };
 
+  const handleSubmit = async()=>{
+    const data = {
+      title,
+      audios:[{ "audioId":"64288e406a4e3908f4d2654e", "language":"English" }],
+      lyrics:[{ "url":"abcd", "language":"English" }],
+      isFeatured,
+      image:thumbnail
+    }
+    addMedia(data);
+  }
+
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
     useDropzone({
       accept: {
         image: [".jpeg", ".png", ".jpg"],
       },
+      onDrop: (acceptedFiles) => {
+        setThumbnail(acceptedFiles[0]);
+      }
     });
 
   return (
@@ -77,6 +95,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                 required
                 variant="standard"
                 fullWidth
+                onChange={(e)=>setTitle(e.target.value)}
               />
               <Box
                 sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
@@ -116,7 +135,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
               />
               <Box className="switch-container">
                 <Typography>SHOW ON CAROUSEL:</Typography>
-                <Switch />
+                <Switch onChange={()=>setFeatured(!isFeatured)} />
               </Box>
               <Box
                 sx={{
@@ -125,7 +144,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                   justifyContent: "center",
                 }}
               >
-                <CustomButton>ADD SONG</CustomButton>
+                <CustomButton onClick={()=>handleSubmit()}>ADD SONG</CustomButton>
               </Box>
             </MainForm>
           </CustomForm>

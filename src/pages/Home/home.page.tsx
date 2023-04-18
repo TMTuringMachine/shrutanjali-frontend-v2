@@ -86,7 +86,7 @@ const Home: FunctionComponent<Props> = () => {
     <Transition>
       <PageContainer>
         <MuxAudio
-          src="https://stream.mux.com/qKAAVaxiKFKVAJx6CRPfwErh2u86LqU9g3lBj9rgSgc.m3u8?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlgzWTJMenlCV2g4MDFWbTAyUTl2Z09YMlBJNzh2VEVoMDBKOUNHY2thNlcwMjhZIn0.eyJleHAiOjE2ODIxMTAzMjcsImF1ZCI6InYiLCJzdWIiOiJxS0FBVmF4aUtGS1ZBSng2Q1JQZndFcmgydTg2THFVOWczbEJqOXJnU2djIn0.uJ6IMQagJ0ahw1xeuPFog8A42f7Nwq7KjXK8vmyJNYYMjr6xIl9H0lnD9hGu3-RMq6urCYthe8nvxBTKDfMGwf3ACt5cU53CPS1GhLy12bTjINwQMFP8v4C-Mh8oRALtgUb2x0XaeEntq9fsTHrsu2n_e_q9hT1vs8K6V9eXjRh-Z7jmjL0YKhagLYX-tG1Ktm0wHrnN8knIVDPfLPd316R3br4ba7bZFtS77zl3YZ_yyMfuRqzkAY8dm9ZT-FrtmQXK8DCG8nVhuuhavmXtT-pVBfZFPA7DzUFk4eeWuWeqD2YEab3fSsffLp7ufSuSAvivRILcWEymZ7-Js0OkTg"
+          // src="https://stream.mux.com/qKAAVaxiKFKVAJx6CRPfwErh2u86LqU9g3lBj9rgSgc.m3u8?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlgzWTJMenlCV2g4MDFWbTAyUTl2Z09YMlBJNzh2VEVoMDBKOUNHY2thNlcwMjhZIn0.eyJleHAiOjE2ODIxMTAzMjcsImF1ZCI6InYiLCJzdWIiOiJxS0FBVmF4aUtGS1ZBSng2Q1JQZndFcmgydTg2THFVOWczbEJqOXJnU2djIn0.uJ6IMQagJ0ahw1xeuPFog8A42f7Nwq7KjXK8vmyJNYYMjr6xIl9H0lnD9hGu3-RMq6urCYthe8nvxBTKDfMGwf3ACt5cU53CPS1GhLy12bTjINwQMFP8v4C-Mh8oRALtgUb2x0XaeEntq9fsTHrsu2n_e_q9hT1vs8K6V9eXjRh-Z7jmjL0YKhagLYX-tG1Ktm0wHrnN8knIVDPfLPd316R3br4ba7bZFtS77zl3YZ_yyMfuRqzkAY8dm9ZT-FrtmQXK8DCG8nVhuuhavmXtT-pVBfZFPA7DzUFk4eeWuWeqD2YEab3fSsffLp7ufSuSAvivRILcWEymZ7-Js0OkTg"
           type="hls"
           controls
           ref={audioRef}

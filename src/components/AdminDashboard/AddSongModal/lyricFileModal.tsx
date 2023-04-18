@@ -13,14 +13,14 @@ import {
 import { Icon } from "@iconify/react";
 import { useDropzone } from "react-dropzone";
 import { trimText } from "../../../utils/helper";
-
+import useMedia from "../../../hooks/useMedia";
 interface Props {
   state: boolean;
   toggleModal: Function;
 }
 const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
   const [lyricFile, setLyricFile] = useState<File | null>(null);
-
+  const {uploadFile} = useMedia()
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       pdf: [".pdf"],
@@ -36,6 +36,14 @@ const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
   const removeFile = () => {
     setLyricFile(null);
   };
+
+  const handleUpload = async()=>{
+    if(lyricFile!==null){
+      uploadFile(lyricFile)
+    }else{
+      console.log("FILE NOT SELECTED")
+    }
+  }
 
   return (
     <Modal
@@ -77,7 +85,7 @@ const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
                 />
               </FileOverview>
             )}
-            <CustomButton>ADD</CustomButton>
+            <CustomButton onClick={()=>handleUpload()} >ADD</CustomButton>
           </ModalFormContainer>
         </ModalContainer>
       </Slide>
