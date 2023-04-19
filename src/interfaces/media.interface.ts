@@ -1,17 +1,17 @@
 export interface IAddMedia{
     title:String;
-  audios:Array<IAudio>
+  audios?:Array<IAudio>
   lyrics?:Array<ILyrics>
   isFeatured:Boolean;
   image:any
 }
 
 interface IAudio{
-  audioId:String;
-  language:String;
+  audioId?:String;
+  language?:String;
 }
 
 interface ILyrics{
-  url:String;
-  language:String;
+  url?:String;
+  language?:String;
 }

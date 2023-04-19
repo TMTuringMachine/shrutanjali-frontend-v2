@@ -23,12 +23,18 @@ const useMedia = () => {
         const form = new FormData();
         form.append("file",file);
         const res: any = await axiosInstance.post("/file", form);
-        console.log(res)
+        return res;
     }, []);
+
+    const getAudioId = useCallback(async(uploadId:String)=>{
+      const audio = await axiosInstance.get(`/audio/${uploadId}`);
+      return audio.data
+    },[])
   
     return {
       addMedia,
-      uploadFile
+      uploadFile,
+      getAudioId
     };
   };
   

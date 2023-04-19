@@ -29,6 +29,7 @@ import {
 import AudioFileModal from "./audioFileModal";
 import LyricFileModal from "./lyricFileModal";
 import useMedia from "../../../hooks/useMedia";
+import * as UpChunk from "@mux/upchunk";
 
 interface Props {
   state: boolean;
@@ -40,13 +41,29 @@ interface SongForm {
   thumbnail: File;
 }
 
+interface ILyrics{
+  url?:any;
+  language?:any
+}
+
+interface IAudio{
+  audioId?:any;
+  language?:any
+}
+
 const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const [showAudioModal, setShowAudioModal] = useState<boolean>(false);
   const [showLyricModal, setShowLyricModal] = useState<boolean>(false);
   const [thumbnail,setThumbnail] = useState<any>();
   const [title,setTitle] = useState<String>("Default Title");
   const [isFeatured,setFeatured] = useState<Boolean>(false);
-  const {addMedia} = useMedia();
+  const {addMedia,uploadFile,getAudioId} = useMedia();
+  const [progress, setProgress] = useState(0);
+  const [audioLanaguage,setAudioLanguage] = useState<String>("");
+  const [lyricsLanguage,setLyricsLanguage] = useState<String>("");
+  const [audios,setAudio] = useState<IAudio[]>([]);
+  const [lyrics,setLyrics] = useState<ILyrics[]>([]);
+
   const toggleAudioModal = () => {
     setShowAudioModal(!showAudioModal);
   };
@@ -58,11 +75,12 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const handleSubmit = async()=>{
     const data = {
       title,
-      audios:[{ "audioId":"64288e406a4e3908f4d2654e", "language":"English" }],
-      lyrics:[{ "url":"abcd", "language":"English" }],
+      audios,
+      lyrics,
       isFeatured,
       image:thumbnail
     }
+    console.log(data);
     addMedia(data);
   }
 
@@ -75,6 +93,62 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         setThumbnail(acceptedFiles[0]);
       }
     });
+
+
+    const handleUploadAudio = async (audioFile:File) => {
+      try {
+        if (audioFile !== null) {
+          const response = await fetch(
+            "http://localhost:5000/api/mux",
+            {
+              method: "POST",
+            }
+          );
+          const url = await response.json();
+  
+          const audioId = await getAudioId(url.uploadID)
+  
+          const upload = UpChunk.createUpload({
+            endpoint: url.url, // Authenticated url
+            file: audioFile, // File object with your video file’s properties
+            chunkSize: 5120, // Uploads the file in ~5mb chunks
+          });
+          // Subscribe to events
+          upload.on("error", (error: any) => {
+            // setStatusMessage(error.detail);
+            console.log(error);
+          });
+  
+          upload.on("progress", (progress: any) => {
+            setProgress(progress.detail);
+            console.log(progress.detail);
+          });
+  
+          upload.on("success", (data: any) => {
+            const language = audioLanaguage;
+            setAudio([...audios,{audioId,language}]);
+            console.log("UPLOAD COMPLETE",language)
+            console.log(audios);
+          });
+        } else {
+          console.log("PLEASE SELECT AUDIO FILE");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const handleUploadFile = async(lyricFile:File)=>{
+      if(lyricFile!==null){
+        const {data} = await uploadFile(lyricFile)
+        const url:String = data.url;
+        const language:String = lyricsLanguage
+        setLyrics([...lyrics,{url,language}]);
+        console.log(lyrics)
+      }else{
+        console.log("FILE NOT SELECTED")
+      }
+    }
 
   return (
     <Modal
@@ -128,10 +202,15 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
               <AudioFileModal
                 state={showAudioModal}
                 toggleModal={toggleAudioModal}
+                handleUpload={handleUploadAudio}
+                _progress={progress}
+                setAudioLanguage={setAudioLanguage}
               />
               <LyricFileModal
                 state={showLyricModal}
                 toggleModal={toggleLyricModal}
+                handleUpload={handleUploadFile}
+                setLyricsLanguage={setLyricsLanguage}
               />
               <Box className="switch-container">
                 <Typography>SHOW ON CAROUSEL:</Typography>

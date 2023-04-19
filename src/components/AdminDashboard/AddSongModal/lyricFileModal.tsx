@@ -17,10 +17,11 @@ import useMedia from "../../../hooks/useMedia";
 interface Props {
   state: boolean;
   toggleModal: Function;
+  handleUpload:Function;
+  setLyricsLanguage:Function;
 }
-const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
+const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpload,setLyricsLanguage }) => {
   const [lyricFile, setLyricFile] = useState<File | null>(null);
-  const {uploadFile} = useMedia()
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       pdf: [".pdf"],
@@ -37,13 +38,7 @@ const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
     setLyricFile(null);
   };
 
-  const handleUpload = async()=>{
-    if(lyricFile!==null){
-      uploadFile(lyricFile)
-    }else{
-      console.log("FILE NOT SELECTED")
-    }
-  }
+ 
 
   return (
     <Modal
@@ -61,7 +56,7 @@ const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
         >
           <div className="modal-title">ADD LYRIC FILE</div>
           <ModalFormContainer>
-            <StyledTextField label="Language" variant="standard" />
+            <StyledTextField onChange={(e)=>setLyricsLanguage(e.target.value)} label="Language" variant="standard" />
             <RootContainer {...getRootProps({ className: "dropzone" })}>
               <input {...getInputProps()} />
               <Icon
@@ -85,7 +80,7 @@ const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
                 />
               </FileOverview>
             )}
-            <CustomButton onClick={()=>handleUpload()} >ADD</CustomButton>
+            <CustomButton onClick={()=>handleUpload(lyricFile)} >ADD</CustomButton>
           </ModalFormContainer>
         </ModalContainer>
       </Slide>

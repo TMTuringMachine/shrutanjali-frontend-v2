@@ -13,15 +13,16 @@ import {
 import { Icon } from "@iconify/react";
 import { useDropzone } from "react-dropzone";
 import { trimText } from "../../../utils/helper";
-import * as UpChunk from "@mux/upchunk";
 
 interface Props {
   state: boolean;
   toggleModal: Function;
+  handleUpload:Function;
+  _progress:number;
+  setAudioLanguage:Function;
 }
-const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
+const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpload ,_progress,setAudioLanguage}) => {
   const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [progress, setProgress] = useState(0);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       audio: [".mp3"],
@@ -34,45 +35,7 @@ const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
     ),
   });
 
-  const handleUpload = async () => {
-    try {
-      if (audioFile !== null) {
-        const response = await fetch(
-          "http://localhost:5000/api/mux",
-          {
-            method: "POST",
-          }
-        );
-        const url = await response.json();
 
-        console.log(url.uploadID)
-
-        const upload = UpChunk.createUpload({
-          endpoint: url.url, // Authenticated url
-          file: audioFile, // File object with your video file’s properties
-          chunkSize: 5120, // Uploads the file in ~5mb chunks
-        });
-        // Subscribe to events
-        upload.on("error", (error: any) => {
-          // setStatusMessage(error.detail);
-          console.log(error);
-        });
-
-        upload.on("progress", (progress: any) => {
-          setProgress(progress.detail);
-          console.log(progress.detail);
-        });
-
-        upload.on("success", (data: any) => {
-          console.log("UPLOAD COMPLETE")
-        });
-      } else {
-        console.log("PLEASE SELECT AUDIO FILE");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const removeFile = () => {
     setAudioFile(null);
@@ -94,7 +57,7 @@ const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
         >
           <div className="modal-title">ADD AUDIO FILE</div>
           <ModalFormContainer>
-            <StyledTextField label="Language" variant="standard" />
+            <StyledTextField onChange={(e)=>setAudioLanguage(e.target.value)} label="Language" variant="standard" />
             <RootContainer
               {...getRootProps({ className: "dropzone" })}
               isActive={isDragActive}
@@ -121,9 +84,8 @@ const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal }) => {
                 />
               </FileOverview>
             )}
-
-      <progress value={progress} max="100" /> {progress} / {"100%"}
-            <CustomButton onClick={() => handleUpload()}>ADD</CustomButton>
+          <progress value={_progress || 0} max="100" /> {_progress.toString()} / {"100%"}
+            <CustomButton onClick={() => handleUpload(audioFile)}>ADD</CustomButton>
           </ModalFormContainer>
         </ModalContainer>
       </Slide>
