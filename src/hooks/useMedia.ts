@@ -30,11 +30,34 @@ const useMedia = () => {
       const audio = await axiosInstance.get(`/audio/${uploadId}`);
       return audio.data
     },[])
+
+    const getAllMedia = useCallback(async()=>{
+      const data = await axiosInstance.get('/media/all');
+      return data;
+    },[])
+
+    const toggleMedia = useCallback(async(mediaId:String,)=>{
+      const {data} = await axiosInstance.post(`/media/toggle/${mediaId}`);
+      return data;
+    },[])
+
+    const featureMedia = useCallback(async(mediaId:String,)=>{
+      const {data} = await axiosInstance.post(`/media/feature/${mediaId}`);
+      return data;
+    },[]) 
+
+    const deleteMedia = useCallback(async(mediaId:String)=>{
+      await axiosInstance.delete(`/media/${mediaId}`)
+    },[])
   
     return {
       addMedia,
       uploadFile,
-      getAudioId
+      getAudioId,
+      getAllMedia,
+      toggleMedia,
+      featureMedia,
+      deleteMedia
     };
   };
   

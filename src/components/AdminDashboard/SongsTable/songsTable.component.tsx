@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 
 //styles
 import {
@@ -12,18 +12,18 @@ import { StyledTextField } from "../../../global/global.styles";
 //libs
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { Icon } from "@iconify/react";
 
 //data
-import { songs } from "../../../helpers/data";
+// import { songs } from "../../../helpers/data";
 import moment from "moment";
 import { Switch } from "@mui/material";
-import { text } from "stream/consumers";
 import DeleteModal from "../../Modals/DeleteModal";
+import useMedia from "../../../hooks/useMedia";
+import { IMedia } from "../../../interfaces/media.interface";
+import SwitchComponent from "./switch.component";
 
 interface DeleteModalState {
   visible: boolean;
@@ -31,12 +31,16 @@ interface DeleteModalState {
   id: null | string;
 }
 
+
 const SongsTable = () => {
   const [deleteModalState, setDeleteModalState] = useState<DeleteModalState>({
     visible: false,
     text: "",
     id: null,
   });
+  const {getAllMedia,deleteMedia} = useMedia()
+  const [media,setMedia] = useState<IMedia[]>([]);
+  // const [updated,setUpdated] = useState<boolean>(true);
 
   const toggleDeleteModal: Function = (name: string, id: string): void => {
     if (deleteModalState.visible) {
@@ -61,6 +65,17 @@ const SongsTable = () => {
     //delete the song
   };
 
+  const getSongs = async()=>{
+    const {data} = await getAllMedia();
+    setMedia(data)
+    console.log("media",data)
+  }
+  
+  useEffect(() => {
+    getSongs();
+  }, [])
+  
+
   return (
     <>
       <TableActions>
@@ -81,30 +96,32 @@ const SongsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {songs.map((song, item) => (
+            {media?.map((song, item) => (
               <TableRow
                 key={item}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <StyledTableCell align="left">
-                  <TableSongImage src={song.image} alt="" loading="lazy" />
+                  <TableSongImage src={song.thumbnailUrl} alt="" loading="lazy" />
                 </StyledTableCell>
-                <StyledTableCell align="center">{song.name}</StyledTableCell>
+                <StyledTableCell align="center">{song.title}</StyledTableCell>
                 <StyledTableCell align="center">
                   {moment(new Date()).format()}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <Switch />
+                  <SwitchComponent featured={song.isFeatured} songId={song._id} type={"Feature"} />
+                  {/* <Switch checked={song.isFeatured} onChange={()=>{featureMedia(song._id)}}   /> */}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <Switch />
+                <SwitchComponent featured={song.isFeatured} songId={song._id} type={"Toggle"} />
+                  {/* <Switch checked={song.isLive}  onChange={()=>{toggleMedia(song._id)}} /> */}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <Icon
                     icon="material-symbols:edit-square-outline"
                     width="20px"
                     height="20px"
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer",color:"gray" }}
                   />
                 </StyledTableCell>
                 <StyledTableCell align="center">
@@ -112,9 +129,9 @@ const SongsTable = () => {
                     icon="material-symbols:delete-rounded"
                     width="20px"
                     height="20px"
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", color:"red" }}
                     onClick={() => {
-                      toggleDeleteModal(song.name, song.id);
+                      toggleDeleteModal(song.title, song._id);
                     }}
                   />
                 </StyledTableCell>
@@ -127,7 +144,15 @@ const SongsTable = () => {
             onNo={() => {
               toggleDeleteModal();
             }}
-            onYes={handleDeleteSong}
+            onYes={()=>{
+              if(deleteModalState && deleteModalState.id){
+              deleteMedia(deleteModalState.id)
+              toggleDeleteModal();
+            }
+              else{
+                
+              }
+            }}
             text={deleteModalState.text}
           />
         </Table>
