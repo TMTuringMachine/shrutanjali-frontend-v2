@@ -6,28 +6,32 @@ export const SwiperContainer = styled(Box)(({ theme }) => ({
   marginTop: "80px",
 }));
 
-export const SongDataContainer = styled(Box)(() => ({
+export const SongDataContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   display: "flex",
   justifyContent: "center",
   marginTop: "20px",
   flexDirection: "column",
   alignItems: "center",
+  boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+  zIndex: 99999999,
+  backgroundColor: theme.palette.background.default,
+  position:"relative"
 }));
 
 export const SongData = styled(Box)(({ theme }) => ({
   width: "100vw",
   height: "fit-content",
   padding: theme.spacing(2),
-  backgroundColor: theme.palette.background.default,
+  // backgroundColor: theme.palette.background.default,
   //   borderRadius: "20px",
-  boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+  // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "start",
   alignItems: "center",
   whiteSpace: "break-spaces",
-  zIndex: "99999999",
+  // zIndex: "99999999",
   textAlign: "center",
 }));
 
@@ -82,7 +86,7 @@ export const PlayingSong = styled(motion.div)<PlayingSongProps>(
     backgroundImage: `url('${url}')`,
     backgroundPosition: "center",
     backgroundSize: "cover",
-    zIndex: "9999",
+    zIndex: 9,
     borderRadius: "20px",
     [theme.breakpoints.down("md")]: {
       width: "94vw",
