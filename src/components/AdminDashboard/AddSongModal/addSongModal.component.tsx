@@ -99,7 +99,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       try {
         if (audioFile !== null) {
           const response = await fetch(
-            "http://localhost:5000/api/mux",
+            "https://shrutanjali-api.onrender.com/api/mux",
             {
               method: "POST",
             }
