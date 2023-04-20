@@ -30,6 +30,7 @@ import WishlistDrawer from "../../components/Home/WishlistDrawer/WishlistDrawer.
 
 //hooks
 import { useWindowSize } from "../../hooks/useWindowSize";
+import useMedia from "../../hooks/useMedia";
 
 //styles
 import { PageContainer } from "../page.styles";
@@ -43,7 +44,7 @@ import {
 } from "./home.styles";
 
 //data
-import { songs } from "../../helpers/data";
+// import { songs } from "../../helpers/data";
 
 //interfaces
 import { Song } from "../../interfaces/song.interface";
@@ -59,9 +60,11 @@ const Home: FunctionComponent<Props> = () => {
   const [activeSong, setActiveSong] = useState<Song | null>(null);
   const [showWishlist, setShowWishlist] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [songs, setSongs] = useState<Song[] | null>(null);
 
   const fullScreenHandler = useFullScreenHandle();
   const { width } = useWindowSize();
+  const { getFeaturedMedia, featuredSongs } = useMedia();
 
   const audioRef = useRef<HTMLAudioElement>();
 
@@ -81,6 +84,23 @@ const Home: FunctionComponent<Props> = () => {
     }
     // setIsPlaying(!isPlaying);
   };
+
+  useEffect(() => {
+    getFeaturedMedia();
+  }, []);
+
+  useEffect(() => {
+    if (featuredSongs.length > 0) {
+      let ns = featuredSongs.map((fs: any) => ({
+        name: fs.title,
+        image: fs.thumbnailUrl,
+        shortLyrics: "hehe",
+        id: fs._id,
+      }));
+
+      setSongs([...ns, ...ns, ...ns]);
+    }
+  }, [featuredSongs]);
 
   return (
     <Transition>
@@ -110,26 +130,27 @@ const Home: FunctionComponent<Props> = () => {
             centeredSlides
             style={{ overflow: "visible" }}
           >
-            {songs.map((item, idx) => (
-              <SwiperSlide>
-                {({ isActive }) => {
-                  if (isActive) {
-                    setActiveSong(item);
-                  }
-                  return (
-                    <CarouselCard
-                      song={item}
-                      active={isActive}
-                      disabled={isPlaying}
-                      onClick={() => {
-                        togglePlay();
-                      }}
-                      // setSong={setActiveSong}
-                    />
-                  );
-                }}
-              </SwiperSlide>
-            ))}
+            {songs &&
+              songs.map((item, idx) => (
+                <SwiperSlide>
+                  {({ isActive }) => {
+                    if (isActive) {
+                      setActiveSong(item);
+                    }
+                    return (
+                      <CarouselCard
+                        song={item}
+                        active={isActive}
+                        disabled={isPlaying}
+                        onClick={() => {
+                          togglePlay();
+                        }}
+                        // setSong={setActiveSong}
+                      />
+                    );
+                  }}
+                </SwiperSlide>
+              ))}
           </Swiper>
         </SwiperContainer>
         <AnimatePresence>

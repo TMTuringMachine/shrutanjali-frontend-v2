@@ -6,9 +6,10 @@ export interface IAddMedia{
   image:any
 }
 
-interface IAudio{
-  audioId?:String;
-  language?:String;
+interface IAudio {
+  audioId?: String;
+  language?: String;
+  id?: string;
 }
 
 interface ILyrics{

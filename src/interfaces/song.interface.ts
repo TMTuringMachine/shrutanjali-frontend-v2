@@ -4,3 +4,4 @@ export interface Song {
   shortLyrics: string;
   id: string;
 }
+
