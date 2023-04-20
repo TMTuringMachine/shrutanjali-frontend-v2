@@ -63,6 +63,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const [lyricsLanguage,setLyricsLanguage] = useState<String>("");
   const [audios,setAudio] = useState<IAudio[]>([]);
   const [lyrics,setLyrics] = useState<ILyrics[]>([]);
+  const [preview,setPreview] = useState<string>();
 
   const toggleAudioModal = () => {
     setShowAudioModal(!showAudioModal);
@@ -91,6 +92,8 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       },
       onDrop: (acceptedFiles) => {
         setThumbnail(acceptedFiles[0]);
+        const objectUrl = URL.createObjectURL(acceptedFiles[0]);
+        setPreview(objectUrl)
       }
     });
 
@@ -161,7 +164,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         <ModalContainer width="70vw" left="15vw" height="fit-content">
           <p className="modal-title">ADD NEW SONG</p>
           <CustomForm>
-            <SongImage url={null} />
+            <SongImage url={preview} />
 
             <MainForm>
               <StyledTextField
