@@ -165,7 +165,6 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
           <p className="modal-title">ADD NEW SONG</p>
           <CustomForm>
             <SongImage url={preview} />
-
             <MainForm>
               <StyledTextField
                 label="Song Name"

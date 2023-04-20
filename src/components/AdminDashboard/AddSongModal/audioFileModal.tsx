@@ -22,7 +22,8 @@ interface Props {
   setAudioLanguage:Function;
 }
 const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpload ,_progress,setAudioLanguage}) => {
-  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [audioFile, setAudioFile] = useState<File>();
+  const [files,setFiles] = useState<File[]>([]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       audio: [".mp3"],
@@ -30,6 +31,7 @@ const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpl
     onDrop: useCallback(
       (acceptedFiles: File[]) => {
         setAudioFile(acceptedFiles[0]);
+        setFiles([...files,acceptedFiles[0]]);
       },
       [audioFile]
     ),
@@ -37,8 +39,10 @@ const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpl
 
 
 
-  const removeFile = () => {
-    setAudioFile(null);
+  const removeFile = (name:string) => {
+    console.log(name)
+    // const data = audioFile.filter(())
+    // setAudioFile();
   };
 
   return (
@@ -72,18 +76,22 @@ const AudioFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpl
               <p>OR</p>
               <Button>BROWSE FILES</Button>
             </RootContainer>
-            {audioFile && (
-              <FileOverview>
-                <p className="filename">{trimText(audioFile.name, 25)}</p>
+            {files?.map((file)=>{
+              return(
+                <>
+                <FileOverview>
+                <p className="filename">{trimText(file.name, 25)}</p>
                 <Icon
                   icon="material-symbols:delete-rounded"
                   width="20px"
                   height="20px"
                   style={{ cursor: "pointer" }}
-                  onClick={removeFile}
+                  onClick={()=>removeFile(file.name)}
                 />
               </FileOverview>
-            )}
+                </>
+              )
+            })}
           <progress value={_progress || 0} max="100" /> {_progress.toString()} / {"100%"}
             <CustomButton onClick={() => handleUpload(audioFile)}>ADD</CustomButton>
           </ModalFormContainer>
