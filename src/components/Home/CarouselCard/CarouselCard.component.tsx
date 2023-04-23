@@ -5,9 +5,10 @@ import { Song } from "../../../interfaces/song.interface";
 
 //styles
 import { CarouselCardContainer } from "./CarouselCard.styles";
+import { IMedia } from "../../../interfaces/media.interface";
 
 interface Props {
-  song: Song;
+  song: IMedia;
   active: boolean;
   disabled: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
@@ -21,8 +22,8 @@ const CarouselCard: FunctionComponent<Props> = ({
 }) => {
   return (
     <CarouselCardContainer
-      layoutId={song.name}
-      url={song.image}
+      layoutId={song._id}
+      url={song.thumbnailUrl}
       disabled={disabled}
       onClick={onClick}
     ></CarouselCardContainer>

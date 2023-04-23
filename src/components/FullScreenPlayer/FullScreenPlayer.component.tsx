@@ -16,10 +16,11 @@ import {
   ProgressBar,
   PlayerOptions,
 } from "./FullScreenPlayer.styles";
+import { IMedia } from "../../interfaces/media.interface";
 
 interface Props {
   fullScreenHandler: FullScreenHandle;
-  song: Song | null;
+  song: IMedia | null;
 }
 
 const FullScreenPlayer: FunctionComponent<Props> = ({ song }) => {
@@ -29,11 +30,11 @@ const FullScreenPlayer: FunctionComponent<Props> = ({ song }) => {
     setIsPlaying(!isPlaying);
   };
   return (
-    <PlayerContainer url={song?.image}>
+    <PlayerContainer url={song?.thumbnailUrl}>
       <Overlay>
         <SongInfoContainer>
-          <img src={song!.image} alt="" />
-          <h1 className="song-name">{song!.name}</h1>
+          <img src={song!.thumbnailUrl} alt="" />
+          <h1 className="song-name">{song!.title}</h1>
         </SongInfoContainer>
         <ProgressBar variant="determinate" value={30} />
         <PlayerOptions>
