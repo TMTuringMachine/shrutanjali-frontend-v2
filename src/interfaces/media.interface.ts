@@ -1,9 +1,9 @@
-export interface IAddMedia{
-  title:String;
-  audios?:Array<IAudio>
-  lyrics?:Array<ILyrics>
-  isFeatured:Boolean;
-  image:any
+export interface IAddMedia {
+  title: String;
+  audios?: Array<IAudio>;
+  lyrics?: Array<ILyrics>;
+  isFeatured: Boolean;
+  image: any;
 }
 
 interface IAudio {
@@ -12,27 +12,29 @@ interface IAudio {
   id?: string;
 }
 
-interface ILyrics{
-  url?:String;
-  language?:String;
+interface ILyrics {
+  url?: String;
+  language?: String;
 }
 
 export interface IMedia {
   _id: string;
   title: string;
-  audio: [
+  audios: [
     {
-      audioId: string;
+      audioId: any;
       language: string;
     }
   ];
-  lyrics?:[{
-    url:string;
-    language:string;
-  }];
-  video: string;
+  lyrics?: [
+    {
+      url: string;
+      language: string;
+    }
+  ];
+  video?: string;
   thumbnailUrl: string;
   streams: Number;
-  isFeatured:boolean;
-  isLive:boolean;
+  isFeatured: boolean;
+  isLive: boolean;
 }
