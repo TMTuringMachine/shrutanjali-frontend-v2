@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 import {
   SongOverviewContainer,
   SongOverviewImage,
-} from "./songOverview.styles";
-import { Song } from "../../../interfaces/song.interface";
-import { trimText } from "../../../utils/helper";
+} from './songOverview.styles';
+import { Song } from '../../../interfaces/song.interface';
+import { trimText } from '../../../utils/helper';
 
 interface Props {
   song: Song;
@@ -14,7 +14,7 @@ const SongOverview: FunctionComponent<Props> = ({ song }) => {
   return (
     <SongOverviewContainer>
       <SongOverviewImage src={song.image} />
-      <p>{trimText(song.name,20)}</p>
+      <p>{trimText(song.name, 20)}</p>
     </SongOverviewContainer>
   );
 };
