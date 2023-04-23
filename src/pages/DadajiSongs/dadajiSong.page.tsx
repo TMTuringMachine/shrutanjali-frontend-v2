@@ -8,6 +8,8 @@ import {
   ImageContainer,
   SongsContainer,
   DadajiName,
+  DadajiSingleSongsContainer,
+  DadajiSingleSongStyled,
 } from './dadajiSong.styles';
 import DadajiSingleSong from './DadajiSingleSong';
 
@@ -31,19 +33,12 @@ const DadajiSongs = () => {
               }}
             >
               <h1>Dadaji’s songs</h1>
-              <Box
-                sx={{
-                  height: '80vh',
-                  maxHeight: '80vh',
-                  overflowY: 'scroll',
-                  overflowX: 'hidden',
-                  marginTop: '1rem',
-                  width: '100%',
-                }}
-              >
+              <DadajiSingleSongsContainer>
                 <DadajiSingleSong title="helooo" />
                 <DadajiSingleSong title="ed dfv dfv dfv dfv dfv  vfdv f v drfv d df vgdfv fv dfv dfv dfv f v" />
-              </Box>
+                <DadajiSingleSong title="ed dfv dfv dfv dfv dfv  vfdv f v drfv d df vgdfv fv dfv dfv dfv f v" />
+                <DadajiSingleSong title="ed dfv dfv dfv dfv dfv  vfdv f v drfv d df vgdfv fv dfv dfv dfv f v" />
+              </DadajiSingleSongsContainer>
             </Box>
           </SongsContainer>
         </DadajiSongsContainer>
