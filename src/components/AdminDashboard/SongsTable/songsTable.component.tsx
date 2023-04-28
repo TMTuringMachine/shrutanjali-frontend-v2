@@ -24,6 +24,7 @@ import DeleteModal from "../../Modals/DeleteModal";
 import useMedia from "../../../hooks/useMedia";
 import { IMedia } from "../../../interfaces/media.interface";
 import SwitchComponent from "./switch.component";
+import EditSongModal from "../EditSongModal/editSongModal.component";
 
 interface DeleteModalState {
   visible: boolean;
@@ -31,6 +32,10 @@ interface DeleteModalState {
   id: null | string;
 }
 
+interface EditModalState {
+  visible: boolean;
+  song: IMedia | null;
+}
 
 const SongsTable = () => {
   const [deleteModalState, setDeleteModalState] = useState<DeleteModalState>({
@@ -38,8 +43,13 @@ const SongsTable = () => {
     text: "",
     id: null,
   });
-  const {getAllMedia,deleteMedia} = useMedia()
-  const [media,setMedia] = useState<IMedia[]>([]);
+  const [editModalState, setEditModalState] = useState<EditModalState>({
+    visible: false,
+    song: null,
+  });
+
+  const { getAllMedia, deleteMedia } = useMedia();
+  const [media, setMedia] = useState<IMedia[]>([]);
   // const [updated,setUpdated] = useState<boolean>(true);
 
   const toggleDeleteModal: Function = (name: string, id: string): void => {
@@ -57,6 +67,20 @@ const SongsTable = () => {
     }
   };
 
+  const toggleEditModal: Function = (song: IMedia): void => {
+    if (editModalState.visible) {
+      setEditModalState({
+        song: null,
+        visible: false,
+      });
+    } else {
+      setEditModalState({
+        visible: true,
+        song,
+      });
+    }
+  };
+
   const handleDeleteSong: MouseEventHandler<HTMLButtonElement> = (): void => {
     console.log(deleteModalState);
   };
@@ -65,16 +89,15 @@ const SongsTable = () => {
     //delete the song
   };
 
-  const getSongs = async()=>{
-    const {data} = await getAllMedia();
-    setMedia(data)
-    console.log("media",data)
-  }
-  
+  const getSongs = async () => {
+    const { data } = await getAllMedia();
+    setMedia(data);
+    console.log("media", data);
+  };
+
   useEffect(() => {
     getSongs();
-  }, [])
-  
+  }, []);
 
   return (
     <>
@@ -102,18 +125,30 @@ const SongsTable = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <StyledTableCell align="left">
-                  <TableSongImage src={song.thumbnailUrl} alt="" loading="lazy" />
+                  <TableSongImage
+                    src={song.thumbnailUrl}
+                    alt=""
+                    loading="lazy"
+                  />
                 </StyledTableCell>
                 <StyledTableCell align="center">{song.title}</StyledTableCell>
                 <StyledTableCell align="center">
                   {moment(new Date()).format()}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <SwitchComponent featured={song.isFeatured} songId={song._id} type={"Feature"} />
+                  <SwitchComponent
+                    featured={song.isFeatured}
+                    songId={song._id}
+                    type={"Feature"}
+                  />
                   {/* <Switch checked={song.isFeatured} onChange={()=>{featureMedia(song._id)}}   /> */}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                <SwitchComponent featured={song.isFeatured} songId={song._id} type={"Toggle"} />
+                  <SwitchComponent
+                    featured={song.isFeatured}
+                    songId={song._id}
+                    type={"Toggle"}
+                  />
                   {/* <Switch checked={song.isLive}  onChange={()=>{toggleMedia(song._id)}} /> */}
                 </StyledTableCell>
                 <StyledTableCell align="center">
@@ -121,7 +156,10 @@ const SongsTable = () => {
                     icon="material-symbols:edit-square-outline"
                     width="20px"
                     height="20px"
-                    style={{ cursor: "pointer",color:"gray" }}
+                    style={{ cursor: "pointer", color: "gray" }}
+                    onClick={() => {
+                      toggleEditModal(song);
+                    }}
                   />
                 </StyledTableCell>
                 <StyledTableCell align="center">
@@ -129,7 +167,7 @@ const SongsTable = () => {
                     icon="material-symbols:delete-rounded"
                     width="20px"
                     height="20px"
-                    style={{ cursor: "pointer", color:"red" }}
+                    style={{ cursor: "pointer", color: "red" }}
                     onClick={() => {
                       toggleDeleteModal(song.title, song._id);
                     }}
@@ -144,16 +182,19 @@ const SongsTable = () => {
             onNo={() => {
               toggleDeleteModal();
             }}
-            onYes={()=>{
-              if(deleteModalState && deleteModalState.id){
-              deleteMedia(deleteModalState.id)
-              toggleDeleteModal();
-            }
-              else{
-                
+            onYes={() => {
+              if (deleteModalState && deleteModalState.id) {
+                deleteMedia(deleteModalState.id);
+                toggleDeleteModal();
+              } else {
               }
             }}
             text={deleteModalState.text}
+          />
+          <EditSongModal
+            state={editModalState.visible}
+            toggleModal={toggleEditModal}
+            song={editModalState.song}
           />
         </Table>
       </SongsTableContainer>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
 //lib
 import {
@@ -25,15 +25,18 @@ import {
   ButtonContainer,
   RootContainer,
   MainForm,
-} from "./addSongModal.styles";
+  FilePreview,
+} from "./editSongModal.styles";
 import AudioFileModal from "../Common/audioFileModal";
 import LyricFileModal from "../Common/lyricFileModal";
 import useMedia from "../../../hooks/useMedia";
 import * as UpChunk from "@mux/upchunk";
+import { IMedia } from "../../../interfaces/media.interface";
 
 interface Props {
   state: boolean;
   toggleModal: Function;
+  song: IMedia;
 }
 
 interface SongForm {
@@ -51,18 +54,22 @@ interface IAudio {
   language?: any;
 }
 
-const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
+const EditSongModal: FunctionComponent<Props> = ({
+  toggleModal,
+  state,
+  song,
+}) => {
   const [showAudioModal, setShowAudioModal] = useState<boolean>(false);
   const [showLyricModal, setShowLyricModal] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<any>();
   const [title, setTitle] = useState<String>("Default Title");
-  const [isFeatured, setFeatured] = useState<Boolean>(false);
+  const [isFeatured, setFeatured] = useState<boolean>(false);
   const { addMedia, uploadFile, getAudioId } = useMedia();
   const [progress, setProgress] = useState(0);
   const [audioLanaguage, setAudioLanguage] = useState<String>("");
   const [lyricsLanguage, setLyricsLanguage] = useState<String>("");
   const [audios, setAudio] = useState<IAudio[]>([]);
-  const [lyrics, setLyrics] = useState<ILyrics[]>([]);
+  const [lyrics, setLyrics] = useState<ILyrics[] | undefined>([]);
   const [preview, setPreview] = useState<string>();
 
   const toggleAudioModal = () => {
@@ -72,6 +79,14 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const toggleLyricModal = () => {
     setShowLyricModal(!showLyricModal);
   };
+
+  useEffect(() => {
+    setTitle(song?.title);
+    setFeatured(song?.isFeatured);
+    setAudio(song?.audios);
+    setPreview(song?.thumbnailUrl);
+    setLyrics(song?.lyrics);
+  }, [song]);
 
   const handleSubmit = async () => {
     const data = {
@@ -161,21 +176,25 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
     >
       <Slide in={state} direction="up">
         <ModalContainer width="70vw" left="15vw" height="fit-content">
-          <p className="modal-title">ADD NEW SONG</p>
+          <p className="modal-title">{song?.title}</p>
           <CustomForm>
-            <SongImage url={preview} />
-            <MainForm>
-              <StyledTextField
-                label="Song Name"
-                required
-                variant="standard"
-                fullWidth
-                onChange={(e) => setTitle(e.target.value)}
-              />
+            <Box
+              sx={{
+                width: "30%",
+                borderRight: "1px solid #a4a4a4",
+                paddingRight: "20px",
+              }}
+            >
+              <SongImage url={preview} />
               <Box
-                sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  marginTop: "10px",
+                }}
               >
-                <Typography>UPLOAD SONG IMAGE:</Typography>
+                <Typography>CHANGE SONG IMAGE:</Typography>
 
                 <RootContainer
                   {...getRootProps({ className: "dropzone" })}
@@ -192,6 +211,49 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                   <Button>BROWSE FILES</Button>
                 </RootContainer>
               </Box>
+            </Box>
+            <MainForm>
+              <StyledTextField
+                label="Song Name"
+                required
+                variant="standard"
+                fullWidth
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+              />
+              <Box
+                sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+              >
+                <Typography>AUDIOS:</Typography>
+                {audios?.map((a) => (
+                  <FilePreview>
+                    {a?.language}{" "}
+                    <Icon
+                      icon="material-symbols:delete-rounded"
+                      width="20px"
+                      height="20px"
+                      style={{ cursor: "pointer", color: "red" }}
+                    />{" "}
+                  </FilePreview>
+                ))}
+              </Box>
+              <Box
+                sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+              >
+                <Typography>LYRICS:</Typography>
+                {lyrics?.map((a) => (
+                  <FilePreview>
+                    {a?.language}{" "}
+                    <Icon
+                      icon="material-symbols:delete-rounded"
+                      width="20px"
+                      height="20px"
+                      style={{ cursor: "pointer", color: "red" }}
+                    />{" "}
+                  </FilePreview>
+                ))}
+              </Box>
+
               <ButtonContainer>
                 <CustomButton onClick={toggleAudioModal}>
                   ADD AUDIO FILE
@@ -215,7 +277,10 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
               />
               <Box className="switch-container">
                 <Typography>SHOW ON CAROUSEL:</Typography>
-                <Switch onChange={() => setFeatured(!isFeatured)} />
+                <Switch
+                  onChange={() => setFeatured(!isFeatured)}
+                  checked={isFeatured}
+                />
               </Box>
               <Box
                 sx={{
@@ -224,9 +289,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                   justifyContent: "center",
                 }}
               >
-                <CustomButton onClick={() => handleSubmit()}>
-                  ADD SONG
-                </CustomButton>
+                <CustomButton>EDIT SONG</CustomButton>
               </Box>
             </MainForm>
           </CustomForm>
@@ -236,4 +299,4 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   );
 };
 
-export default AddSongModal;
+export default EditSongModal;

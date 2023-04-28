@@ -73,6 +73,7 @@ const useMedia = () => {
     getAllMedia,
     toggleMedia,
     featureMedia,
+    deleteMedia,
   };
 };
 

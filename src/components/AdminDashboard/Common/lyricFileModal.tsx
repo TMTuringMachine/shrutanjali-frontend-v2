@@ -9,7 +9,7 @@ import {
   FileOverview,
   ModalFormContainer,
   RootContainer,
-} from "./addSongModal.styles";
+} from "../AddSongModal/addSongModal.styles";
 import { Icon } from "@iconify/react";
 import { useDropzone } from "react-dropzone";
 import { trimText } from "../../../utils/helper";
@@ -17,10 +17,15 @@ import useMedia from "../../../hooks/useMedia";
 interface Props {
   state: boolean;
   toggleModal: Function;
-  handleUpload:Function;
-  setLyricsLanguage:Function;
+  handleUpload: Function;
+  setLyricsLanguage: Function;
 }
-const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpload,setLyricsLanguage }) => {
+const LyricFileModal: FunctionComponent<Props> = ({
+  state,
+  toggleModal,
+  handleUpload,
+  setLyricsLanguage,
+}) => {
   const [lyricFile, setLyricFile] = useState<File | null>(null);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
@@ -38,8 +43,6 @@ const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpl
     setLyricFile(null);
   };
 
- 
-
   return (
     <Modal
       open={state}
@@ -56,7 +59,11 @@ const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpl
         >
           <div className="modal-title">ADD LYRIC FILE</div>
           <ModalFormContainer>
-            <StyledTextField onChange={(e)=>setLyricsLanguage(e.target.value)} label="Language" variant="standard" />
+            <StyledTextField
+              onChange={(e) => setLyricsLanguage(e.target.value)}
+              label="Language"
+              variant="standard"
+            />
             <RootContainer {...getRootProps({ className: "dropzone" })}>
               <input {...getInputProps()} />
               <Icon
@@ -80,7 +87,9 @@ const LyricFileModal: FunctionComponent<Props> = ({ state, toggleModal,handleUpl
                 />
               </FileOverview>
             )}
-            <CustomButton onClick={()=>handleUpload(lyricFile)} >ADD</CustomButton>
+            <CustomButton onClick={() => handleUpload(lyricFile)}>
+              ADD
+            </CustomButton>
           </ModalFormContainer>
         </ModalContainer>
       </Slide>
