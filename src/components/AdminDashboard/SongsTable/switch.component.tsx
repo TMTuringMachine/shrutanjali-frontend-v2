@@ -14,7 +14,6 @@ const SwitchComponent:FunctionComponent<IProps> = ({featured,songId,type}) => {
     console.log(type==="Feature")
     let bool:boolean;
     if(type==="Feature"){
-      
       bool = await featureMedia(songId)
     }
     else{

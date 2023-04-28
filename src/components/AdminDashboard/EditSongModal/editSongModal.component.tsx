@@ -36,19 +36,14 @@ import { IMedia } from "../../../interfaces/media.interface";
 interface Props {
   state: boolean;
   toggleModal: Function;
-  song: IMedia;
+  song: IMedia | null;
 }
 
-interface SongForm {
-  name: string;
-  thumbnail: File;
-}
 
 interface ILyrics {
   url?: any;
   language?: any;
 }
-
 interface IAudio {
   audioId?: any;
   language?: any;
@@ -64,13 +59,14 @@ const EditSongModal: FunctionComponent<Props> = ({
   const [thumbnail, setThumbnail] = useState<any>();
   const [title, setTitle] = useState<String>("Default Title");
   const [isFeatured, setFeatured] = useState<boolean>(false);
-  const { addMedia, uploadFile, getAudioId } = useMedia();
+  const { editMedia, uploadFile, getAudioId } = useMedia();
   const [progress, setProgress] = useState(0);
   const [audioLanaguage, setAudioLanguage] = useState<String>("");
   const [lyricsLanguage, setLyricsLanguage] = useState<String>("");
   const [audios, setAudio] = useState<IAudio[]>([]);
-  const [lyrics, setLyrics] = useState<ILyrics[] | undefined>([]);
+  const [lyrics, setLyrics] = useState<ILyrics[]>([]);
   const [preview, setPreview] = useState<string>();
+  const [mediaId,setMediaId] = useState<string>("")
 
   const toggleAudioModal = () => {
     setShowAudioModal(!showAudioModal);
@@ -81,11 +77,16 @@ const EditSongModal: FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    setTitle(song?.title);
-    setFeatured(song?.isFeatured);
-    setAudio(song?.audios);
-    setPreview(song?.thumbnailUrl);
-    setLyrics(song?.lyrics);
+    if(song){
+      console.log("INSIDE USE",song)
+      setTitle(song?.title);
+      setFeatured(song?.isFeatured);
+      setAudio(song?.audios);
+      setPreview(song?.thumbnailUrl);
+      if(song.lyrics)
+      setLyrics(song?.lyrics);
+      setMediaId(song._id);
+    }
   }, [song]);
 
   const handleSubmit = async () => {
@@ -95,9 +96,11 @@ const EditSongModal: FunctionComponent<Props> = ({
       lyrics,
       isFeatured,
       image: thumbnail,
+      thumbnailUrl:preview,
+      mediaId
     };
     console.log(data);
-    addMedia(data);
+    editMedia(data);
   };
 
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
@@ -167,6 +170,21 @@ const EditSongModal: FunctionComponent<Props> = ({
     }
   };
 
+  const removeAudio = (audioId:string)=>{
+    const updatedAudio = audios.filter((_audio)=>{
+        return _audio.audioId!==audioId;
+    })
+    setAudio(updatedAudio);
+  }
+
+  const removeLyrics = (link:string)=>{
+    const updatedLyrics = lyrics.filter((_file)=>{
+        return _file.url!==link;
+    })
+    setLyrics(updatedLyrics);
+  }
+
+
   return (
     <Modal
       open={state}
@@ -225,14 +243,15 @@ const EditSongModal: FunctionComponent<Props> = ({
                 sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
               >
                 <Typography>AUDIOS:</Typography>
-                {audios?.map((a) => (
+                {audios?.map((_audio) => (
                   <FilePreview>
-                    {a?.language}{" "}
+                    {_audio?.language}{" "}
                     <Icon
                       icon="material-symbols:delete-rounded"
                       width="20px"
                       height="20px"
                       style={{ cursor: "pointer", color: "red" }}
+                      onClick={()=>removeAudio(_audio.audioId)}
                     />{" "}
                   </FilePreview>
                 ))}
@@ -241,14 +260,15 @@ const EditSongModal: FunctionComponent<Props> = ({
                 sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
               >
                 <Typography>LYRICS:</Typography>
-                {lyrics?.map((a) => (
+                {lyrics?.map((_lyricsFile) => (
                   <FilePreview>
-                    {a?.language}{" "}
+                    {_lyricsFile?.language}{" "}
                     <Icon
                       icon="material-symbols:delete-rounded"
                       width="20px"
                       height="20px"
                       style={{ cursor: "pointer", color: "red" }}
+                      onClick={()=>removeLyrics(_lyricsFile.url)}
                     />{" "}
                   </FilePreview>
                 ))}
@@ -289,7 +309,7 @@ const EditSongModal: FunctionComponent<Props> = ({
                   justifyContent: "center",
                 }}
               >
-                <CustomButton>EDIT SONG</CustomButton>
+                <CustomButton onClick={()=>handleSubmit()} >EDIT SONG</CustomButton>
               </Box>
             </MainForm>
           </CustomForm>

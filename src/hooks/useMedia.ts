@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { IAddMedia } from "../interfaces/media.interface";
+import { IAddMedia, IEditMedia } from "../interfaces/media.interface";
 import axiosInstance from "../utils/axiosInstance";
 
 //libs
@@ -64,6 +64,19 @@ const useMedia = () => {
     dispatch(setFeaturedSongs(res.data));
   }, []);
 
+  const editMedia = useCallback(async (data: IEditMedia) => {
+    const form = new FormData();
+    form.append("title", data.title.toString());
+    form.append("audios", JSON.stringify(data.audios));
+    form.append("lyrics", JSON.stringify(data.lyrics) || "");
+    form.append("isFeatured", data.isFeatured.toString());
+    form.append("image", data.image);
+    form.append("mediaId",data.mediaId)
+
+    const res: any = await axiosInstance.patch("/media", form);
+    console.log(res);
+  }, []);
+
   return {
     addMedia,
     uploadFile,
@@ -74,6 +87,7 @@ const useMedia = () => {
     toggleMedia,
     featureMedia,
     deleteMedia,
+    editMedia
   };
 };
 

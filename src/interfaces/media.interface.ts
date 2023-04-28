@@ -6,6 +6,17 @@ export interface IAddMedia {
   image: any;
 }
 
+
+
+export interface IEditMedia {
+  title: String;
+  audios?: Array<IAudio>;
+  lyrics?: Array<ILyrics>;
+  isFeatured: Boolean;
+  image: any;
+  mediaId:string;
+}
+
 interface IAudio {
   audioId?: String;
   language?: String;
@@ -38,3 +49,5 @@ export interface IMedia {
   isFeatured: boolean;
   isLive: boolean;
 }
+
+

@@ -19,7 +19,6 @@ import { Icon } from "@iconify/react";
 //data
 // import { songs } from "../../../helpers/data";
 import moment from "moment";
-import { Switch } from "@mui/material";
 import DeleteModal from "../../Modals/DeleteModal";
 import useMedia from "../../../hooks/useMedia";
 import { IMedia } from "../../../interfaces/media.interface";
@@ -145,7 +144,7 @@ const SongsTable = () => {
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <SwitchComponent
-                    featured={song.isFeatured}
+                    featured={song.isLive}
                     songId={song._id}
                     type={"Toggle"}
                   />
