@@ -54,6 +54,7 @@ import { AnimatePresence } from "framer-motion";
 import FullScreenPlayer from "../../components/FullScreenPlayer/FullScreenPlayer.component";
 import { IMedia } from "../../interfaces/media.interface";
 import { convertApiMedia } from "./home.utils";
+import SliderProps from "../../components/Home/SliderProps";
 
 interface Props {}
 
@@ -64,15 +65,24 @@ const Home: FunctionComponent<Props> = () => {
   const [showWishlist, setShowWishlist] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [songs, setSongs] = useState<IMedia[] | null>(null);
-  const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const fullScreenHandler = useFullScreenHandle();
   const { width } = useWindowSize();
   const { getFeaturedMedia, featuredSongs } = useMedia();
-  const { getPlaybackUrl } = useAudioPlayer({
+  const {
+    play,
+    pause,
+    audioRef,
+    progress,
+    nextSong,
+    previousSong,
+    currentSong,
+    setCurrentSongIndex,
+  } = useAudioPlayer({
     songList: songs,
   });
 
-  const audioRef = useRef<HTMLAudioElement>();
+  // const audioRef = useRef<HTMLAudioElement>();
+  const ref = useRef<any>();
 
   const toggleWishlistDrawer: MouseEventHandler<
     HTMLButtonElement
@@ -82,10 +92,10 @@ const Home: FunctionComponent<Props> = () => {
 
   const togglePlay: Function = (): void => {
     if (isPlaying == false) {
-      audioRef.current?.play();
+      play();
       setIsPlaying(true);
     } else {
-      audioRef.current?.pause();
+      pause();
       setIsPlaying(false);
     }
     // setIsPlaying(!isPlaying);
@@ -94,6 +104,17 @@ const Home: FunctionComponent<Props> = () => {
   useEffect(() => {
     getFeaturedMedia();
   }, []);
+
+  const playNextSong = () => {
+    console.log("called");
+    ref?.current?.next();
+    nextSong();
+  };
+
+  const playPreviousSong = () => {
+    ref.current.previous();
+    previousSong();
+  };
 
   useEffect(() => {
     if (featuredSongs.length > 0) {
@@ -105,7 +126,7 @@ const Home: FunctionComponent<Props> = () => {
     <Transition>
       <PageContainer>
         <MuxAudio
-          src={currentUrl}
+          src={currentSong && currentSong?.audios[0].audioId?.playbackUrl}
           type="hls"
           controls
           ref={audioRef}
@@ -129,17 +150,16 @@ const Home: FunctionComponent<Props> = () => {
               slidesPerView={width !== undefined && width > 900 ? 4 : 1}
               centeredSlides
               style={{ overflow: "visible" }}
+
+              // onSlideChange={(a) => setActiveSong(songs[a.activeIndex])}
             >
+              <SliderProps ref={ref} />
               {songs.map((item, idx) => (
                 <SwiperSlide key={idx}>
                   {({ isActive }) => {
                     if (isActive) {
                       setActiveSong(item);
-                      getPlaybackUrl(item.audios[0].audioId?.playbackId).then(
-                        (res) => {
-                          setCurrentUrl(res);
-                        }
-                      );
+                      setCurrentSongIndex(idx);
                     }
                     return (
                       <CarouselCard
@@ -168,9 +188,11 @@ const Home: FunctionComponent<Props> = () => {
         </AnimatePresence>
         <SongDataContainer>
           <SongData>
-            <Typography>
-              {activeSong ? <h1>{activeSong.title}</h1> : null}
-            </Typography>
+            {/* <Typography> */}
+            {activeSong ? <h1>{activeSong.title}</h1> : null}
+            {/* {currentSong ? <h1>{currentSong.title}</h1> : null} */}
+
+            {/* </Typography> */}
             <Typography>
               {activeSong ? (
                 <p>
@@ -182,12 +204,12 @@ const Home: FunctionComponent<Props> = () => {
               ) : null}
             </Typography>
           </SongData>
-          {/* <LinearProgress
+          <LinearProgress
             sx={{ width: "90%" }}
             variant="determinate"
-            value={40}
-          /> */}
-          <Slider sx={{ width: "90%" }} defaultValue={40} />
+            value={progress}
+          />
+          {/* <Slider sx={{ width: "90%" }} value={progress} /> */}
           <PlayerOptionsContainer>
             <Icon icon="basil:book-open-solid" width="35px" height="35px" />
             <Box className="player-options">
@@ -195,6 +217,9 @@ const Home: FunctionComponent<Props> = () => {
                 icon="material-symbols:skip-previous-rounded"
                 width="30px"
                 height="30px"
+                onClick={() => {
+                  playPreviousSong();
+                }}
               />
               <Icon
                 icon={
@@ -212,6 +237,9 @@ const Home: FunctionComponent<Props> = () => {
                 icon="material-symbols:skip-next-rounded"
                 width="30px"
                 height="30px"
+                onClick={() => {
+                  playNextSong();
+                }}
               />
             </Box>
             <Icon
