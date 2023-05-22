@@ -11,14 +11,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 //redux
-import { setFeaturedSongs } from '../redux/slices/songs.slice';
-import { AppDispatch, RootState } from '../redux/store';
+import { setFeaturedSongs, setAllSongs } from "../redux/slices/songs.slice";
+import { AppDispatch, RootState } from "../redux/store";
 
 const useMedia = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { featuredSongs } = useSelector((state: RootState) => state.songs);
+  const { featuredSongs, allSongs } = useSelector(
+    (state: RootState) => state.songs
+  );
 
   const getAudioId = useCallback(async (uploadId: String) => {
     const audio = await axiosInstance.get(`/audio/${uploadId}`);
@@ -33,6 +35,11 @@ const useMedia = () => {
   const getAllBasicMedia = useCallback(async () => {
     const data = await axiosInstance.get('/basicMedia/all');
     return data;
+  }, []);
+
+  const getLiveMedia = useCallback(async () => {
+    const res = await axiosInstance.get("/media/live");
+    dispatch(setAllSongs(res.data));
   }, []);
 
   const toggleMedia = useCallback(async (mediaId: String) => {
@@ -99,12 +106,12 @@ const useMedia = () => {
 
   const editMedia = useCallback(async (data: IEditMedia) => {
     const form = new FormData();
-    form.append('title', data.title.toString());
-    form.append('audios', JSON.stringify(data.audios));
-    form.append('lyrics', JSON.stringify(data.lyrics) || '');
-    form.append('isFeatured', data.isFeatured.toString());
-    form.append('image', data.image);
-    form.append('mediaId', data.mediaId);
+    form.append("title", data.title.toString());
+    form.append("audios", JSON.stringify(data.audios));
+    form.append("lyrics", JSON.stringify(data.lyrics) || "");
+    form.append("isFeatured", data.isFeatured.toString());
+    form.append("image", data.image);
+    form.append("mediaId", data.mediaId);
 
     const res: any = await axiosInstance.patch('/media', form);
     console.log(res);
@@ -143,6 +150,8 @@ const useMedia = () => {
     editBasicMedia,
     toggleBasicMedia,
     deleteBasicMedia,
+    allSongs,
+    getLiveMedia
   };
 };
 

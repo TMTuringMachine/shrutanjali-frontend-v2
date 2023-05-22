@@ -16,7 +16,19 @@ export const SongDataContainer = styled(Box)(({ theme }) => ({
   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   zIndex: 99999999,
   backgroundColor: theme.palette.background.default,
-  position:"relative"
+  position:"relative",
+
+  '& .MuiSlider-thumb':{
+    transition:'left 0.5s'
+  },
+  
+  '& .MuiSlider-thumb.MuiSlider-active':{
+    transition:'left 0s'
+  },
+
+  '& .MuiSlider-track':{
+    transition:'width 0.5s'
+  }
 }));
 
 export const SongData = styled(Box)(({ theme }) => ({

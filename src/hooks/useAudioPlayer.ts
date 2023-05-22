@@ -74,7 +74,26 @@ const useAudioPlayer = ({ songList }: Props) => {
     audioRef.current?.pause();
   }, []);
 
+  const togglePlay = useCallback(() => {
+    if (isPlaying == false) {
+      play();
+      setIsPlaying(true);
+    } else {
+      pause();
+      setIsPlaying(false);
+    }
+  }, []);
+
+  const seek = useCallback((val: number) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = (val / 100) * audioRef?.current?.duration;
+    }
+    // setProgress(Math.round((audioRef.current?.currentTime / audioRef.current?.duration) * 100));
+  }, []);
+
   const nextSong = useCallback(({ playing }: songChangeProps) => {
+    console.log(currentSongIndex, "here i am");
+
     if (currentSongIndex === songs?.length - 1) {
       setCurrentSongIndex(0);
     } else {
@@ -90,11 +109,22 @@ const useAudioPlayer = ({ songList }: Props) => {
   }, []);
 
   const previousSong = useCallback(({ playing }: songChangeProps) => {
+    console.log(currentSongIndex, "here i am");
     if (currentSongIndex === 0) {
       setCurrentSongIndex(songs?.length - 1);
     } else {
       setCurrentSongIndex(currentSongIndex - 1);
     }
+    setProgress(0);
+    setTimeout(() => {
+      if (playing) {
+        play();
+      }
+    }, 500);
+  }, []);
+
+  const playSong = useCallback((idx: number, playing: boolean) => {
+    setCurrentSongIndex(idx);
     setProgress(0);
     setTimeout(() => {
       if (playing) {
@@ -121,6 +151,9 @@ const useAudioPlayer = ({ songList }: Props) => {
     currentSong: songList ? songList[currentSongIndex] : null,
     setCurrentSongIndex,
     isPlaying,
+    seek,
+    togglePlay,
+    playSong,
   };
 };
 

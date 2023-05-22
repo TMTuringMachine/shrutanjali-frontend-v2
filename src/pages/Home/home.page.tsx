@@ -78,6 +78,7 @@ const Home: FunctionComponent<Props> = () => {
     currentSong,
     setCurrentSongIndex,
     currentSongIndex,
+    seek,
   } = useAudioPlayer({
     songList: songs,
   });
@@ -166,7 +167,7 @@ const Home: FunctionComponent<Props> = () => {
                   {({ isActive }) => {
                     if (isActive) {
                       setActiveSong(item);
-                      if (idx > currentSongIndex) {     
+                      if (idx > currentSongIndex) {
                         playNextSong();
                       } else if (idx < currentSongIndex) {
                         playPreviousSong();
@@ -216,12 +217,22 @@ const Home: FunctionComponent<Props> = () => {
               ) : null}
             </Typography>
           </SongData>
-          <LinearProgress
+          {/* <LinearProgress
             sx={{ width: "90%" }}
             variant="determinate"
             value={progress}
+            onClick={(e) => {
+              console.log(e);
+            }}
+          /> */}
+          <Slider
+            sx={{ width: "90%" }}
+            value={progress}
+            onChange={(e) => {
+              seek(e?.target?.value);
+            }}
           />
-          {/* <Slider sx={{ width: "90%" }} value={progress} /> */}
+          {/* <input type="range" value={progress} style={{width:'100%'}} /> */}
           <PlayerOptionsContainer>
             <Icon icon="basil:book-open-solid" width="35px" height="35px" />
             <Box className="player-options">
@@ -267,6 +278,11 @@ const Home: FunctionComponent<Props> = () => {
             <FullScreenPlayer
               fullScreenHandler={fullScreenHandler}
               song={activeSong}
+              nextSong={playNextSong}
+              previousSong={playPreviousSong}
+              togglePlay={togglePlay}
+              progress={progress}
+              isPlaying={isPlaying}
             />
           ) : null}
         </FullScreen>
