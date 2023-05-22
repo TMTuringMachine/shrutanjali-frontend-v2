@@ -13,6 +13,7 @@ import CategoriesOverview from '../../components/Explore/CategoriesOverview/Cate
 
 import audio from '../../assets/images/audio.png';
 import books from '../../assets/images/books.png';
+import BottomPlayer from '../../components/BottomPlayer/BottomPlayer.component';
 
 const Explore = () => {
   return (
@@ -64,6 +65,19 @@ const Explore = () => {
             <SongOverview song={song} />
           ))}
         </ContinueListeningSection>
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: '0',
+            width: '100%',
+            margin: '0',
+            left: '0',
+            boxShadow: '2px 2px 10px #D3D3D3',
+            backgroundColor: 'white',
+          }}
+        >
+          <BottomPlayer title="Test title" />
+        </Box>
       </PageContainer>
     </Transition>
   );
