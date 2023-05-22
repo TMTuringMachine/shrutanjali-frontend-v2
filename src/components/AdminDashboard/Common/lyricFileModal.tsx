@@ -1,35 +1,37 @@
-import { Button, Modal, Slide } from "@mui/material";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import { Button, Modal, Slide } from '@mui/material';
+import React, { FunctionComponent, useCallback, useState } from 'react';
 import {
   CustomButton,
   ModalContainer,
   StyledTextField,
-} from "../../../global/global.styles";
+} from '../../../global/global.styles';
 import {
   FileOverview,
   ModalFormContainer,
   RootContainer,
-} from "../AddSongModal/addSongModal.styles";
-import { Icon } from "@iconify/react";
-import { useDropzone } from "react-dropzone";
-import { trimText } from "../../../utils/helper";
-import useMedia from "../../../hooks/useMedia";
+} from '../AddSongModal/addSongModal.styles';
+import { Icon } from '@iconify/react';
+import { useDropzone } from 'react-dropzone';
+import { trimText } from '../../../utils/helper';
+import useMedia from '../../../hooks/useMedia';
 interface Props {
   state: boolean;
   toggleModal: Function;
   handleUpload: Function;
   setLyricsLanguage: Function;
+  fromDadaji: boolean;
 }
 const LyricFileModal: FunctionComponent<Props> = ({
   state,
   toggleModal,
   handleUpload,
   setLyricsLanguage,
+  fromDadaji,
 }) => {
   const [lyricFile, setLyricFile] = useState<File | null>(null);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
-      pdf: [".pdf"],
+      pdf: ['.pdf'],
     },
     onDrop: useCallback(
       (acceptedFiles: File[]) => {
@@ -59,12 +61,14 @@ const LyricFileModal: FunctionComponent<Props> = ({
         >
           <div className="modal-title">ADD LYRIC FILE</div>
           <ModalFormContainer>
-            <StyledTextField
-              onChange={(e) => setLyricsLanguage(e.target.value)}
-              label="Language"
-              variant="standard"
-            />
-            <RootContainer {...getRootProps({ className: "dropzone" })}>
+            {!fromDadaji && (
+              <StyledTextField
+                onChange={(e) => setLyricsLanguage(e.target.value)}
+                label="Language"
+                variant="standard"
+              />
+            )}
+            <RootContainer {...getRootProps({ className: 'dropzone' })}>
               <input {...getInputProps()} />
               <Icon
                 icon="material-symbols:cloud-upload"
@@ -82,7 +86,7 @@ const LyricFileModal: FunctionComponent<Props> = ({
                   icon="material-symbols:delete-rounded"
                   width="20px"
                   height="20px"
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: 'pointer' }}
                   onClick={removeFile}
                 />
               </FileOverview>

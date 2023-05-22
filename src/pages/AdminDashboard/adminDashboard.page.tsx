@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   ActionButton,
   ActionPanelContainer,
@@ -8,15 +8,16 @@ import {
   AdminDashboardPage,
   Stat,
   StatsContainer,
-} from "./adminDashboard.styles";
-import AdminHeader from "../../components/AdminDashboard/AdminHeader/adminHeader.component";
-import { CustomHeading1 } from "../../global/global.styles";
-import SongsTable from "../../components/AdminDashboard/SongsTable/songsTable.component";
-import AddSongModal from "../../components/AdminDashboard/AddSongModal/addSongModal.component";
+} from './adminDashboard.styles';
+import AdminHeader from '../../components/AdminDashboard/AdminHeader/adminHeader.component';
+import { CustomHeading1 } from '../../global/global.styles';
+import SongsTable from '../../components/AdminDashboard/SongsTable/songsTable.component';
+import AddSongModal from '../../components/AdminDashboard/AddSongModal/addSongModal.component';
 
-import useAuth from "../../hooks/useAuth";
+import useAuth from '../../hooks/useAuth';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import DadajiAdminDashboard from './dadajiAdminDashboard.page';
 
 const AdminDashboard = () => {
   const [showAddSongModal, setShowAddSongModal] = useState(false);
@@ -29,7 +30,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate('/admin/login')
+      navigate('/admin/login');
     }
   }, [isLoggedIn]);
 
@@ -63,6 +64,8 @@ const AdminDashboard = () => {
           />
         </AdminDahboardRight>
       </AdminDashboardContainer>
+      <hr />
+      <DadajiAdminDashboard />
     </AdminDashboardPage>
   );
 };

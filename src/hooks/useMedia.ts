@@ -1,14 +1,15 @@
-import { useCallback } from "react";
-import { IAddMedia, IEditMedia } from "../interfaces/media.interface";
-import axiosInstance from "../utils/axiosInstance";
+import { useCallback } from 'react';
+import { IAddBasicMedia } from '../interfaces/basic.media.interface';
+import { IAddMedia, IEditMedia } from '../interfaces/media.interface';
+import axiosInstance from '../utils/axiosInstance';
 
 //libs
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 //redux
-import { setFeaturedSongs } from "../redux/slices/songs.slice";
-import { AppDispatch, RootState } from "../redux/store";
+import { setFeaturedSongs } from '../redux/slices/songs.slice';
+import { AppDispatch, RootState } from '../redux/store';
 
 const useMedia = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -22,7 +23,12 @@ const useMedia = () => {
   }, []);
 
   const getAllMedia = useCallback(async () => {
-    const data = await axiosInstance.get("/media/all");
+    const data = await axiosInstance.get('/media/all');
+    return data;
+  }, []);
+
+  const getAllBasicMedia = useCallback(async () => {
+    const data = await axiosInstance.get('/basicMedia/all');
     return data;
   }, []);
 
@@ -42,38 +48,52 @@ const useMedia = () => {
 
   const addMedia = useCallback(async (data: IAddMedia) => {
     const form = new FormData();
-    form.append("title", data.title.toString());
-    form.append("audios", JSON.stringify(data.audios));
-    form.append("lyrics", JSON.stringify(data.lyrics) || "");
-    form.append("isFeatured", data.isFeatured.toString());
-    form.append("image", data.image);
+    form.append('title', data.title.toString());
+    form.append('audios', JSON.stringify(data.audios));
+    form.append('lyrics', JSON.stringify(data.lyrics) || '');
+    form.append('isFeatured', data.isFeatured.toString());
+    form.append('image', data.image);
 
-    const res: any = await axiosInstance.post("/media", form);
+    const res: any = await axiosInstance.post('/media', form);
+    console.log(res);
+  }, []);
+
+  const addBasicMedia = useCallback(async (data: IAddBasicMedia) => {
+    const form: IAddBasicMedia = {
+      title: '',
+      isFeatured: false,
+    };
+    form['title'] = data.title.toString();
+    form['audio'] = data.audio?.toString() || '';
+    form['lyrics'] = data.lyrics?.toString() || '';
+    form['isFeatured'] = data.isFeatured;
+
+    const res: any = await axiosInstance.post('/basicMedia', form);
     console.log(res);
   }, []);
 
   const uploadFile = useCallback(async (file: File) => {
     const form = new FormData();
-    form.append("file", file);
-    const res: any = await axiosInstance.post("/file", form);
+    form.append('file', file);
+    const res: any = await axiosInstance.post('/file', form);
     return res;
   }, []);
 
   const getFeaturedMedia = useCallback(async () => {
-    const res = await axiosInstance.get("/media/featured");
+    const res = await axiosInstance.get('/media/featured');
     dispatch(setFeaturedSongs(res.data));
   }, []);
 
   const editMedia = useCallback(async (data: IEditMedia) => {
     const form = new FormData();
-    form.append("title", data.title.toString());
-    form.append("audios", JSON.stringify(data.audios));
-    form.append("lyrics", JSON.stringify(data.lyrics) || "");
-    form.append("isFeatured", data.isFeatured.toString());
-    form.append("image", data.image);
-    form.append("mediaId",data.mediaId)
+    form.append('title', data.title.toString());
+    form.append('audios', JSON.stringify(data.audios));
+    form.append('lyrics', JSON.stringify(data.lyrics) || '');
+    form.append('isFeatured', data.isFeatured.toString());
+    form.append('image', data.image);
+    form.append('mediaId', data.mediaId);
 
-    const res: any = await axiosInstance.patch("/media", form);
+    const res: any = await axiosInstance.patch('/media', form);
     console.log(res);
   }, []);
 
@@ -87,7 +107,9 @@ const useMedia = () => {
     toggleMedia,
     featureMedia,
     deleteMedia,
-    editMedia
+    editMedia,
+    addBasicMedia,
+    getAllBasicMedia,
   };
 };
 

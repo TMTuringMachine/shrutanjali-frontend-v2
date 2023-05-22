@@ -1,18 +1,18 @@
-import { Box, Button, Modal, Slide } from "@mui/material";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import { Box, Button, Modal, Slide } from '@mui/material';
+import React, { FunctionComponent, useCallback, useState } from 'react';
 import {
   CustomButton,
   ModalContainer,
   StyledTextField,
-} from "../../../global/global.styles";
+} from '../../../global/global.styles';
 import {
   FileOverview,
   ModalFormContainer,
   RootContainer,
-} from "../AddSongModal/addSongModal.styles";
-import { Icon } from "@iconify/react";
-import { useDropzone } from "react-dropzone";
-import { trimText } from "../../../utils/helper";
+} from '../AddSongModal/addSongModal.styles';
+import { Icon } from '@iconify/react';
+import { useDropzone } from 'react-dropzone';
+import { trimText } from '../../../utils/helper';
 
 interface Props {
   state: boolean;
@@ -20,6 +20,7 @@ interface Props {
   handleUpload: Function;
   _progress: number;
   setAudioLanguage: Function;
+  fromDadaji?: boolean;
 }
 const AudioFileModal: FunctionComponent<Props> = ({
   state,
@@ -27,12 +28,13 @@ const AudioFileModal: FunctionComponent<Props> = ({
   handleUpload,
   _progress,
   setAudioLanguage,
+  fromDadaji,
 }) => {
   const [audioFile, setAudioFile] = useState<File>();
   const [files, setFiles] = useState<File[]>([]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
-      audio: [".mp3"],
+      audio: ['.mp3'],
     },
     onDrop: useCallback(
       (acceptedFiles: File[]) => {
@@ -65,13 +67,15 @@ const AudioFileModal: FunctionComponent<Props> = ({
         >
           <div className="modal-title">ADD AUDIO FILE</div>
           <ModalFormContainer>
-            <StyledTextField
-              onChange={(e) => setAudioLanguage(e.target.value)}
-              label="Language"
-              variant="standard"
-            />
+            {!fromDadaji && (
+              <StyledTextField
+                onChange={(e) => setAudioLanguage(e.target.value)}
+                label="Language"
+                variant="standard"
+              />
+            )}
             <RootContainer
-              {...getRootProps({ className: "dropzone" })}
+              {...getRootProps({ className: 'dropzone' })}
               isActive={isDragActive}
             >
               <input {...getInputProps()} />
@@ -93,15 +97,15 @@ const AudioFileModal: FunctionComponent<Props> = ({
                       icon="material-symbols:delete-rounded"
                       width="20px"
                       height="20px"
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                       onClick={() => removeFile(file.name)}
                     />
                   </FileOverview>
                 </>
               );
             })}
-            <progress value={_progress || 0} max="100" /> {_progress.toString()}{" "}
-            / {"100%"}
+            <progress value={_progress || 0} max="100" /> {_progress.toString()}{' '}
+            / {'100%'}
             <CustomButton onClick={() => handleUpload(audioFile)}>
               ADD
             </CustomButton>
