@@ -11,6 +11,10 @@ interface Props {
   songList: any;
 }
 
+interface songChangeProps {
+  playing?: boolean;
+}
+
 const useAudioPlayer = ({ songList }: Props) => {
   const [songs, setSongs] = useState<any>(songList);
   const [currentSongIndex, setCurrentSongIndex] = useState<number>(0);
@@ -70,21 +74,33 @@ const useAudioPlayer = ({ songList }: Props) => {
     audioRef.current?.pause();
   }, []);
 
-  const nextSong = useCallback(() => {
-    console.log(currentSongIndex, "i am called");
+  const nextSong = useCallback(({ playing }: songChangeProps) => {
     if (currentSongIndex === songs?.length - 1) {
       setCurrentSongIndex(0);
     } else {
       setCurrentSongIndex(currentSongIndex + 1);
     }
+    setProgress(0);
+    console.log(playing, "here it is");
+    setTimeout(() => {
+      if (playing) {
+        play();
+      }
+    }, 500);
   }, []);
 
-  const previousSong = useCallback(() => {
+  const previousSong = useCallback(({ playing }: songChangeProps) => {
     if (currentSongIndex === 0) {
       setCurrentSongIndex(songs?.length - 1);
     } else {
       setCurrentSongIndex(currentSongIndex - 1);
     }
+    setProgress(0);
+    setTimeout(() => {
+      if (playing) {
+        play();
+      }
+    }, 500);
   }, []);
 
   // const getPlaybackUrl = useCallback(async (playbackId: string) => {
@@ -104,6 +120,7 @@ const useAudioPlayer = ({ songList }: Props) => {
     currentSongIndex,
     currentSong: songList ? songList[currentSongIndex] : null,
     setCurrentSongIndex,
+    isPlaying,
   };
 };
 

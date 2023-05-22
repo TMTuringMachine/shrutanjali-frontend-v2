@@ -77,6 +77,7 @@ const Home: FunctionComponent<Props> = () => {
     previousSong,
     currentSong,
     setCurrentSongIndex,
+    currentSongIndex,
   } = useAudioPlayer({
     songList: songs,
   });
@@ -108,12 +109,12 @@ const Home: FunctionComponent<Props> = () => {
   const playNextSong = () => {
     console.log("called");
     ref?.current?.next();
-    nextSong();
+    nextSong({ playing: isPlaying });
   };
 
   const playPreviousSong = () => {
-    ref.current.previous();
-    previousSong();
+    ref?.current?.previous();
+    previousSong({ playing: isPlaying });
   };
 
   useEffect(() => {
@@ -150,8 +151,14 @@ const Home: FunctionComponent<Props> = () => {
               slidesPerView={width !== undefined && width > 900 ? 4 : 1}
               centeredSlides
               style={{ overflow: "visible" }}
-
-              // onSlideChange={(a) => setActiveSong(songs[a.activeIndex])}
+              // onSlideChange={(a) => {
+              //   if (a.activeIndex > currentSongIndex) {
+              //     // playNextSong();
+              //     console.log("next should go here");
+              //   } else {
+              //     playPreviousSong();
+              //   }
+              // }}
             >
               <SliderProps ref={ref} />
               {songs.map((item, idx) => (
@@ -159,6 +166,11 @@ const Home: FunctionComponent<Props> = () => {
                   {({ isActive }) => {
                     if (isActive) {
                       setActiveSong(item);
+                      if (idx > currentSongIndex) {     
+                        playNextSong();
+                      } else if (idx < currentSongIndex) {
+                        playPreviousSong();
+                      }
                       setCurrentSongIndex(idx);
                     }
                     return (
