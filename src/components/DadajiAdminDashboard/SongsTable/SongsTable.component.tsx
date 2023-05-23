@@ -48,7 +48,7 @@ const SongsTable = () => {
     song: null,
   });
 
-  const { getAllBasicMedia } = useMedia();
+  const { getAllBasicMedia, deleteBasicMedia } = useMedia();
   const [media, setMedia] = useState<IMedia[]>([]);
   // const [updated,setUpdated] = useState<boolean>(true);
 
@@ -79,14 +79,6 @@ const SongsTable = () => {
         song,
       });
     }
-  };
-
-  const handleDeleteSong: MouseEventHandler<HTMLButtonElement> = (): void => {
-    console.log(deleteModalState);
-  };
-
-  const deleteSong = () => {
-    //delete the song
   };
 
   const getSongs = async () => {
@@ -133,7 +125,6 @@ const SongsTable = () => {
                     songId={song._id}
                     type={'Toggle'}
                   />
-                  {/* <Switch checked={song.isLive}  onChange={()=>{toggleMedia(song._id)}} /> */}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <Icon
@@ -153,6 +144,7 @@ const SongsTable = () => {
                     height="20px"
                     style={{ cursor: 'pointer', color: 'red' }}
                     onClick={() => {
+                      console.log(song, 'songgg');
                       toggleDeleteModal(song.title, song._id);
                     }}
                   />
@@ -160,7 +152,7 @@ const SongsTable = () => {
               </TableRow>
             ))}
           </TableBody>
-          {/* <DeleteModal
+          <DeleteModal
             state={deleteModalState.visible}
             toggleModal={toggleDeleteModal}
             onNo={() => {
@@ -168,13 +160,13 @@ const SongsTable = () => {
             }}
             onYes={() => {
               if (deleteModalState && deleteModalState.id) {
-                deleteMedia(deleteModalState.id);
+                deleteBasicMedia(deleteModalState.id);
                 toggleDeleteModal();
               } else {
               }
             }}
             text={deleteModalState.text}
-          /> */}
+          />
           <EditSongModal
             state={editModalState.visible}
             toggleModal={toggleEditModal}

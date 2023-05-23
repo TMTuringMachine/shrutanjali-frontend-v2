@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from 'react';
 
 //styles
 import {
@@ -6,24 +6,24 @@ import {
   StyledTableCell,
   TableActions,
   TableSongImage,
-} from "./songsTable.styles";
-import { StyledTextField } from "../../../global/global.styles";
+} from './songsTable.styles';
+import { StyledTextField } from '../../../global/global.styles';
 
 //libs
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import { Icon } from "@iconify/react";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { Icon } from '@iconify/react';
 
 //data
 // import { songs } from "../../../helpers/data";
-import moment from "moment";
-import DeleteModal from "../../Modals/DeleteModal";
-import useMedia from "../../../hooks/useMedia";
-import { IMedia } from "../../../interfaces/media.interface";
-import SwitchComponent from "./switch.component";
-import EditSongModal from "../EditSongModal/editSongModal.component";
+import moment from 'moment';
+import DeleteModal from '../../Modals/DeleteModal';
+import useMedia from '../../../hooks/useMedia';
+import { IMedia } from '../../../interfaces/media.interface';
+import SwitchComponent from './switch.component';
+import EditSongModal from '../EditSongModal/editSongModal.component';
 
 interface DeleteModalState {
   visible: boolean;
@@ -39,7 +39,7 @@ interface EditModalState {
 const SongsTable = () => {
   const [deleteModalState, setDeleteModalState] = useState<DeleteModalState>({
     visible: false,
-    text: "",
+    text: '',
     id: null,
   });
   const [editModalState, setEditModalState] = useState<EditModalState>({
@@ -91,7 +91,7 @@ const SongsTable = () => {
   const getSongs = async () => {
     const { data } = await getAllMedia();
     setMedia(data);
-    console.log("media", data);
+    console.log('media', data);
   };
 
   useEffect(() => {
@@ -121,7 +121,7 @@ const SongsTable = () => {
             {media?.map((song, item) => (
               <TableRow
                 key={item}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <StyledTableCell align="left">
                   <TableSongImage
@@ -138,7 +138,7 @@ const SongsTable = () => {
                   <SwitchComponent
                     featured={song.isFeatured}
                     songId={song._id}
-                    type={"Feature"}
+                    type={'Feature'}
                   />
                   {/* <Switch checked={song.isFeatured} onChange={()=>{featureMedia(song._id)}}   /> */}
                 </StyledTableCell>
@@ -146,7 +146,7 @@ const SongsTable = () => {
                   <SwitchComponent
                     featured={song.isLive}
                     songId={song._id}
-                    type={"Toggle"}
+                    type={'Toggle'}
                   />
                   {/* <Switch checked={song.isLive}  onChange={()=>{toggleMedia(song._id)}} /> */}
                 </StyledTableCell>
@@ -155,7 +155,7 @@ const SongsTable = () => {
                     icon="material-symbols:edit-square-outline"
                     width="20px"
                     height="20px"
-                    style={{ cursor: "pointer", color: "gray" }}
+                    style={{ cursor: 'pointer', color: 'gray' }}
                     onClick={() => {
                       toggleEditModal(song);
                     }}
@@ -166,7 +166,7 @@ const SongsTable = () => {
                     icon="material-symbols:delete-rounded"
                     width="20px"
                     height="20px"
-                    style={{ cursor: "pointer", color: "red" }}
+                    style={{ cursor: 'pointer', color: 'red' }}
                     onClick={() => {
                       toggleDeleteModal(song.title, song._id);
                     }}
@@ -182,6 +182,7 @@ const SongsTable = () => {
               toggleDeleteModal();
             }}
             onYes={() => {
+              console.log(deleteMedia, 'delete media state');
               if (deleteModalState && deleteModalState.id) {
                 deleteMedia(deleteModalState.id);
                 toggleDeleteModal();

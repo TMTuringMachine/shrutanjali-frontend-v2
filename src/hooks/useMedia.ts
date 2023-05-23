@@ -40,6 +40,13 @@ const useMedia = () => {
     return data;
   }, []);
 
+  const toggleBasicMedia = useCallback(async (basicMediaId: String) => {
+    const { data } = await axiosInstance.post(
+      `/basicMedia/toggle/${basicMediaId}`
+    );
+    return data;
+  }, []);
+
   const featureMedia = useCallback(async (mediaId: String) => {
     const { data } = await axiosInstance.post(`/media/feature/${mediaId}`);
     return data;
@@ -47,6 +54,10 @@ const useMedia = () => {
 
   const deleteMedia = useCallback(async (mediaId: String) => {
     await axiosInstance.delete(`/media/${mediaId}`);
+  }, []);
+
+  const deleteBasicMedia = useCallback(async (basicMediaId: String) => {
+    await axiosInstance.delete(`/basicMedia/${basicMediaId}`);
   }, []);
 
   const addMedia = useCallback(async (data: IAddMedia) => {
@@ -130,6 +141,8 @@ const useMedia = () => {
     addBasicMedia,
     getAllBasicMedia,
     editBasicMedia,
+    toggleBasicMedia,
+    deleteBasicMedia,
   };
 };
 
