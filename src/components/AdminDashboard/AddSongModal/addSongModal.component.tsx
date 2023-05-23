@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState } from 'react';
 
 //lib
 import {
@@ -9,27 +9,27 @@ import {
   Switch,
   TextField,
   Typography,
-} from "@mui/material";
-import { useDropzone } from "react-dropzone";
-import { Icon } from "@iconify/react";
+} from '@mui/material';
+import { useDropzone } from 'react-dropzone';
+import { Icon } from '@iconify/react';
 
 //styles
 import {
   CustomButton,
   ModalContainer,
   StyledTextField,
-} from "../../../global/global.styles";
+} from '../../../global/global.styles';
 import {
   CustomForm,
   SongImage,
   ButtonContainer,
   RootContainer,
   MainForm,
-} from "./addSongModal.styles";
-import AudioFileModal from "../Common/audioFileModal";
-import LyricFileModal from "../Common/lyricFileModal";
-import useMedia from "../../../hooks/useMedia";
-import * as UpChunk from "@mux/upchunk";
+} from './addSongModal.styles';
+import AudioFileModal from '../Common/audioFileModal';
+import LyricFileModal from '../Common/lyricFileModal';
+import useMedia from '../../../hooks/useMedia';
+import * as UpChunk from '@mux/upchunk';
 
 interface Props {
   state: boolean;
@@ -55,12 +55,12 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const [showAudioModal, setShowAudioModal] = useState<boolean>(false);
   const [showLyricModal, setShowLyricModal] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<any>();
-  const [title, setTitle] = useState<String>("Default Title");
+  const [title, setTitle] = useState<String>('Default Title');
   const [isFeatured, setFeatured] = useState<Boolean>(false);
   const { addMedia, uploadFile, getAudioId } = useMedia();
   const [progress, setProgress] = useState(0);
-  const [audioLanaguage, setAudioLanguage] = useState<String>("");
-  const [lyricsLanguage, setLyricsLanguage] = useState<String>("");
+  const [audioLanaguage, setAudioLanguage] = useState<String>('');
+  const [lyricsLanguage, setLyricsLanguage] = useState<String>('');
   const [audios, setAudio] = useState<IAudio[]>([]);
   const [lyrics, setLyrics] = useState<ILyrics[]>([]);
   const [preview, setPreview] = useState<string>();
@@ -88,7 +88,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
     useDropzone({
       accept: {
-        image: [".jpeg", ".png", ".jpg"],
+        image: ['.jpeg', '.png', '.jpg'],
       },
       onDrop: (acceptedFiles) => {
         setThumbnail(acceptedFiles[0]);
@@ -102,9 +102,9 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       if (audioFile !== null) {
         const response = await fetch(
           // "https://shrutanjali-api.onrender.com/api/mux",
-          "http://localhost:5000/api/mux",
+          'http://localhost:5000/api/mux',
           {
-            method: "POST",
+            method: 'POST',
           }
         );
         const url = await response.json();
@@ -117,24 +117,24 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
           chunkSize: 5120, // Uploads the file in ~5mb chunks
         });
         // Subscribe to events
-        upload.on("error", (error: any) => {
+        upload.on('error', (error: any) => {
           // setStatusMessage(error.detail);
           console.log(error);
         });
 
-        upload.on("progress", (progress: any) => {
+        upload.on('progress', (progress: any) => {
           setProgress(progress.detail);
           console.log(progress.detail);
         });
 
-        upload.on("success", (data: any) => {
+        upload.on('success', (data: any) => {
           const language = audioLanaguage;
           setAudio([...audios, { audioId, language }]);
-          console.log("UPLOAD COMPLETE", language);
+          console.log('UPLOAD COMPLETE', language);
           console.log(audios);
         });
       } else {
-        console.log("PLEASE SELECT AUDIO FILE");
+        console.log('PLEASE SELECT AUDIO FILE');
       }
     } catch (error) {
       console.log(error);
@@ -149,7 +149,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       setLyrics([...lyrics, { url, language }]);
       console.log(lyrics);
     } else {
-      console.log("FILE NOT SELECTED");
+      console.log('FILE NOT SELECTED');
     }
   };
 
@@ -174,12 +174,12 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                 onChange={(e) => setTitle(e.target.value)}
               />
               <Box
-                sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
               >
                 <Typography>UPLOAD SONG IMAGE:</Typography>
 
                 <RootContainer
-                  {...getRootProps({ className: "dropzone" })}
+                  {...getRootProps({ className: 'dropzone' })}
                   isActive={isDragActive}
                 >
                   <input {...getInputProps()} />
@@ -213,6 +213,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                 toggleModal={toggleLyricModal}
                 handleUpload={handleUploadFile}
                 setLyricsLanguage={setLyricsLanguage}
+                fromDadaji={false}
               />
               <Box className="switch-container">
                 <Typography>SHOW ON CAROUSEL:</Typography>
@@ -220,9 +221,9 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
               </Box>
               <Box
                 sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
                 }}
               >
                 <CustomButton onClick={() => handleSubmit()}>

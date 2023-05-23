@@ -1,5 +1,8 @@
 import { useCallback } from 'react';
-import { IAddBasicMedia } from '../interfaces/basic.media.interface';
+import {
+  IAddBasicMedia,
+  IUpdateBasicMedia,
+} from '../interfaces/basic.media.interface';
 import { IAddMedia, IEditMedia } from '../interfaces/media.interface';
 import axiosInstance from '../utils/axiosInstance';
 
@@ -66,7 +69,6 @@ const useMedia = () => {
     form['title'] = data.title.toString();
     form['audio'] = data.audio?.toString() || '';
     form['lyrics'] = data.lyrics?.toString() || '';
-    form['isFeatured'] = data.isFeatured;
 
     const res: any = await axiosInstance.post('/basicMedia', form);
     console.log(res);
@@ -97,6 +99,23 @@ const useMedia = () => {
     console.log(res);
   }, []);
 
+  const editBasicMedia = useCallback(async (data: IUpdateBasicMedia) => {
+    console.log(data, 'dattaa heree');
+    const form: IUpdateBasicMedia = {
+      title: '',
+      audio: '',
+      lyrics: '',
+      basicMediaId: '',
+    };
+    form['title'] = data.title.toString();
+    form['audio'] = data.audio?.toString() || '';
+    form['lyrics'] = data.lyrics?.toString() || '';
+    form['basicMediaId'] = data.basicMediaId?.toString() || '';
+    console.log(form, 'formmdata');
+    const res: any = await axiosInstance.post('/basicMedia/update', form);
+    console.log(res);
+  }, []);
+
   return {
     addMedia,
     uploadFile,
@@ -110,6 +129,7 @@ const useMedia = () => {
     editMedia,
     addBasicMedia,
     getAllBasicMedia,
+    editBasicMedia,
   };
 };
 

@@ -23,7 +23,8 @@ import DeleteModal from '../../Modals/DeleteModal';
 import useMedia from '../../../hooks/useMedia';
 import { IMedia } from '../../../interfaces/media.interface';
 import SwitchComponent from './switch.component';
-// import EditSongModal from '../EditSongModal/editSongModal.component';
+import EditSongModal from '../EditSongModal/editSongModal.component';
+import { IbasicMedia } from '../../../interfaces/basic.media.interface';
 
 interface DeleteModalState {
   visible: boolean;
@@ -33,7 +34,7 @@ interface DeleteModalState {
 
 interface EditModalState {
   visible: boolean;
-  song: IMedia | null;
+  song: IbasicMedia | null;
 }
 
 const SongsTable = () => {
@@ -66,7 +67,7 @@ const SongsTable = () => {
     }
   };
 
-  const toggleEditModal: Function = (song: IMedia): void => {
+  const toggleEditModal: Function = (song: IbasicMedia): void => {
     if (editModalState.visible) {
       setEditModalState({
         song: null,
@@ -109,7 +110,6 @@ const SongsTable = () => {
             <TableRow>
               <StyledTableCell align="center">Song Name</StyledTableCell>
               <StyledTableCell align="center">Uploaded on</StyledTableCell>
-              <StyledTableCell align="center">FEATURED</StyledTableCell>
               <StyledTableCell align="center">LIVE</StyledTableCell>
 
               <StyledTableCell align="center">EDIT</StyledTableCell>
@@ -126,14 +126,7 @@ const SongsTable = () => {
                 <StyledTableCell align="center">
                   {moment(new Date()).format()}
                 </StyledTableCell>
-                <StyledTableCell align="center">
-                  <SwitchComponent
-                    featured={song.isFeatured}
-                    songId={song._id}
-                    type={'Feature'}
-                  />
-                  {/* <Switch checked={song.isFeatured} onChange={()=>{featureMedia(song._id)}}   /> */}
-                </StyledTableCell>
+
                 <StyledTableCell align="center">
                   <SwitchComponent
                     featured={song.isLive}
@@ -182,11 +175,11 @@ const SongsTable = () => {
             }}
             text={deleteModalState.text}
           /> */}
-          {/* <EditSongModal
+          <EditSongModal
             state={editModalState.visible}
             toggleModal={toggleEditModal}
             song={editModalState.song}
-          /> */}
+          />
         </Table>
       </SongsTableContainer>
     </>

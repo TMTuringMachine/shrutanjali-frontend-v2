@@ -19,7 +19,7 @@ interface Props {
   toggleModal: Function;
   handleUpload: Function;
   _progress: number;
-  setAudioLanguage: Function;
+  setAudioLanguage?: Function;
   fromDadaji?: boolean;
 }
 const AudioFileModal: FunctionComponent<Props> = ({
@@ -69,7 +69,9 @@ const AudioFileModal: FunctionComponent<Props> = ({
           <ModalFormContainer>
             {!fromDadaji && (
               <StyledTextField
-                onChange={(e) => setAudioLanguage(e.target.value)}
+                onChange={(e: any) => {
+                  if (setAudioLanguage) setAudioLanguage(e.target.value);
+                }}
                 label="Language"
                 variant="standard"
               />

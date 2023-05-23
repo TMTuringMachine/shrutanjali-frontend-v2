@@ -18,8 +18,8 @@ interface Props {
   state: boolean;
   toggleModal: Function;
   handleUpload: Function;
-  setLyricsLanguage: Function;
-  fromDadaji: boolean;
+  setLyricsLanguage?: Function;
+  fromDadaji?: boolean;
 }
 const LyricFileModal: FunctionComponent<Props> = ({
   state,
@@ -63,7 +63,9 @@ const LyricFileModal: FunctionComponent<Props> = ({
           <ModalFormContainer>
             {!fromDadaji && (
               <StyledTextField
-                onChange={(e) => setLyricsLanguage(e.target.value)}
+                onChange={(e) => {
+                  if (setLyricsLanguage) setLyricsLanguage(e.target.value);
+                }}
                 label="Language"
                 variant="standard"
               />
