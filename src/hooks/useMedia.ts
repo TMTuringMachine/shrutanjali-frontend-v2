@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 //redux
 import { setFeaturedSongs } from '../redux/slices/songs.slice';
-import { AppDispatch, RootState } from '../redux/store';
+import { AppDispatch, RootState, store } from '../redux/store';
 
 const useMedia = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -37,6 +37,13 @@ const useMedia = () => {
 
   const toggleMedia = useCallback(async (mediaId: String) => {
     const { data } = await axiosInstance.post(`/media/toggle/${mediaId}`);
+    store.dispatch({
+      type: 'control/showSnackbar',
+      payload: {
+        text: 'Live Song Toggled Successfully!',
+        type: 'success',
+      },
+    });
     return data;
   }, []);
 
@@ -44,20 +51,49 @@ const useMedia = () => {
     const { data } = await axiosInstance.post(
       `/basicMedia/toggle/${basicMediaId}`
     );
+    console.log(data, 'dattaa');
+    store.dispatch({
+      type: 'control/showSnackbar',
+      payload: {
+        text: 'Live Song Toggled Successfully!',
+        type: 'success',
+      },
+    });
     return data;
   }, []);
 
   const featureMedia = useCallback(async (mediaId: String) => {
     const { data } = await axiosInstance.post(`/media/feature/${mediaId}`);
+    store.dispatch({
+      type: 'control/showSnackbar',
+      payload: {
+        text: 'Song Featured Toggled Successfully!',
+        type: 'success',
+      },
+    });
     return data;
   }, []);
 
   const deleteMedia = useCallback(async (mediaId: String) => {
     await axiosInstance.delete(`/media/${mediaId}`);
+    store.dispatch({
+      type: 'control/showSnackbar',
+      payload: {
+        text: 'Song Deleted Successfully!',
+        type: 'success',
+      },
+    });
   }, []);
 
   const deleteBasicMedia = useCallback(async (basicMediaId: String) => {
     await axiosInstance.delete(`/basicMedia/${basicMediaId}`);
+    store.dispatch({
+      type: 'control/showSnackbar',
+      payload: {
+        text: 'Song Deleted Successfully!',
+        type: 'success',
+      },
+    });
   }, []);
 
   const addMedia = useCallback(async (data: IAddMedia) => {
@@ -69,6 +105,15 @@ const useMedia = () => {
     form.append('image', data.image);
 
     const res: any = await axiosInstance.post('/media', form);
+    if (res) {
+      store.dispatch({
+        type: 'control/showSnackbar',
+        payload: {
+          text: 'Song Added Successfully!',
+          type: 'success',
+        },
+      });
+    }
     console.log(res);
   }, []);
 
@@ -82,13 +127,30 @@ const useMedia = () => {
     form['lyrics'] = data.lyrics?.toString() || '';
 
     const res: any = await axiosInstance.post('/basicMedia', form);
-    console.log(res);
+    if (res) {
+      store.dispatch({
+        type: 'control/showSnackbar',
+        payload: {
+          text: 'Song Added Successfully!',
+          type: 'success',
+        },
+      });
+    }
   }, []);
 
   const uploadFile = useCallback(async (file: File) => {
     const form = new FormData();
     form.append('file', file);
     const res: any = await axiosInstance.post('/file', form);
+    if (res) {
+      store.dispatch({
+        type: 'control/showSnackbar',
+        payload: {
+          text: 'File Uploaded Successfully!',
+          type: 'success',
+        },
+      });
+    }
     return res;
   }, []);
 
@@ -108,6 +170,15 @@ const useMedia = () => {
 
     const res: any = await axiosInstance.patch('/media', form);
     console.log(res);
+    if (res) {
+      store.dispatch({
+        type: 'control/showSnackbar',
+        payload: {
+          text: 'Song Edited Successfully!',
+          type: 'success',
+        },
+      });
+    }
   }, []);
 
   const editBasicMedia = useCallback(async (data: IUpdateBasicMedia) => {
@@ -125,6 +196,15 @@ const useMedia = () => {
     console.log(form, 'formmdata');
     const res: any = await axiosInstance.post('/basicMedia/update', form);
     console.log(res);
+    if (res) {
+      store.dispatch({
+        type: 'control/showSnackbar',
+        payload: {
+          text: 'Song Edited Successfully!',
+          type: 'success',
+        },
+      });
+    }
   }, []);
 
   return {

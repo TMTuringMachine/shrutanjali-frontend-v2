@@ -19,12 +19,14 @@ import {
   ModalContainer,
   StyledTextField,
 } from '../../../global/global.styles';
+
 import {
   CustomForm,
   SongImage,
   ButtonContainer,
   RootContainer,
   MainForm,
+  FilePreview,
 } from './addSongModal.styles';
 import AudioFileModal from '../Common/audioFileModal';
 import LyricFileModal from '../Common/lyricFileModal';
@@ -83,6 +85,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
     };
     console.log(data);
     addMedia(data);
+    toggleModal(!state);
   };
 
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
@@ -130,8 +133,8 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         upload.on('success', (data: any) => {
           const language = audioLanaguage;
           setAudio([...audios, { audioId, language }]);
+          setShowAudioModal(!showAudioModal);
           console.log('UPLOAD COMPLETE', language);
-          console.log(audios);
         });
       } else {
         console.log('PLEASE SELECT AUDIO FILE');
@@ -148,9 +151,24 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       const language: String = lyricsLanguage;
       setLyrics([...lyrics, { url, language }]);
       console.log(lyrics);
+      setShowLyricModal(!showLyricModal);
     } else {
       console.log('FILE NOT SELECTED');
     }
+  };
+
+  const removeAudio = (audioId: string) => {
+    const updatedAudio = audios.filter((_audio) => {
+      return _audio.audioId !== audioId;
+    });
+    setAudio(updatedAudio);
+  };
+
+  const removeLyrics = (link: string) => {
+    const updatedLyrics = lyrics.filter((_file) => {
+      return _file.url !== link;
+    });
+    setLyrics(updatedLyrics);
   };
 
   return (
@@ -164,7 +182,43 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         <ModalContainer width="70vw" left="15vw" height="fit-content">
           <p className="modal-title">ADD NEW SONG</p>
           <CustomForm>
-            <SongImage url={preview} />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <SongImage url={preview} />
+              <Typography>Selected Audios:</Typography>
+              <Box>
+                {audios.map((_audioFile) => {
+                  console.log(_audioFile);
+                  return (
+                    <FilePreview>
+                      <Typography>{_audioFile?.language} </Typography>
+                      <Icon
+                        icon="material-symbols:delete-rounded"
+                        width="20px"
+                        height="20px"
+                        style={{ cursor: 'pointer', color: 'red' }}
+                        onClick={() => removeAudio(_audioFile.audioId)}
+                      />{' '}
+                    </FilePreview>
+                  );
+                })}
+              </Box>
+
+              <Typography>Selected Lyrics:</Typography>
+              <Box>
+                {lyrics?.map((_lyricsFile) => (
+                  <FilePreview>
+                    <Typography>{_lyricsFile?.language} </Typography>
+                    <Icon
+                      icon="material-symbols:delete-rounded"
+                      width="20px"
+                      height="20px"
+                      style={{ cursor: 'pointer', color: 'red' }}
+                      onClick={() => removeLyrics(_lyricsFile.url)}
+                    />{' '}
+                  </FilePreview>
+                ))}
+              </Box>
+            </Box>
             <MainForm>
               <StyledTextField
                 label="Song Name"

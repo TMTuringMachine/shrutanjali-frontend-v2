@@ -25,6 +25,7 @@ import {
   ButtonContainer,
   RootContainer,
   MainForm,
+  FilePreview,
 } from './addSongModal.styles';
 import AudioFileModal from '../../AdminDashboard/Common/audioFileModal';
 import LyricFileModal from '../../AdminDashboard/Common/lyricFileModal';
@@ -80,6 +81,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
     };
     console.log(data);
     addBasicMedia(data);
+    toggleModal(!state);
   };
 
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
@@ -127,6 +129,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         upload.on('success', (data: any) => {
           setAudio(audioId);
           console.log('UPLOAD COMPLETE');
+          setShowAudioModal(!showAudioModal);
           console.log(audio, 'audioo');
         });
       } else {
@@ -142,10 +145,18 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       const { data } = await uploadFile(lyricFile);
       const url: string = data.url;
       setLyrics(url);
+      setShowLyricModal(!showLyricModal);
       console.log(lyrics);
     } else {
       console.log('FILE NOT SELECTED');
     }
+  };
+  const removeAudio = () => {
+    setAudio('');
+  };
+
+  const removeLyrics = () => {
+    setLyrics('');
   };
 
   return (
@@ -159,7 +170,40 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         <ModalContainer width="70vw" left="15vw" height="fit-content">
           <p className="modal-title">ADD NEW SONG</p>
           <CustomForm>
-            <SongImage url={preview} />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <SongImage url={preview} />
+              <Typography>Selected Audios:</Typography>
+              {audio && (
+                <Box>
+                  <FilePreview>
+                    <Typography>{'Audio File'} </Typography>
+                    <Icon
+                      icon="material-symbols:delete-rounded"
+                      width="20px"
+                      height="20px"
+                      style={{ cursor: 'pointer', color: 'red' }}
+                      onClick={() => removeAudio()}
+                    />{' '}
+                  </FilePreview>
+                </Box>
+              )}
+
+              <Typography>Selected Lyrics:</Typography>
+              {lyrics && (
+                <Box>
+                  <FilePreview>
+                    <Typography>{'Lyrics File'} </Typography>
+                    <Icon
+                      icon="material-symbols:delete-rounded"
+                      width="20px"
+                      height="20px"
+                      style={{ cursor: 'pointer', color: 'red' }}
+                      onClick={() => removeLyrics()}
+                    />{' '}
+                  </FilePreview>
+                </Box>
+              )}
+            </Box>
             <MainForm>
               <StyledTextField
                 label="Song Name"
