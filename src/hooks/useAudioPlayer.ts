@@ -4,6 +4,7 @@ import React, {
   useRef,
   useState,
   useEffect,
+  KeyboardEvent,
 } from "react";
 import axiosInstance from "../utils/axiosInstance";
 
@@ -49,12 +50,21 @@ const useAudioPlayer = ({ songList }: Props) => {
       }
     }
 
+    const handleKeyPress = (e: any) => {
+      console.log(e, "i am called");
+      if (e.code == "Space") {
+        e.preventDefault();
+        togglePlay();
+      }
+    };
+
     if (audio) {
       audio.addEventListener("play", handlePlay);
       audio.addEventListener("pause", handlePause);
       audio.addEventListener("ended", handleEnded);
       audio.addEventListener("timeupdate", handleTimeUpdate);
     }
+    window.addEventListener("keydown", handleKeyPress);
 
     return () => {
       if (audio) {
@@ -62,6 +72,7 @@ const useAudioPlayer = ({ songList }: Props) => {
         audio.removeEventListener("pause", handlePause);
         audio.removeEventListener("ended", handleEnded);
         audio.removeEventListener("timeupdate", handleTimeUpdate);
+        window.removeEventListener("keydown", handleKeyPress);
       }
     };
   }, [currentSongIndex, songs]);
@@ -75,6 +86,7 @@ const useAudioPlayer = ({ songList }: Props) => {
   }, []);
 
   const togglePlay = useCallback(() => {
+    console.log("i am called too");
     if (isPlaying == false) {
       play();
       setIsPlaying(true);
@@ -127,9 +139,8 @@ const useAudioPlayer = ({ songList }: Props) => {
     setCurrentSongIndex(idx);
     setProgress(0);
     setTimeout(() => {
-      if (playing) {
-        play();
-      }
+      play();
+      setIsPlaying(true);
     }, 500);
   }, []);
 

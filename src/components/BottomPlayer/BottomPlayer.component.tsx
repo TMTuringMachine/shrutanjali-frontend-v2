@@ -1,4 +1,9 @@
-import { FunctionComponent, MouseEventHandler, useState } from "react";
+import {
+  ChangeEvent,
+  FunctionComponent,
+  MouseEventHandler,
+  useState,
+} from "react";
 import { Icon } from "@iconify/react";
 
 import { Box, Slider } from "@mui/material";
@@ -19,6 +24,7 @@ interface Prop {
   togglePlay: Function;
   progress: number;
   isPlaying: boolean;
+  seek: Function;
 }
 const BottomPlayer: FunctionComponent<Prop> = ({
   song,
@@ -28,6 +34,7 @@ const BottomPlayer: FunctionComponent<Prop> = ({
   progress,
   fullScreenHandler,
   isPlaying,
+  seek,
 }) => {
   return (
     <BottomPlayerContainer>
@@ -71,7 +78,14 @@ const BottomPlayer: FunctionComponent<Prop> = ({
             }}
           />
         </Box>
-        <Slider sx={{ width: "90%" }} color="primary" value={progress} />
+        <Slider
+          sx={{ width: "90%" }}
+          color="primary"
+          value={progress}
+          onChange={(e: any) => {
+            seek(e?.target?.value);
+          }}
+        />
       </SongPlayerOptions>
       <SongActionsContainer>
         <Icon

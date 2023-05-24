@@ -55,6 +55,7 @@ import FullScreenPlayer from "../../components/FullScreenPlayer/FullScreenPlayer
 import { IMedia } from "../../interfaces/media.interface";
 import { convertApiMedia } from "./home.utils";
 import SliderProps from "../../components/Home/SliderProps";
+import LyricsModal from "../../components/Home/LyricsModal/LyricsModal.component";
 
 interface Props {}
 
@@ -65,6 +66,11 @@ const Home: FunctionComponent<Props> = () => {
   const [showWishlist, setShowWishlist] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [songs, setSongs] = useState<IMedia[] | null>(null);
+  const [lyricModalState, setLyricModalState] = useState<any>({
+    open: false,
+    song: null,
+  });
+
   const fullScreenHandler = useFullScreenHandle();
   const { width } = useWindowSize();
   const { getFeaturedMedia, featuredSongs } = useMedia();
@@ -228,13 +234,23 @@ const Home: FunctionComponent<Props> = () => {
           <Slider
             sx={{ width: "90%" }}
             value={progress}
-            onChange={(e) => {
+            onChange={(e: any) => {
               seek(e?.target?.value);
             }}
           />
           {/* <input type="range" value={progress} style={{width:'100%'}} /> */}
           <PlayerOptionsContainer>
-            <Icon icon="basil:book-open-solid" width="35px" height="35px" />
+            <Icon
+              icon="basil:book-open-solid"
+              width="35px"
+              height="35px"
+              onClick={() => {
+                setLyricModalState({
+                  open: true,
+                  song: currentSong,
+                });
+              }}
+            />
             <Box className="player-options">
               <Icon
                 icon="material-symbols:skip-previous-rounded"
@@ -283,9 +299,20 @@ const Home: FunctionComponent<Props> = () => {
               togglePlay={togglePlay}
               progress={progress}
               isPlaying={isPlaying}
+              seek={seek}
             />
           ) : null}
         </FullScreen>
+        <LyricsModal
+          state={lyricModalState.open}
+          toggleModal={() => {
+            setLyricModalState({
+              ...lyricModalState,
+              open: false,
+            });
+          }}
+          song={lyricModalState.song}
+        />
         <WhishListButton onClick={toggleWishlistDrawer}>
           <Icon icon="mdi:music-circle" width="30px" height="30px" />
         </WhishListButton>

@@ -39,6 +39,7 @@ const Explore = () => {
     currentSongIndex,
     seek,
     playSong: playIdxSong,
+    isPlaying: playing,
   } = useAudioPlayer({
     songList: topSongs,
   });
@@ -68,6 +69,10 @@ const Explore = () => {
       setIsPlaying(false);
     }
   };
+
+  useEffect(() => {
+    setIsPlaying(playing);
+  }, [playing]);
 
   const playNextSong = () => {
     nextSong({ playing: isPlaying });
@@ -144,6 +149,7 @@ const Explore = () => {
           progress={progress}
           isPlaying={isPlaying}
           song={currentSong}
+          seek={seek}
         />
       </PageContainer>
     </Transition>

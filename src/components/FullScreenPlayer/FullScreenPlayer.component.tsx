@@ -26,6 +26,7 @@ interface Props {
   togglePlay: Function;
   progress: number;
   isPlaying: boolean;
+  seek: Function;
 }
 
 const FullScreenPlayer: FunctionComponent<Props> = ({
@@ -36,7 +37,14 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   progress,
   fullScreenHandler,
   isPlaying,
+  seek,
 }) => {
+  const [readMode, setReadMode] = useState<boolean>(false);
+
+  const toggleReadMode = () => {
+    setReadMode(!readMode);
+  };
+
   return (
     <PlayerContainer url={song?.thumbnailUrl}>
       <Overlay>
@@ -44,13 +52,19 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
           <img src={song!.thumbnailUrl} alt="" />
           <h1 className="song-name">{song!.title}</h1>
         </SongInfoContainer>
-        <Slider sx={{ width: "95%" }} color="secondary" value={progress} />
+        <Slider
+          sx={{ width: "95%" }}
+          color="secondary"
+          value={progress}
+          onChange={(e: any) => seek(e.target.value)}
+        />
         <PlayerOptions>
           <Icon
             color="white"
             icon="basil:book-open-solid"
             width="35px"
             height="35px"
+            onClick={() => toggleReadMode()}
           />
           <Box className="player-options">
             <Icon
