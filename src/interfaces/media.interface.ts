@@ -47,3 +47,12 @@ export interface IMedia {
   isFeatured: boolean;
   isLive: boolean;
 }
+
+export interface IBasicMedia {
+  _id: string;
+  title: string;
+  audio: IAudio;
+  streams: Number;
+  isFeatured: boolean;
+  isLive: boolean;
+}

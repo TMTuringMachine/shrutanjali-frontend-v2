@@ -5,7 +5,7 @@ const palette: PaletteOptions = {
     main: "#FF9764",
   },
   secondary: {
-    main: "#00ff00",
+    main: "#fff",
   },
   background: {
     default: "#ffffff",

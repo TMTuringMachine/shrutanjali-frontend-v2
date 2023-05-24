@@ -1,24 +1,43 @@
-import { useCallback } from 'react';
+// import { useCallback } from 'react';
 import {
   IAddBasicMedia,
   IUpdateBasicMedia,
 } from '../interfaces/basic.media.interface';
-import { IAddMedia, IEditMedia } from '../interfaces/media.interface';
+// import { IAddMedia, IEditMedia } from '../interfaces/media.interface';
 import axiosInstance from '../utils/axiosInstance';
+import { useCallback, useState } from 'react';
+// import { IAddBasicMedia } from "../interfaces/basic.media.interface";
+import { IAddMedia, IEditMedia } from '../interfaces/media.interface';
+// import axiosInstance from "../utils/axiosInstance";
 
 //libs
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 //redux
-import { setFeaturedSongs } from '../redux/slices/songs.slice';
+import {
+  setFeaturedSongs,
+  setAllSongs,
+  setDadajiSongs,
+} from '../redux/slices/songs.slice';
 import { AppDispatch, RootState, store } from '../redux/store';
+
+interface lyricStateProps {
+  loading: boolean;
+  lyrics: string | null;
+}
 
 const useMedia = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const [lyricState, setLyricState] = useState<lyricStateProps>({
+    loading: false,
+    lyrics: null,
+  });
 
-  const { featuredSongs } = useSelector((state: RootState) => state.songs);
+  const { featuredSongs, allSongs, dadajiSongs } = useSelector(
+    (state: RootState) => state.songs
+  );
 
   const getAudioId = useCallback(async (uploadId: String) => {
     const audio = await axiosInstance.get(`/audio/${uploadId}`);
@@ -33,6 +52,16 @@ const useMedia = () => {
   const getAllBasicMedia = useCallback(async () => {
     const data = await axiosInstance.get('/basicMedia/all');
     return data;
+  }, []);
+
+  const getLiveMedia = useCallback(async () => {
+    const res = await axiosInstance.get('/media/live');
+    dispatch(setAllSongs(res.data));
+  }, []);
+
+  const getDadajiSongs = useCallback(async () => {
+    const res = await axiosInstance.get('/basicMedia/all');
+    dispatch(setDadajiSongs(res.data));
   }, []);
 
   const toggleMedia = useCallback(async (mediaId: String) => {
@@ -125,6 +154,7 @@ const useMedia = () => {
     form['title'] = data.title.toString();
     form['audio'] = data.audio?.toString() || '';
     form['lyrics'] = data.lyrics?.toString() || '';
+    form['isFeatured'] = data.isFeatured;
 
     const res: any = await axiosInstance.post('/basicMedia', form);
     if (res) {
@@ -207,6 +237,18 @@ const useMedia = () => {
     }
   }, []);
 
+  const getSongLyrics = useCallback(async (url: string) => {
+    setLyricState({
+      loading: true,
+      lyrics: null,
+    });
+    const res = await axiosInstance.post('/media/getTextFromPdf', { url });
+    setLyricState({
+      loading: false,
+      lyrics: res?.data,
+    });
+  }, []);
+
   return {
     addMedia,
     uploadFile,
@@ -223,6 +265,12 @@ const useMedia = () => {
     editBasicMedia,
     toggleBasicMedia,
     deleteBasicMedia,
+    allSongs,
+    getLiveMedia,
+    getDadajiSongs,
+    dadajiSongs,
+    getSongLyrics,
+    lyricState,
   };
 };
 

@@ -23,7 +23,7 @@ export const PlayerContainer = styled(Box)<PlayerContainerProps>(
 export const Overlay = styled(Box)(({ theme }) => ({
   width: "100%",
   height: "100%",
-  backgroundColor: "#0000006e",
+  backgroundColor: "#00000098",
   display: "flex",
   flexDirection: "column",
   justifyContent: "flex-end",
@@ -46,9 +46,10 @@ export const SongInfoContainer = styled(Box)(({ theme }) => ({
     height: "200px",
     objectFit: "cover",
     borderRadius: "20px",
+    
   },
   "& .song-name": {
-    fontSize: "2.5em",
+    fontSize: "3em",
     fontWeight: 900,
     color: theme.palette.background.default,
   },

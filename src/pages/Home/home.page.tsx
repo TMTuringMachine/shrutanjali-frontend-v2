@@ -55,6 +55,7 @@ import FullScreenPlayer from "../../components/FullScreenPlayer/FullScreenPlayer
 import { IMedia } from "../../interfaces/media.interface";
 import { convertApiMedia } from "./home.utils";
 import SliderProps from "../../components/Home/SliderProps";
+import LyricsModal from "../../components/Home/LyricsModal/LyricsModal.component";
 
 interface Props {}
 
@@ -65,6 +66,11 @@ const Home: FunctionComponent<Props> = () => {
   const [showWishlist, setShowWishlist] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [songs, setSongs] = useState<IMedia[] | null>(null);
+  const [lyricModalState, setLyricModalState] = useState<any>({
+    open: false,
+    song: null,
+  });
+
   const fullScreenHandler = useFullScreenHandle();
   const { width } = useWindowSize();
   const { getFeaturedMedia, featuredSongs } = useMedia();
@@ -77,6 +83,8 @@ const Home: FunctionComponent<Props> = () => {
     previousSong,
     currentSong,
     setCurrentSongIndex,
+    currentSongIndex,
+    seek,
   } = useAudioPlayer({
     songList: songs,
   });
@@ -108,12 +116,12 @@ const Home: FunctionComponent<Props> = () => {
   const playNextSong = () => {
     console.log("called");
     ref?.current?.next();
-    nextSong();
+    nextSong({ playing: isPlaying });
   };
 
   const playPreviousSong = () => {
-    ref.current.previous();
-    previousSong();
+    ref?.current?.previous();
+    previousSong({ playing: isPlaying });
   };
 
   useEffect(() => {
@@ -150,8 +158,14 @@ const Home: FunctionComponent<Props> = () => {
               slidesPerView={width !== undefined && width > 900 ? 4 : 1}
               centeredSlides
               style={{ overflow: "visible" }}
-
-              // onSlideChange={(a) => setActiveSong(songs[a.activeIndex])}
+              // onSlideChange={(a) => {
+              //   if (a.activeIndex > currentSongIndex) {
+              //     // playNextSong();
+              //     console.log("next should go here");
+              //   } else {
+              //     playPreviousSong();
+              //   }
+              // }}
             >
               <SliderProps ref={ref} />
               {songs.map((item, idx) => (
@@ -159,6 +173,11 @@ const Home: FunctionComponent<Props> = () => {
                   {({ isActive }) => {
                     if (isActive) {
                       setActiveSong(item);
+                      if (idx > currentSongIndex) {
+                        playNextSong();
+                      } else if (idx < currentSongIndex) {
+                        playPreviousSong();
+                      }
                       setCurrentSongIndex(idx);
                     }
                     return (
@@ -204,14 +223,34 @@ const Home: FunctionComponent<Props> = () => {
               ) : null}
             </Typography>
           </SongData>
-          <LinearProgress
+          {/* <LinearProgress
             sx={{ width: "90%" }}
             variant="determinate"
             value={progress}
+            onClick={(e) => {
+              console.log(e);
+            }}
+          /> */}
+          <Slider
+            sx={{ width: "90%" }}
+            value={progress}
+            onChange={(e: any) => {
+              seek(e?.target?.value);
+            }}
           />
-          {/* <Slider sx={{ width: "90%" }} value={progress} /> */}
+          {/* <input type="range" value={progress} style={{width:'100%'}} /> */}
           <PlayerOptionsContainer>
-            <Icon icon="basil:book-open-solid" width="35px" height="35px" />
+            <Icon
+              icon="basil:book-open-solid"
+              width="35px"
+              height="35px"
+              onClick={() => {
+                setLyricModalState({
+                  open: true,
+                  song: currentSong,
+                });
+              }}
+            />
             <Box className="player-options">
               <Icon
                 icon="material-symbols:skip-previous-rounded"
@@ -255,9 +294,25 @@ const Home: FunctionComponent<Props> = () => {
             <FullScreenPlayer
               fullScreenHandler={fullScreenHandler}
               song={activeSong}
+              nextSong={playNextSong}
+              previousSong={playPreviousSong}
+              togglePlay={togglePlay}
+              progress={progress}
+              isPlaying={isPlaying}
+              seek={seek}
             />
           ) : null}
         </FullScreen>
+        <LyricsModal
+          state={lyricModalState.open}
+          toggleModal={() => {
+            setLyricModalState({
+              ...lyricModalState,
+              open: false,
+            });
+          }}
+          song={lyricModalState.song}
+        />
         <WhishListButton onClick={toggleWishlistDrawer}>
           <Icon icon="mdi:music-circle" width="30px" height="30px" />
         </WhishListButton>

@@ -1,4 +1,4 @@
-import { IMedia } from "../../interfaces/media.interface";
+import { IBasicMedia, IMedia } from "../../interfaces/media.interface";
 
 export const convertApiMedia = (songs: any): IMedia[] => {
   let res: IMedia[] = [];
@@ -18,3 +18,21 @@ export const convertApiMedia = (songs: any): IMedia[] => {
 
   return res;
 };
+
+export const convertApiBasicMedia = (songs: any): IBasicMedia[] => {
+  let res: IBasicMedia[] = [];
+
+  songs.forEach((s: any) => {
+    res.push({
+      title: s.title,
+      _id: s._id,
+      isFeatured: s?.isFeatured,
+      audio: s?.audio,
+      isLive: s?.isLive,
+      streams: s.streams,
+    });
+  });
+
+  return res;
+};
+

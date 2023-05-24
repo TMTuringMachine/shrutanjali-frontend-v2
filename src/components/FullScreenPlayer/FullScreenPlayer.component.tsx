@@ -3,7 +3,7 @@ import React, { FunctionComponent, useState, MouseEventHandler } from "react";
 //libs
 import { FullScreenHandle } from "react-full-screen";
 import { Icon } from "@iconify/react";
-import { Box } from "@mui/material";
+import { Box, Slider } from "@mui/material";
 
 //interfaces
 import { Song } from "../../interfaces/song.interface";
@@ -21,14 +21,30 @@ import { IMedia } from "../../interfaces/media.interface";
 interface Props {
   fullScreenHandler: FullScreenHandle;
   song: IMedia | null;
+  nextSong: Function;
+  previousSong: Function;
+  togglePlay: Function;
+  progress: number;
+  isPlaying: boolean;
+  seek: Function;
 }
 
-const FullScreenPlayer: FunctionComponent<Props> = ({ song }) => {
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+const FullScreenPlayer: FunctionComponent<Props> = ({
+  song,
+  nextSong,
+  previousSong,
+  togglePlay: toggle,
+  progress,
+  fullScreenHandler,
+  isPlaying,
+  seek,
+}) => {
+  const [readMode, setReadMode] = useState<boolean>(false);
 
-  const togglePlay: MouseEventHandler<SVGElement> = (): void => {
-    setIsPlaying(!isPlaying);
+  const toggleReadMode = () => {
+    setReadMode(!readMode);
   };
+
   return (
     <PlayerContainer url={song?.thumbnailUrl}>
       <Overlay>
@@ -36,13 +52,19 @@ const FullScreenPlayer: FunctionComponent<Props> = ({ song }) => {
           <img src={song!.thumbnailUrl} alt="" />
           <h1 className="song-name">{song!.title}</h1>
         </SongInfoContainer>
-        <ProgressBar variant="determinate" value={30} />
+        <Slider
+          sx={{ width: "95%" }}
+          color="secondary"
+          value={progress}
+          onChange={(e: any) => seek(e.target.value)}
+        />
         <PlayerOptions>
           <Icon
             color="white"
             icon="basil:book-open-solid"
             width="35px"
             height="35px"
+            onClick={() => toggleReadMode()}
           />
           <Box className="player-options">
             <Icon
@@ -50,6 +72,9 @@ const FullScreenPlayer: FunctionComponent<Props> = ({ song }) => {
               icon="material-symbols:skip-previous-rounded"
               width="40px"
               height="40px"
+              onClick={() => {
+                previousSong();
+              }}
             />
             <Icon
               color="white"
@@ -60,13 +85,18 @@ const FullScreenPlayer: FunctionComponent<Props> = ({ song }) => {
               }
               width="80px"
               height="80px"
-              onClick={togglePlay}
+              onClick={() => {
+                toggle();
+              }}
             />
             <Icon
               color="white"
               icon="material-symbols:skip-next-rounded"
               width="40px"
               height="40px"
+              onClick={() => {
+                nextSong();
+              }}
             />
           </Box>
           <Icon
@@ -74,7 +104,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({ song }) => {
             icon="tabler:arrows-diagonal-minimize-2"
             width="35px"
             height="35px"
-            // onClick={fullScreenHandler.enter}
+            onClick={fullScreenHandler.exit}
           />
         </PlayerOptions>
       </Overlay>
