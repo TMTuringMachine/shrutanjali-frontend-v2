@@ -113,9 +113,7 @@ const Explore = () => {
             borderRadius: "2rem",
           }}
         />
-        <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
-          Continue listening to
-        </Typography>
+       
         <ContinueListeningSection>
           {/* {songs.slice(10).map((song) => (
             <SongOverview song={song} />

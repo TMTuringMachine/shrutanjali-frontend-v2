@@ -18,6 +18,7 @@ export const CustomButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     color: "#fff",
   },
+  marginLeft:'1rem'
 }));
 
 export const CustomHeading1 = styled(Box)(({ theme }) => ({

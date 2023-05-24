@@ -55,10 +55,10 @@ export default function Router() {
         },
       ],
     },
-    {
-      path: '/admin',
-      element: <AdminLandingPage />,
-    },
+    // {
+    //   path: '/admin',
+    //   element: <AdminLandingPage />,
+    // },
     { path: '/admin/login', element: <AdminLogin /> },
     { path: '/admin/dashboard', element: <AdminDashboard /> },
     { path: '*', element: <Navigate to="/404" replace /> },

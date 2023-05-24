@@ -37,10 +37,16 @@ const useAuth = () => {
     navigate("/admin/login");
   }, []);
 
+  const home = useCallback(()=>{
+    navigate("/");
+
+  },[])
+
   return {
     login,
     isLoggedIn,
-    logout
+    logout,
+    home
   };
 };
 
