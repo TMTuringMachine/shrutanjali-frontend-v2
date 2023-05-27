@@ -20,17 +20,21 @@ export const PlayerContainer = styled(Box)<PlayerContainerProps>(
   })
 );
 
-export const Overlay = styled(Box)(({ theme }) => ({
+interface OverlayProps {
+  visible: boolean;
+}
+
+export const Overlay = styled(Box)<OverlayProps>(({ theme, visible }) => ({
   width: "100%",
   height: "100%",
-  backgroundColor: "#00000098",
-  display: "flex",
+  backgroundColor: "#0000005e",
+  display: visible ? "flex" : "none",
   flexDirection: "column",
   justifyContent: "flex-end",
   padding: theme.spacing(3),
   [theme.breakpoints.down("md")]: {
     justifyContent: "start",
-    backgroundColor:'transparent',
+    backgroundColor: "transparent",
   },
 }));
 
@@ -46,7 +50,6 @@ export const SongInfoContainer = styled(Box)(({ theme }) => ({
     height: "200px",
     objectFit: "cover",
     borderRadius: "20px",
-    
   },
   "& .song-name": {
     fontSize: "3em",

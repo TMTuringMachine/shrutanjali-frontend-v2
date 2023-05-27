@@ -3,14 +3,14 @@ import { motion } from "framer-motion";
 
 export const SwiperContainer = styled(Box)(({ theme }) => ({
   width: "100%",
-  marginTop: "80px",
+  marginTop: "50px",
 }));
 
 export const SongDataContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   display: "flex",
   justifyContent: "center",
-  marginTop: "20px",
+  marginTop: "50px",
   flexDirection: "column",
   alignItems: "center",
   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -90,10 +90,10 @@ type PlayingSongProps = {
 export const PlayingSong = styled(motion.div)<PlayingSongProps>(
   ({ url, theme }) => ({
     position: "absolute",
-    width: "60vw",
-    height: "70vh",
+    width: "50vw",
+    height: "55vh",
     top: "30px",
-    left: "20vw",
+    left: "25vw",
     backgroundColor: theme.palette.grey[400],
     backgroundImage: `url('${url}')`,
     backgroundPosition: "center",

@@ -13,6 +13,7 @@ import { ModalContainer } from "../../../global/global.styles";
 import useMedia from "../../../hooks/useMedia";
 import { IMedia } from "../../../interfaces/media.interface";
 import { LyricsConatainer, ModalHeader } from "./LyricsModal.styles";
+import Draggable from 'react-draggable'; 
 
 interface Props {
   state: boolean;

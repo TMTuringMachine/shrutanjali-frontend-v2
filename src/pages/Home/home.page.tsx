@@ -85,6 +85,7 @@ const Home: FunctionComponent<Props> = () => {
     setCurrentSongIndex,
     currentSongIndex,
     seek,
+    isPlaying: playing,
   } = useAudioPlayer({
     songList: songs,
   });
@@ -129,6 +130,10 @@ const Home: FunctionComponent<Props> = () => {
       setSongs(convertApiMedia(featuredSongs));
     }
   }, [featuredSongs]);
+
+  useEffect(() => {
+    setIsPlaying(playing);
+  }, [playing]);
 
   return (
     <Transition>
