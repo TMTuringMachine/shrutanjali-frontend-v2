@@ -29,7 +29,7 @@ const LyricsModal: FunctionComponent<Props> = ({
   const { getSongLyrics, lyricState } = useMedia();
   const [language, setlanguage] = React.useState<number>(0);
 
-  const handleChange = (event:Input) => {
+  const handleChange = (event:any) => {
     setlanguage(event.target.value);
   };
 
