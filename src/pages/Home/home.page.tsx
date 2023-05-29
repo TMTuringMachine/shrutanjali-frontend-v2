@@ -64,12 +64,13 @@ import { IAudio, IMedia } from "../../interfaces/media.interface";
 import { convertApiMedia } from "./home.utils";
 import SliderProps from "../../components/Home/SliderProps";
 import LyricsModal from "../../components/Home/LyricsModal/LyricsModal.component";
-
+import useWishlist from "../../hooks/useWishlist";
 interface Props {}
 
 SwiperCore.use([Navigation, EffectCoverflow, Mousewheel]);
 
 const Home: FunctionComponent<Props> = () => {
+  const {addToWishlist} = useWishlist()
   const [activeSong, setActiveSong] = useState<IMedia | null>(null);
   const [showWishlist, setShowWishlist] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -78,11 +79,12 @@ const Home: FunctionComponent<Props> = () => {
     open: false,
     song: null,
   });
-
+const {getWishlist,removeFromWishlist} = useWishlist()
+const [wish,setWish] = useState<string[]>([]);
   //popover states
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
-
+  const [render,setRender] = useState<Boolean>(false);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -133,9 +135,15 @@ const Home: FunctionComponent<Props> = () => {
     // setIsPlaying(!isPlaying);
   };
 
+const isWishListed = (songId:string)=>{
+  if(wish?.includes(songId)) return true;
+  return false;
+}
+
   useEffect(() => {
     getFeaturedMedia();
-  }, []);
+    setWish(getWishlist())
+  }, [render]);
 
   const playNextSong = () => {
     console.log("called");
@@ -262,17 +270,28 @@ const Home: FunctionComponent<Props> = () => {
           />
           {/* <input type="range" value={progress} style={{width:'100%'}} /> */}
           <PlayerOptionsContainer>
-            <Icon
-              icon="ph:heart"
+            {
+              isWishListed(currentSong?._id)?<><Icon
+              icon="fe:heart"
               width="35px"
               height="35px"
-              onClick={() => {
-                setLyricModalState({
-                  open: true,
-                  song: currentSong,
-                });
-              }}
-            />
+              style={{ color: 'red' }}
+              onClick={()=>{
+                removeFromWishlist(currentSong?._id)
+                setRender(!render)
+              }
+              }
+            /></>:<><Icon
+              icon="fe:heart"
+              width="35px"
+              height="35px"
+              onClick={()=>{
+                addToWishlist(currentSong?._id)
+                setRender(!render)
+              }
+              }
+            /></>
+            }
             <Icon
               icon="basil:book-open-solid"
               width="35px"
