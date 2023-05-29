@@ -42,6 +42,7 @@ import {
   WhishListButton,
   PlayerOptionsContainer,
   PlayingSong,
+  OptionButton,
 } from "./home.styles";
 
 //data
@@ -49,10 +50,17 @@ import {
 
 //interfaces
 import { Song } from "../../interfaces/song.interface";
-import { Box, LinearProgress, Slider, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  LinearProgress,
+  Popover,
+  Slider,
+  Typography,
+} from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import FullScreenPlayer from "../../components/FullScreenPlayer/FullScreenPlayer.component";
-import { IMedia } from "../../interfaces/media.interface";
+import { IAudio, IMedia } from "../../interfaces/media.interface";
 import { convertApiMedia } from "./home.utils";
 import SliderProps from "../../components/Home/SliderProps";
 import LyricsModal from "../../components/Home/LyricsModal/LyricsModal.component";
@@ -70,6 +78,21 @@ const Home: FunctionComponent<Props> = () => {
     open: false,
     song: null,
   });
+
+  //popover states
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   const fullScreenHandler = useFullScreenHandle();
   const { width } = useWindowSize();
@@ -139,7 +162,10 @@ const Home: FunctionComponent<Props> = () => {
     <Transition>
       <PageContainer>
         <MuxAudio
-          src={currentSong && currentSong?.audios[0].audioId?.playbackUrl}
+          src={
+            currentSong &&
+            currentSong?.audios[currentAudioIndex].audioId?.playbackUrl
+          }
           type="hls"
           controls
           ref={audioRef}
@@ -167,7 +193,7 @@ const Home: FunctionComponent<Props> = () => {
               //   if (a.activeIndex > currentSongIndex) {
               //     // playNextSong();
               //     console.log("next should go here");
-              //   } else {
+              //   } else { padding: "5px 20px"
               //     playPreviousSong();
               //   }
               // }}
@@ -217,16 +243,7 @@ const Home: FunctionComponent<Props> = () => {
             {/* {currentSong ? <h1>{currentSong.title}</h1> : null} */}
 
             {/* </Typography> */}
-            <Typography>
-              {activeSong ? (
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Temporibus voluptatum, sint nulla obcaecati sed vel natus
-                  fuga, labore saepe, error nam minus eveniet consequatur quidem
-                  aliquid dignissimos dolorem fugiat numquam.
-                </p>
-              ) : null}
-            </Typography>
+            {/* <Typography>{activeSong ? <p></p> : null}</Typography> */}
           </SongData>
           {/* <LinearProgress
             sx={{ width: "90%" }}
@@ -246,6 +263,17 @@ const Home: FunctionComponent<Props> = () => {
           {/* <input type="range" value={progress} style={{width:'100%'}} /> */}
           <PlayerOptionsContainer>
             <Icon
+              icon="ph:heart"
+              width="35px"
+              height="35px"
+              onClick={() => {
+                setLyricModalState({
+                  open: true,
+                  song: currentSong,
+                });
+              }}
+            />
+            <Icon
               icon="basil:book-open-solid"
               width="35px"
               height="35px"
@@ -256,6 +284,7 @@ const Home: FunctionComponent<Props> = () => {
                 });
               }}
             />
+
             <Box className="player-options">
               <Icon
                 icon="material-symbols:skip-previous-rounded"
@@ -286,6 +315,42 @@ const Home: FunctionComponent<Props> = () => {
                 }}
               />
             </Box>
+            <Icon
+              icon="material-symbols:headphones"
+              width="35px"
+              height="35px"
+              aria-describedby={id}
+              onClick={handleClick}
+            />
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+            >
+              <Box sx={{ width: "fit-content", padding: "5px" }}>
+                {currentSong?.audios?.map((item: IAudio, idx: number) => (
+                  <OptionButton
+                    active={idx == currentAudioIndex}
+                    onClick={() => {
+                      setCurrentAudioIndex(idx);
+                      pause();
+                      setIsPlaying(false);
+                    }}
+                  >
+                    {item.language}
+                  </OptionButton>
+                ))}
+              </Box>
+            </Popover>
             <Icon
               icon="material-symbols:fullscreen-rounded"
               width="35px"
