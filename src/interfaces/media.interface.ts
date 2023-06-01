@@ -43,9 +43,10 @@ export interface IMedia {
   ];
   video?: string;
   thumbnailUrl: string;
-  streams: Number;
+  streams: number;
   isFeatured: boolean;
   isLive: boolean;
+  wishlists: number;
 }
 
 export interface IBasicMedia {

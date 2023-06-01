@@ -117,7 +117,6 @@ const Home: FunctionComponent<Props> = () => {
 
   // const audioRef = useRef<HTMLAudioElement>();
   const ref = useRef<any>();
-
   const toggleWishlistDrawer: MouseEventHandler<
     HTMLButtonElement
   > = (): void => {
@@ -146,7 +145,6 @@ const Home: FunctionComponent<Props> = () => {
   }, [render]);
 
   const playNextSong = () => {
-    console.log('called');
     ref?.current?.next();
     nextSong({ playing: isPlaying });
   };

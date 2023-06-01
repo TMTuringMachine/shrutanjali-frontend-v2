@@ -1,12 +1,12 @@
-import { Box } from "@mui/material";
-import { FunctionComponent, useState } from "react";
+import { Box } from '@mui/material';
+import { FunctionComponent, useState } from 'react';
 import {
   DadajiSingleSongStyled,
   DadajiSingleSongTitle,
   DadajiSingleSongFav,
-} from "./dadajiSong.styles";
-import { Icon } from "@iconify/react";
-import { IBasicMedia } from "../../interfaces/media.interface";
+} from './dadajiSong.styles';
+import { Icon } from '@iconify/react';
+import { IBasicMedia } from '../../interfaces/media.interface';
 
 interface Prop {
   song: IBasicMedia;
@@ -41,18 +41,18 @@ const DadajiSingleSong: FunctionComponent<Prop> = ({
         ) : (
           <Icon icon="tabler:menu" width="30" height="30" />
         )}
-        <Box sx={{ marginLeft: "15px" }}>{song?.title} </Box>
+        <Box sx={{ marginLeft: '15px' }}>{song?.title} </Box>
       </DadajiSingleSongTitle>
       <DadajiSingleSongFav>
         <Box>2:80</Box>
-        <Box sx={{ cursor: "pointer" }}>
+        {/* <Box sx={{ cursor: "pointer" }}>
           <Icon
             color={isPlaying ? "white" : "#DC009F"}
             icon="mdi:cards-heart-outline"
             width="30"
             height="30"
           />
-        </Box>
+        </Box> */}
       </DadajiSingleSongFav>
     </DadajiSingleSongStyled>
   );

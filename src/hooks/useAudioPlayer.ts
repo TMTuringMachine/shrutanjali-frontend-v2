@@ -5,8 +5,8 @@ import React, {
   useState,
   useEffect,
   KeyboardEvent,
-} from "react";
-import axiosInstance from "../utils/axiosInstance";
+} from 'react';
+import axiosInstance from '../utils/axiosInstance';
 
 interface Props {
   songList: any;
@@ -21,6 +21,7 @@ const useAudioPlayer = ({ songList }: Props) => {
   const [currentSongIndex, setCurrentSongIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
+  const [currSongStreams, setCurrSongStreams] = useState<number>(0);
   const audioRef = useRef<HTMLAudioElement>();
 
   useEffect(() => {
@@ -51,42 +52,58 @@ const useAudioPlayer = ({ songList }: Props) => {
     }
 
     if (audio) {
-      audio.addEventListener("play", handlePlay);
-      audio.addEventListener("pause", handlePause);
-      audio.addEventListener("ended", handleEnded);
-      audio.addEventListener("timeupdate", handleTimeUpdate);
+      audio.addEventListener('play', handlePlay);
+      audio.addEventListener('pause', handlePause);
+      audio.addEventListener('ended', handleEnded);
+      audio.addEventListener('timeupdate', handleTimeUpdate);
     }
 
     return () => {
       if (audio) {
-        audio.removeEventListener("play", handlePlay);
-        audio.removeEventListener("pause", handlePause);
-        audio.removeEventListener("ended", handleEnded);
-        audio.removeEventListener("timeupdate", handleTimeUpdate);
+        audio.removeEventListener('play', handlePlay);
+        audio.removeEventListener('pause', handlePause);
+        audio.removeEventListener('ended', handleEnded);
+        audio.removeEventListener('timeupdate', handleTimeUpdate);
       }
     };
   }, [currentSongIndex, songs]);
 
   useEffect(() => {
     const handleKeyPress = (e: any) => {
-      if (e.code == "Space") {
-        console.log("i am herer you mf");
+      if (e.code == 'Space') {
+        console.log('i am herer you mf');
         e.preventDefault();
         if (isPlaying) {
           pause();
           setIsPlaying(false);
         } else {
           play();
-          setIsPlaying(true)
+          setIsPlaying(true);
         }
       }
     };
-    window.addEventListener("keydown", handleKeyPress);
+    window.addEventListener('keydown', handleKeyPress);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyPress);
+      window.removeEventListener('keydown', handleKeyPress);
     };
   }, [isPlaying]);
+
+  useEffect(() => {
+    async function asyncUse() {
+      const currentSong = songList[currentSongIndex];
+      if (currSongStreams === 0 && isPlaying && currentSong) {
+        setCurrSongStreams(1);
+        const res = await axiosInstance.post(
+          `/media/updateMediaStats/${currentSong._id}`,
+          {
+            streamCount: 1,
+          }
+        );
+      }
+    }
+    asyncUse();
+  }, [currentSongIndex, isPlaying]);
 
   const play = useCallback(() => {
     audioRef.current?.play();
@@ -114,15 +131,16 @@ const useAudioPlayer = ({ songList }: Props) => {
   }, []);
 
   const nextSong = useCallback(({ playing }: songChangeProps) => {
-    console.log(currentSongIndex, "here i am");
+    console.log(currentSongIndex, 'here i am next current song index');
 
     if (currentSongIndex === songs?.length - 1) {
       setCurrentSongIndex(0);
     } else {
-      setCurrentSongIndex(currentSongIndex + 1);
+      setCurrentSongIndex((prev) => prev + 1);
     }
     setProgress(0);
-    console.log(playing, "here it is");
+    setCurrSongStreams(0);
+    console.log(playing, 'here it is');
     setTimeout(() => {
       if (playing) {
         play();
@@ -131,13 +149,14 @@ const useAudioPlayer = ({ songList }: Props) => {
   }, []);
 
   const previousSong = useCallback(({ playing }: songChangeProps) => {
-    console.log(currentSongIndex, "here i am");
+    console.log(currentSongIndex, 'here i am');
     if (currentSongIndex === 0) {
       setCurrentSongIndex(songs?.length - 1);
     } else {
-      setCurrentSongIndex(currentSongIndex - 1);
+      setCurrentSongIndex((prev) => prev - 1);
     }
     setProgress(0);
+    setCurrSongStreams(0);
     setTimeout(() => {
       if (playing) {
         play();

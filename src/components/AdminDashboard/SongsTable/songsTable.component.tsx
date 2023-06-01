@@ -110,6 +110,8 @@ const SongsTable = () => {
               <StyledTableCell align="left"></StyledTableCell>
               <StyledTableCell align="center">Song Name</StyledTableCell>
               <StyledTableCell align="center">Uploaded on</StyledTableCell>
+              <StyledTableCell align="center">Streams</StyledTableCell>
+              <StyledTableCell align="center">Wish-listed</StyledTableCell>
               <StyledTableCell align="center">FEATURED</StyledTableCell>
               <StyledTableCell align="center">LIVE</StyledTableCell>
 
@@ -133,6 +135,10 @@ const SongsTable = () => {
                 <StyledTableCell align="center">{song.title}</StyledTableCell>
                 <StyledTableCell align="center">
                   {moment(new Date()).format()}
+                </StyledTableCell>
+                <StyledTableCell align="center">{song.streams}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {song.wishlists || 0}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <SwitchComponent
