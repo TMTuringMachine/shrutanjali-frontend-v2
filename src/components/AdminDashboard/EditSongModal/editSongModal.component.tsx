@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 //lib
 import {
@@ -9,16 +9,16 @@ import {
   Switch,
   TextField,
   Typography,
-} from "@mui/material";
-import { useDropzone } from "react-dropzone";
-import { Icon } from "@iconify/react";
+} from '@mui/material';
+import { useDropzone } from 'react-dropzone';
+import { Icon } from '@iconify/react';
 
 //styles
 import {
   CustomButton,
   ModalContainer,
   StyledTextField,
-} from "../../../global/global.styles";
+} from '../../../global/global.styles';
 import {
   CustomForm,
   SongImage,
@@ -26,19 +26,18 @@ import {
   RootContainer,
   MainForm,
   FilePreview,
-} from "./editSongModal.styles";
-import AudioFileModal from "../Common/audioFileModal";
-import LyricFileModal from "../Common/lyricFileModal";
-import useMedia from "../../../hooks/useMedia";
-import * as UpChunk from "@mux/upchunk";
-import { IMedia } from "../../../interfaces/media.interface";
+} from './editSongModal.styles';
+import AudioFileModal from '../Common/audioFileModal';
+import LyricFileModal from '../Common/lyricFileModal';
+import useMedia from '../../../hooks/useMedia';
+import * as UpChunk from '@mux/upchunk';
+import { IMedia } from '../../../interfaces/media.interface';
 
 interface Props {
   state: boolean;
   toggleModal: Function;
   song: IMedia | null;
 }
-
 
 interface ILyrics {
   url?: any;
@@ -57,16 +56,16 @@ const EditSongModal: FunctionComponent<Props> = ({
   const [showAudioModal, setShowAudioModal] = useState<boolean>(false);
   const [showLyricModal, setShowLyricModal] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<any>();
-  const [title, setTitle] = useState<String>("Default Title");
+  const [title, setTitle] = useState<String>('Default Title');
   const [isFeatured, setFeatured] = useState<boolean>(false);
   const { editMedia, uploadFile, getAudioId } = useMedia();
   const [progress, setProgress] = useState(0);
-  const [audioLanaguage, setAudioLanguage] = useState<String>("");
-  const [lyricsLanguage, setLyricsLanguage] = useState<String>("");
+  const [audioLanaguage, setAudioLanguage] = useState<String>('');
+  const [lyricsLanguage, setLyricsLanguage] = useState<String>('');
   const [audios, setAudio] = useState<IAudio[]>([]);
   const [lyrics, setLyrics] = useState<ILyrics[]>([]);
   const [preview, setPreview] = useState<string>();
-  const [mediaId,setMediaId] = useState<string>("")
+  const [mediaId, setMediaId] = useState<string>('');
 
   const toggleAudioModal = () => {
     setShowAudioModal(!showAudioModal);
@@ -77,14 +76,13 @@ const EditSongModal: FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    if(song){
-      console.log("INSIDE USE",song)
+    if (song) {
+      console.log('INSIDE USE', song);
       setTitle(song?.title);
       setFeatured(song?.isFeatured);
       setAudio(song?.audios);
       setPreview(song?.thumbnailUrl);
-      if(song.lyrics)
-      setLyrics(song?.lyrics);
+      if (song.lyrics) setLyrics(song?.lyrics);
       setMediaId(song._id);
     }
   }, [song]);
@@ -96,17 +94,18 @@ const EditSongModal: FunctionComponent<Props> = ({
       lyrics,
       isFeatured,
       image: thumbnail,
-      thumbnailUrl:preview,
-      mediaId
+      thumbnailUrl: preview,
+      mediaId,
     };
     console.log(data);
     editMedia(data);
+    toggleModal(!state);
   };
 
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
     useDropzone({
       accept: {
-        image: [".jpeg", ".png", ".jpg"],
+        image: ['.jpeg', '.png', '.jpg'],
       },
       onDrop: (acceptedFiles) => {
         setThumbnail(acceptedFiles[0]);
@@ -119,9 +118,9 @@ const EditSongModal: FunctionComponent<Props> = ({
     try {
       if (audioFile !== null) {
         const response = await fetch(
-          "https://shrutanjali-api.onrender.com/api/mux",
+          'https://shrutanjali-api.onrender.com/api/mux',
           {
-            method: "POST",
+            method: 'POST',
           }
         );
         const url = await response.json();
@@ -134,24 +133,26 @@ const EditSongModal: FunctionComponent<Props> = ({
           chunkSize: 5120, // Uploads the file in ~5mb chunks
         });
         // Subscribe to events
-        upload.on("error", (error: any) => {
+        upload.on('error', (error: any) => {
           // setStatusMessage(error.detail);
           console.log(error);
         });
 
-        upload.on("progress", (progress: any) => {
+        upload.on('progress', (progress: any) => {
           setProgress(progress.detail);
           console.log(progress.detail);
         });
 
-        upload.on("success", (data: any) => {
+        upload.on('success', (data: any) => {
           const language = audioLanaguage;
           setAudio([...audios, { audioId, language }]);
-          console.log("UPLOAD COMPLETE", language);
+          setShowAudioModal(!showAudioModal);
+
+          console.log('UPLOAD COMPLETE', language);
           console.log(audios);
         });
       } else {
-        console.log("PLEASE SELECT AUDIO FILE");
+        console.log('PLEASE SELECT AUDIO FILE');
       }
     } catch (error) {
       console.log(error);
@@ -164,26 +165,26 @@ const EditSongModal: FunctionComponent<Props> = ({
       const url: String = data.url;
       const language: String = lyricsLanguage;
       setLyrics([...lyrics, { url, language }]);
+      setShowLyricModal(!showLyricModal);
       console.log(lyrics);
     } else {
-      console.log("FILE NOT SELECTED");
+      console.log('FILE NOT SELECTED');
     }
   };
 
-  const removeAudio = (audioId:string)=>{
-    const updatedAudio = audios.filter((_audio)=>{
-        return _audio.audioId!==audioId;
-    })
+  const removeAudio = (audioId: string) => {
+    const updatedAudio = audios.filter((_audio) => {
+      return _audio.audioId !== audioId;
+    });
     setAudio(updatedAudio);
-  }
+  };
 
-  const removeLyrics = (link:string)=>{
-    const updatedLyrics = lyrics.filter((_file)=>{
-        return _file.url!==link;
-    })
+  const removeLyrics = (link: string) => {
+    const updatedLyrics = lyrics.filter((_file) => {
+      return _file.url !== link;
+    });
     setLyrics(updatedLyrics);
-  }
-
+  };
 
   return (
     <Modal
@@ -198,24 +199,24 @@ const EditSongModal: FunctionComponent<Props> = ({
           <CustomForm>
             <Box
               sx={{
-                width: "30%",
-                borderRight: "1px solid #a4a4a4",
-                paddingRight: "20px",
+                width: '30%',
+                borderRight: '1px solid #a4a4a4',
+                paddingRight: '20px',
               }}
             >
               <SongImage url={preview} />
               <Box
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                  marginTop: "10px",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  marginTop: '10px',
                 }}
               >
                 <Typography>CHANGE SONG IMAGE:</Typography>
 
                 <RootContainer
-                  {...getRootProps({ className: "dropzone" })}
+                  {...getRootProps({ className: 'dropzone' })}
                   isActive={isDragActive}
                 >
                   <input {...getInputProps()} />
@@ -240,36 +241,36 @@ const EditSongModal: FunctionComponent<Props> = ({
                 value={title}
               />
               <Box
-                sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
               >
                 <Typography>AUDIOS:</Typography>
                 {audios?.map((_audio) => (
                   <FilePreview>
-                    {_audio?.language}{" "}
+                    {_audio?.language}{' '}
                     <Icon
                       icon="material-symbols:delete-rounded"
                       width="20px"
                       height="20px"
-                      style={{ cursor: "pointer", color: "red" }}
-                      onClick={()=>removeAudio(_audio.audioId)}
-                    />{" "}
+                      style={{ cursor: 'pointer', color: 'red' }}
+                      onClick={() => removeAudio(_audio.audioId)}
+                    />{' '}
                   </FilePreview>
                 ))}
               </Box>
               <Box
-                sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
               >
                 <Typography>LYRICS:</Typography>
                 {lyrics?.map((_lyricsFile) => (
                   <FilePreview>
-                    {_lyricsFile?.language}{" "}
+                    {_lyricsFile?.language}{' '}
                     <Icon
                       icon="material-symbols:delete-rounded"
                       width="20px"
                       height="20px"
-                      style={{ cursor: "pointer", color: "red" }}
-                      onClick={()=>removeLyrics(_lyricsFile.url)}
-                    />{" "}
+                      style={{ cursor: 'pointer', color: 'red' }}
+                      onClick={() => removeLyrics(_lyricsFile.url)}
+                    />{' '}
                   </FilePreview>
                 ))}
               </Box>
@@ -304,12 +305,14 @@ const EditSongModal: FunctionComponent<Props> = ({
               </Box>
               <Box
                 sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
                 }}
               >
-                <CustomButton onClick={()=>handleSubmit()} >EDIT SONG</CustomButton>
+                <CustomButton onClick={() => handleSubmit()}>
+                  EDIT SONG
+                </CustomButton>
               </Box>
             </MainForm>
           </CustomForm>

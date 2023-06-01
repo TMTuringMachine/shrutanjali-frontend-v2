@@ -81,6 +81,7 @@ const EditSongModal: FunctionComponent<Props> = ({
     };
     console.log(data);
     editBasicMedia(data);
+    toggleModal(!state);
   };
 
   const handleUploadAudio = async (audioFile: File) => {
@@ -117,6 +118,7 @@ const EditSongModal: FunctionComponent<Props> = ({
           setAudio(audioId);
           console.log('UPLOAD COMPLETE');
           console.log(audio, 'audioo');
+          setShowAudioModal(!showAudioModal);
         });
       } else {
         console.log('PLEASE SELECT AUDIO FILE');
@@ -131,6 +133,7 @@ const EditSongModal: FunctionComponent<Props> = ({
       const { data } = await uploadFile(lyricFile);
       const url: string = data.url;
       setLyrics(url);
+      setShowLyricModal(!showLyricModal);
       console.log(lyrics);
     } else {
       console.log('FILE NOT SELECTED');
@@ -157,7 +160,7 @@ const EditSongModal: FunctionComponent<Props> = ({
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
               />
-              <Box
+              {/* <Box
                 sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
               >
                 <Typography>AUDIOS:</Typography>
@@ -166,7 +169,7 @@ const EditSongModal: FunctionComponent<Props> = ({
                 sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
               >
                 <Typography>LYRICS:</Typography>
-              </Box>
+              </Box> */}
 
               <ButtonContainer>
                 <CustomButton onClick={toggleAudioModal}>

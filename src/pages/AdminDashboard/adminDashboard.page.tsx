@@ -19,6 +19,8 @@ import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import DadajiAdminDashboard from './dadajiAdminDashboard.page';
 
+//interfaces
+
 const AdminDashboard = () => {
   const [showAddSongModal, setShowAddSongModal] = useState(false);
   const toggleAddSongModal = () => {
