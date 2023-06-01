@@ -4,37 +4,37 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from "react";
+} from 'react';
 
 //libs
-import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/react';
 import SwiperCore, {
   Navigation,
   Pagination,
   EffectCoverflow,
   Mousewheel,
-} from "swiper";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/mousewheel";
-import { Icon } from "@iconify/react";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import MuxAudio from "@mux/mux-audio-react";
+} from 'swiper';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/mousewheel';
+import { Icon } from '@iconify/react';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+import MuxAudio from '@mux/mux-audio-react';
 
 //components
-import Transition from "../../components/Transition";
-import CarouselCard from "../../components/Home/CarouselCard/CarouselCard.component";
-import WishlistDrawer from "../../components/Home/WishlistDrawer/WishlistDrawer.component";
+import Transition from '../../components/Transition';
+import CarouselCard from '../../components/Home/CarouselCard/CarouselCard.component';
+import WishlistDrawer from '../../components/Home/WishlistDrawer/WishlistDrawer.component';
 
 //hooks
-import { useWindowSize } from "../../hooks/useWindowSize";
-import useMedia from "../../hooks/useMedia";
-import useAudioPlayer from "../../hooks/useAudioPlayer";
+import { useWindowSize } from '../../hooks/useWindowSize';
+import useMedia from '../../hooks/useMedia';
+import useAudioPlayer from '../../hooks/useAudioPlayer';
 
 //styles
-import { PageContainer } from "../page.styles";
+import { PageContainer } from '../page.styles';
 import {
   SwiperContainer,
   SongData,
@@ -43,13 +43,13 @@ import {
   PlayerOptionsContainer,
   PlayingSong,
   OptionButton,
-} from "./home.styles";
+} from './home.styles';
 
 //data
 // import { songs } from "../../helpers/data";
 
 //interfaces
-import { Song } from "../../interfaces/song.interface";
+import { Song } from '../../interfaces/song.interface';
 import {
   Box,
   Button,
@@ -57,20 +57,20 @@ import {
   Popover,
   Slider,
   Typography,
-} from "@mui/material";
-import { AnimatePresence } from "framer-motion";
-import FullScreenPlayer from "../../components/FullScreenPlayer/FullScreenPlayer.component";
-import { IAudio, IMedia } from "../../interfaces/media.interface";
-import { convertApiMedia } from "./home.utils";
-import SliderProps from "../../components/Home/SliderProps";
-import LyricsModal from "../../components/Home/LyricsModal/LyricsModal.component";
-import useWishlist from "../../hooks/useWishlist";
+} from '@mui/material';
+import { AnimatePresence } from 'framer-motion';
+import FullScreenPlayer from '../../components/FullScreenPlayer/FullScreenPlayer.component';
+import { IAudio, IMedia } from '../../interfaces/media.interface';
+import { convertApiMedia } from './home.utils';
+import SliderProps from '../../components/Home/SliderProps';
+import LyricsModal from '../../components/Home/LyricsModal/LyricsModal.component';
+import useWishlist from '../../hooks/useWishlist';
 interface Props {}
 
 SwiperCore.use([Navigation, EffectCoverflow, Mousewheel]);
 
 const Home: FunctionComponent<Props> = () => {
-  const {addToWishlist} = useWishlist()
+  const { addToWishlist } = useWishlist();
   const [activeSong, setActiveSong] = useState<IMedia | null>(null);
   const [showWishlist, setShowWishlist] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -79,12 +79,12 @@ const Home: FunctionComponent<Props> = () => {
     open: false,
     song: null,
   });
-const {getWishlist,removeFromWishlist} = useWishlist()
-const [wish,setWish] = useState<string[]>([]);
+  const { getWishlist, removeFromWishlist } = useWishlist();
+  const [wish, setWish] = useState<string[]>([]);
   //popover states
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
-  const [render,setRender] = useState<Boolean>(false);
+  const [render, setRender] = useState<Boolean>(false);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -94,7 +94,7 @@ const [wish,setWish] = useState<string[]>([]);
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
 
   const fullScreenHandler = useFullScreenHandle();
   const { width } = useWindowSize();
@@ -135,18 +135,18 @@ const [wish,setWish] = useState<string[]>([]);
     // setIsPlaying(!isPlaying);
   };
 
-const isWishListed = (songId:string)=>{
-  if(wish?.includes(songId)) return true;
-  return false;
-}
+  const isWishListed = (songId: string) => {
+    if (wish?.includes(songId)) return true;
+    return false;
+  };
 
   useEffect(() => {
     getFeaturedMedia();
-    setWish(getWishlist())
+    setWish(getWishlist());
   }, [render]);
 
   const playNextSong = () => {
-    console.log("called");
+    console.log('called');
     ref?.current?.next();
     nextSong({ playing: isPlaying });
   };
@@ -177,14 +177,14 @@ const isWishListed = (songId:string)=>{
           type="hls"
           controls
           ref={audioRef}
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
         />
         <SwiperContainer>
           {songs && songs.length > 0 ? (
             <Swiper
               navigation
               pagination={{ clickable: true }}
-              effect={"coverflow"}
+              effect={'coverflow'}
               coverflowEffect={{
                 rotate: 50,
                 stretch: 0,
@@ -196,7 +196,7 @@ const isWishListed = (songId:string)=>{
               mousewheel
               slidesPerView={width !== undefined && width > 900 ? 4 : 1}
               centeredSlides
-              style={{ overflow: "visible" }}
+              style={{ overflow: 'visible' }}
               // onSlideChange={(a) => {
               //   if (a.activeIndex > currentSongIndex) {
               //     // playNextSong();
@@ -262,7 +262,7 @@ const isWishListed = (songId:string)=>{
             }}
           /> */}
           <Slider
-            sx={{ width: "90%" }}
+            sx={{ width: '90%' }}
             value={progress}
             onChange={(e: any) => {
               seek(e?.target?.value);
@@ -270,28 +270,32 @@ const isWishListed = (songId:string)=>{
           />
           {/* <input type="range" value={progress} style={{width:'100%'}} /> */}
           <PlayerOptionsContainer>
-            {
-              isWishListed(currentSong?._id)?<><Icon
-              icon="fe:heart"
-              width="35px"
-              height="35px"
-              style={{ color: 'red' }}
-              onClick={()=>{
-                removeFromWishlist(currentSong?._id)
-                setRender(!render)
-              }
-              }
-            /></>:<><Icon
-              icon="fe:heart"
-              width="35px"
-              height="35px"
-              onClick={()=>{
-                addToWishlist(currentSong?._id)
-                setRender(!render)
-              }
-              }
-            /></>
-            }
+            {isWishListed(currentSong?._id) ? (
+              <>
+                <Icon
+                  icon="fe:heart"
+                  width="35px"
+                  height="35px"
+                  style={{ color: 'red' }}
+                  onClick={() => {
+                    removeFromWishlist(currentSong?._id);
+                    setRender(!render);
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <Icon
+                  icon="fe:heart"
+                  width="35px"
+                  height="35px"
+                  onClick={() => {
+                    addToWishlist(currentSong?._id);
+                    setRender(!render);
+                  }}
+                />
+              </>
+            )}
             <Icon
               icon="basil:book-open-solid"
               width="35px"
@@ -316,8 +320,8 @@ const isWishListed = (songId:string)=>{
               <Icon
                 icon={
                   isPlaying
-                    ? "material-symbols:pause-circle-rounded"
-                    : "material-symbols:play-circle-rounded"
+                    ? 'material-symbols:pause-circle-rounded'
+                    : 'material-symbols:play-circle-rounded'
                 }
                 width="50px"
                 height="50px"
@@ -347,15 +351,15 @@ const isWishListed = (songId:string)=>{
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{
-                vertical: "top",
-                horizontal: "center",
+                vertical: 'top',
+                horizontal: 'center',
               }}
               transformOrigin={{
-                vertical: "bottom",
-                horizontal: "center",
+                vertical: 'bottom',
+                horizontal: 'center',
               }}
             >
-              <Box sx={{ width: "fit-content", padding: "5px" }}>
+              <Box sx={{ width: 'fit-content', padding: '5px' }}>
                 {currentSong?.audios?.map((item: IAudio, idx: number) => (
                   <OptionButton
                     active={idx == currentAudioIndex}
