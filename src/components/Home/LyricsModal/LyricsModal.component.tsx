@@ -13,6 +13,7 @@ import { ModalContainer } from "../../../global/global.styles";
 import useMedia from "../../../hooks/useMedia";
 import { IMedia } from "../../../interfaces/media.interface";
 import { LyricsConatainer, ModalHeader } from "./LyricsModal.styles";
+import Draggable from 'react-draggable'; 
 
 interface Props {
   state: boolean;
@@ -28,7 +29,7 @@ const LyricsModal: FunctionComponent<Props> = ({
   const { getSongLyrics, lyricState } = useMedia();
   const [language, setlanguage] = React.useState<number>(0);
 
-  const handleChange = (event:Input) => {
+  const handleChange = (event:any) => {
     setlanguage(event.target.value);
   };
 

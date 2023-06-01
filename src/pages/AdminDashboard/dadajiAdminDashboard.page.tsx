@@ -36,17 +36,7 @@ const DadajiAdminDashboard = () => {
   return (
     <AdminDashboardContainer>
       <AdminDahboardLeft>
-        <StatsContainer>
-          <Stat>
-            <div className="stat-header">120</div>
-            <div className="stat-sub">SONGS</div>
-          </Stat>
-          <Stat>
-            <div className="stat-header">30</div>
-            <div className="stat-sub">BOOKS</div>
-          </Stat>
-        </StatsContainer>
-        <CustomHeading1>MANAGE SONGS</CustomHeading1>
+
         <SongsTable />
       </AdminDahboardLeft>
       <AdminDahboardRight>

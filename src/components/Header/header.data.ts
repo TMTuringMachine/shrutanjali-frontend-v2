@@ -18,12 +18,12 @@ export const headerOptions: IHeaderOption[] = [
   {
     name: "music",
     icon: "material-symbols:headphones",
-    link: "/music",
+    link: "/dadajisongs",
   },
   {
     name: "books",
     icon: "ph:books-bold",
-    link: "/books",
+    link: "/dadajisongs",
   },
   {
     name: "about",

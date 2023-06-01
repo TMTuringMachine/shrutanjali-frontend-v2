@@ -3,32 +3,33 @@ import { motion } from "framer-motion";
 
 export const SwiperContainer = styled(Box)(({ theme }) => ({
   width: "100%",
-  marginTop: "80px",
+  marginTop: "50px",
 }));
 
 export const SongDataContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   display: "flex",
   justifyContent: "center",
-  marginTop: "20px",
+  marginTop: "50px",
   flexDirection: "column",
   alignItems: "center",
   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   zIndex: 99999999,
   backgroundColor: theme.palette.background.default,
-  position:"relative",
+  position: "relative",
+  borderRadius: "10px",
 
-  '& .MuiSlider-thumb':{
-    transition:'left 0.5s'
-  },
-  
-  '& .MuiSlider-thumb.MuiSlider-active':{
-    transition:'left 0s'
+  "& .MuiSlider-thumb": {
+    transition: "left 0.5s",
   },
 
-  '& .MuiSlider-track':{
-    transition:'width 0.5s'
-  }
+  "& .MuiSlider-thumb.MuiSlider-active": {
+    transition: "left 0s",
+  },
+
+  "& .MuiSlider-track": {
+    transition: "width 0.5s",
+  },
 }));
 
 export const SongData = styled(Box)(({ theme }) => ({
@@ -55,6 +56,7 @@ export const PlayerOptionsContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
+  gap: "40px",
   justifyContent: "space-between",
   padding: theme.spacing(2),
 
@@ -90,10 +92,10 @@ type PlayingSongProps = {
 export const PlayingSong = styled(motion.div)<PlayingSongProps>(
   ({ url, theme }) => ({
     position: "absolute",
-    width: "60vw",
-    height: "70vh",
+    width: "50vw",
+    height: "55vh",
     top: "30px",
-    left: "20vw",
+    left: "25vw",
     backgroundColor: theme.palette.grey[400],
     backgroundImage: `url('${url}')`,
     backgroundPosition: "center",
@@ -103,6 +105,24 @@ export const PlayingSong = styled(motion.div)<PlayingSongProps>(
     [theme.breakpoints.down("md")]: {
       width: "94vw",
       left: "3vw",
+    },
+  })
+);
+
+interface OptionButtonProps {
+  active: boolean;
+}
+
+export const OptionButton = styled(Button)<OptionButtonProps>(
+  ({ theme, active }) => ({
+    width: "100%",
+    backgroundColor: active ? theme.palette.primary.main : "#fff",
+    color: active ? "#fff" : theme.palette.primary.main,
+    padding: "5px 30px",
+    fontSize:'1.1em',
+    "&:hover": {
+      backgroundColor: active ? theme.palette.primary.main : "#fff",
+      color: active ? "#fff" : theme.palette.primary.main,
     },
   })
 );

@@ -2,12 +2,14 @@ import { styled, Box, LinearProgress } from "@mui/material";
 
 type PlayerContainerProps = {
   url: string | undefined;
+  read: boolean;
 };
 
 export const PlayerContainer = styled(Box)<PlayerContainerProps>(
-  ({ theme, url }) => ({
-    width: "100%",
+  ({ theme, url, read }) => ({
+    width: read ? "70%" : "100%",
     height: "100%",
+    transition: "width 0.3s ease-in",
     backgroundColor: theme.palette.grey[400],
     backgroundImage: `url('${url}')`,
     backgroundPosition: "center",
@@ -20,17 +22,49 @@ export const PlayerContainer = styled(Box)<PlayerContainerProps>(
   })
 );
 
-export const Overlay = styled(Box)(({ theme }) => ({
+interface LyricsContainerProps {
+  read: boolean;
+}
+
+export const LyricsContainer = styled(Box)<LyricsContainerProps>(
+  ({ theme, read }) => ({
+    width: read ? "30%" : "0%",
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "white",
+    transition: "width 0.3s ease-in",
+    fontSize: "2em",
+    padding: read ? "30px" : "0px",
+    height: "100%",
+  })
+);
+
+interface OverlayProps {
+  visible: boolean;
+}
+
+export const Overlay = styled(Box)<OverlayProps>(({ theme, visible }) => ({
   width: "100%",
   height: "100%",
-  backgroundColor: "#00000098",
-  display: "flex",
+  backgroundColor: "#0000005e",
+  display: visible ? "flex" : "none",
   flexDirection: "column",
   justifyContent: "flex-end",
   padding: theme.spacing(3),
   [theme.breakpoints.down("md")]: {
     justifyContent: "start",
-    backgroundColor:'transparent',
+    backgroundColor: "transparent",
+  },
+  "& .MuiSlider-thumb": {
+    transition: "left 0.5s",
+  },
+
+  "& .MuiSlider-thumb.MuiSlider-active": {
+    transition: "left 0s",
+  },
+
+  "& .MuiSlider-track": {
+    transition: "width 0.5s",
   },
 }));
 
@@ -42,15 +76,14 @@ export const SongInfoContainer = styled(Box)(({ theme }) => ({
   gap: "30px",
 
   "& img": {
-    width: "200px",
-    height: "200px",
+    width: "150px",
+    height: "150px",
     objectFit: "cover",
-    borderRadius: "20px",
-    
+    borderRadius: "10px",
   },
   "& .song-name": {
     fontSize: "3em",
-    fontWeight: 900,
+    fontWeight: 800,
     color: theme.palette.background.default,
   },
   [theme.breakpoints.down("md")]: {
@@ -104,4 +137,10 @@ export const PlayerOptions = styled(Box)(({ theme }) => ({
       fill: "#000",
     },
   },
+}));
+
+export const LyricsText = styled(Box)(() => ({
+  fontSize: "0.65em",
+  flex: 1,
+  overflowY: "auto",
 }));

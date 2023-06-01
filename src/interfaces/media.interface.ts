@@ -15,7 +15,7 @@ export interface IEditMedia {
   mediaId: string;
 }
 
-interface IAudio {
+export interface IAudio {
   audioId?: String;
   language?: String;
   id?: string;

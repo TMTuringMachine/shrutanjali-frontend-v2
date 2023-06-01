@@ -249,6 +249,11 @@ const useMedia = () => {
     });
   }, []);
 
+  const populateMedia = useCallback(async(list:string[])=>{
+    const res = await axiosInstance.post('/media/populate',{list});
+    return res.data;
+  },[])
+
   return {
     addMedia,
     uploadFile,
@@ -271,6 +276,7 @@ const useMedia = () => {
     dadajiSongs,
     getSongLyrics,
     lyricState,
+    populateMedia
   };
 };
 

@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 
 //styled
 import { CustomLink, HeaderContainer, HeaderOptions } from "./header.styles";
-import { Slide } from "@mui/material";
+import { Slide, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import { headerOptions } from "./header.data";
 
@@ -23,14 +23,16 @@ const Header: FunctionComponent<Props> = () => {
       <Slide in={showOptions} direction="left">
         <HeaderOptions>
           {headerOptions.map((option) => (
-            <CustomLink to={option.link}>
-              <Icon
-                icon={option.icon}
-                width="30px"
-                height="30px"
-                style={{ cursor: "pointer" }}
-              />
-            </CustomLink>
+            <Tooltip title={option.name} arrow >
+              <CustomLink to={option.link}>
+                <Icon
+                  icon={option.icon}
+                  width="30px"
+                  height="30px"
+                  style={{ cursor: "pointer" }}
+                />
+              </CustomLink>
+            </Tooltip>
           ))}
         </HeaderOptions>
       </Slide>

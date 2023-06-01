@@ -18,6 +18,8 @@ import useAuth from '../../hooks/useAuth';
 
 import { useNavigate } from 'react-router-dom';
 import DadajiAdminDashboard from './dadajiAdminDashboard.page';
+import { Typography } from '@mui/material';
+import DadajiHeader from '../DadajiSongs/DadajiHeader';
 
 //interfaces
 
@@ -41,17 +43,6 @@ const AdminDashboard = () => {
       <AdminHeader />
       <AdminDashboardContainer>
         <AdminDahboardLeft>
-          <StatsContainer>
-            <Stat>
-              <div className="stat-header">120</div>
-              <div className="stat-sub">SONGS</div>
-            </Stat>
-            <Stat>
-              <div className="stat-header">30</div>
-              <div className="stat-sub">BOOKS</div>
-            </Stat>
-          </StatsContainer>
-          <CustomHeading1>MANAGE SONGS</CustomHeading1>
           <SongsTable />
         </AdminDahboardLeft>
         <AdminDahboardRight>
@@ -66,6 +57,7 @@ const AdminDashboard = () => {
         </AdminDahboardRight>
       </AdminDashboardContainer>
       <hr />
+      <DadajiHeader/>
       <DadajiAdminDashboard />
     </AdminDashboardPage>
   );

@@ -20,13 +20,14 @@ import { convertApiMedia } from "../Home/home.utils";
 import useAudioPlayer from "../../hooks/useAudioPlayer";
 import { useFullScreenHandle } from "react-full-screen";
 import MuxAudio from "@mux/mux-audio-react";
-
+import useWishlist from "../../hooks/useWishlist";
 const Explore = () => {
-  const { getLiveMedia, allSongs } = useMedia();
+  const { getLiveMedia, allSongs,populateMedia} = useMedia();
   const [topSongs, setTopSongs] = useState<IMedia[]>([]);
   const fullScreenHandler = useFullScreenHandle();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
+  const {getWishlist} = useWishlist();
+  const [wishlist,setWishlist] = useState([]);
   const {
     play,
     pause,
@@ -46,6 +47,7 @@ const Explore = () => {
 
   useEffect(() => {
     getLiveMedia();
+    populateWishList()
   }, []);
 
   useEffect(() => {
@@ -59,6 +61,11 @@ const Explore = () => {
   const playSong: Function = (idx: number) => {
     playIdxSong(idx, isPlaying);
   };
+
+  const populateWishList = async()=>{
+    const list = getWishlist();
+    setWishlist(await populateMedia(list));
+  }
 
   const togglePlay: Function = (): void => {
     if (isPlaying == false) {
@@ -113,9 +120,7 @@ const Explore = () => {
             borderRadius: "2rem",
           }}
         />
-        <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
-          Continue listening to
-        </Typography>
+       
         <ContinueListeningSection>
           {/* {songs.slice(10).map((song) => (
             <SongOverview song={song} />
@@ -136,6 +141,17 @@ const Explore = () => {
         <ContinueListeningSection style={{ marginBottom: "120px" }}>
           {topSongs && topSongs.length > 0
             ? topSongs.map((song, idx) => (
+                <SongOverview song={song} handleClick={playSong} idx={idx} />
+              ))
+            : null}
+        </ContinueListeningSection>
+
+        <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
+         Your Wishlist
+        </Typography>
+        <ContinueListeningSection style={{ marginBottom: "120px" }}>
+          {wishlist && wishlist.length > 0
+            ? wishlist.map((song, idx) => (
                 <SongOverview song={song} handleClick={playSong} idx={idx} />
               ))
             : null}
