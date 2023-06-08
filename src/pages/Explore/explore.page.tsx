@@ -21,6 +21,7 @@ import useAudioPlayer from "../../hooks/useAudioPlayer";
 import { useFullScreenHandle } from "react-full-screen";
 import MuxAudio from "@mux/mux-audio-react";
 import useWishlist from "../../hooks/useWishlist";
+import useAuth from "../../hooks/useAuth";
 const Explore = () => {
   const { getLiveMedia, allSongs,populateMedia} = useMedia();
   const [topSongs, setTopSongs] = useState<IMedia[]>([]);
@@ -57,6 +58,8 @@ const Explore = () => {
       console.log(allSongs);
     }
   }, [allSongs]);
+
+  const {blogs} = useAuth();
 
   const playSong: Function = (idx: number) => {
     playIdxSong(idx, isPlaying);
@@ -129,9 +132,9 @@ const Explore = () => {
         <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
           Browse by interest
         </Typography>
-        <ContinueListeningSection>
+        <ContinueListeningSection onClick={()=>blogs()}>
+          <CategoriesOverview title="Blogs" imgSrc={audio} />
           <CategoriesOverview title="Audio" imgSrc={audio} />
-          <CategoriesOverview title="Video" imgSrc={audio} />
           <CategoriesOverview title="Books" imgSrc={audio} />
         </ContinueListeningSection>
 

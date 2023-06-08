@@ -42,11 +42,16 @@ const useAuth = () => {
 
   },[])
 
+  const blogs = useCallback(()=>{
+    navigate("/blogs");
+  },[])
+
   return {
     login,
     isLoggedIn,
     logout,
-    home
+    home,
+    blogs
   };
 };
 
