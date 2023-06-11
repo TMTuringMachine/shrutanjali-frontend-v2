@@ -5,6 +5,7 @@ import storage from "redux-persist/lib/storage";
 //slices
 import auth from "./slices/auth.slice";
 import control from "./slices/control.slice";
+import songs from "./slices/songs.slice";
 
 const authPersistConfig = {
   key: "auth",
@@ -16,6 +17,7 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, auth),
   control,
+  songs,
 });
 
 export default rootReducer;

@@ -18,10 +18,43 @@
 }
 
 
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 10px;
+
+}
+
+
 * {
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
   color: '#323232';
   font-family: 'Montserrat', sans-serif;
+}
+
+html{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }

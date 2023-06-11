@@ -58,7 +58,7 @@ export const ReadMoreButton = styled(Box)<ReadMoreButtonProps>(
   })
 );
 
-export const ReadMoreContainer = styled(motion.div)(({ theme }) => ({
+export const ReadMoreContainer: any = styled(motion.div)(({ theme }) => ({
   flexBasis: '50%',
   marginBottom: '2rem',
   '& ::-webkit-scrollbar': {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
 //libs
 import { Box, Drawer, Grid, Typography } from "@mui/material";
@@ -10,13 +10,19 @@ import {
 } from "./WishlistDrawer.styles";
 import { songs } from "../../../helpers/data";
 import SongPreview from "../SongPreview/SongPreview.component";
-
+import useWishlist from "../../../hooks/useWishlist";
 interface Props {
   state: boolean;
   toggleDrawer: Function;
 }
 
 const WishlistDrawer: FunctionComponent<Props> = ({ state, toggleDrawer }) => {
+  const {getWishlist} = useWishlist()
+  const [wishlist,setWishlist] = useState([]);
+  useEffect(() => {
+    setWishlist(getWishlist());
+  }, [])
+  
   return (
     <StyledWishlistDrawer
       anchor="bottom"
@@ -27,14 +33,17 @@ const WishlistDrawer: FunctionComponent<Props> = ({ state, toggleDrawer }) => {
     >
       <WishlistDrawerContainer>
         <Typography className="modalHeader">YOUR WISHLIST</Typography>
+        {
+                wishlist?<> <Grid container spacing={3}>
+                {wishlist?.slice(0,8)?.map((song) => (
+                  <Grid item md={6}>
+                  <SongPreview song={song} />
+                  </Grid>
+                ))}
+              </Grid></>:<>Your Wishlist Is Empty!</>
+              }
 
-        <Grid container spacing={3}>
-          {songs.slice(0,8).map((song) => (
-            <Grid item md={6}>
-              <SongPreview song={song} />
-            </Grid>
-          ))}
-        </Grid>
+              
       </WishlistDrawerContainer>
     </StyledWishlistDrawer>
   );

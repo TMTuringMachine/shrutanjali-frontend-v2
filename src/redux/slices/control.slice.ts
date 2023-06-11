@@ -4,6 +4,7 @@ import { Dispatch, PayloadAction, Slice, createSlice } from "@reduxjs/toolkit";
 interface snackState {
   text: null | string;
   type: null | "success" | "error" | "warning" | "info";
+  timestamp: null | string;
 }
 
 interface controlState {
@@ -16,6 +17,7 @@ const initialState: controlState = {
   snack: {
     text: null,
     type: null,
+    timestamp: null,
   },
 };
 
@@ -33,6 +35,7 @@ const slice: Slice = createSlice({
           state.snack.text =
             action.payload?.text || "Unexpected Error Occurred";
           state.snack.type = "error";
+          state.snack.timestamp = new Date();
           break;
         case "warning":
           state.snack.text = action.payload?.text;
