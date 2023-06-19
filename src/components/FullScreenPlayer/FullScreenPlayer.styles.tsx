@@ -137,6 +137,11 @@ export const PlayerOptions = styled(Box)(({ theme }) => ({
       fill: "#000",
     },
   },
+  "& .opt-container": {
+    display: "flex",
+    alignItems: "center",
+    gap: "30px",
+  },
 }));
 
 export const LyricsText = styled(Box)(() => ({

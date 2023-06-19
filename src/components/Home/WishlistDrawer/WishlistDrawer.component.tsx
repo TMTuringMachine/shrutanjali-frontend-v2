@@ -21,7 +21,7 @@ const WishlistDrawer: FunctionComponent<Props> = ({ state, toggleDrawer }) => {
   const [wishlist,setWishlist] = useState([]);
   useEffect(() => {
     setWishlist(getWishlist());
-  }, [])
+  }, [state])
   
   return (
     <StyledWishlistDrawer

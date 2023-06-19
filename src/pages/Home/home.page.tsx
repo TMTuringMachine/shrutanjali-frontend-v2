@@ -274,7 +274,7 @@ const Home: FunctionComponent<Props> = () => {
                   icon="fe:heart"
                   width="35px"
                   height="35px"
-                  style={{ color: 'red' }}
+                  style={{ color: "red" }}
                   onClick={() => {
                     removeFromWishlist(currentSong?._id);
                     setRender(!render);

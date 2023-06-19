@@ -11,13 +11,16 @@ import { FullScreenHandle } from "react-full-screen";
 import { Icon } from "@iconify/react";
 import {
   Box,
+  Button,
   CircularProgress,
   FormControl,
   InputLabel,
+  Menu,
   MenuItem,
   Select,
   Slider,
   Typography,
+  useTheme,
 } from "@mui/material";
 
 //interfaces
@@ -59,10 +62,20 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
 }) => {
   const [readMode, setReadMode] = useState<boolean>(false);
   const [showPlayer, setShowPlayer] = useState<boolean>(true);
-  const [language, setlanguage] = React.useState<number>(0);
+  const [language, setLanguage] = React.useState<number>(0);
   const ref = useRef<HTMLDivElement>();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const { getSongLyrics, lyricState } = useMedia();
+
+  const theme = useTheme();
 
   useEffect(() => {
     if (song) {
@@ -103,7 +116,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   };
 
   const handleChange = (event: any) => {
-    setlanguage(event.target.value);
+    setLanguage(event.target.value);
   };
 
   return (
@@ -122,13 +135,23 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
           />
 
           <PlayerOptions>
-            <Icon
-              color="white"
-              icon="basil:book-open-solid"
-              width="35px"
-              height="35px"
-              onClick={() => toggleReadMode()}
-            />
+            <Box className="opt-container">
+              <Icon
+                color={readMode ? theme.palette.primary.main : "#fff"}
+                icon="basil:book-open-solid"
+                width="35px"
+                height="35px"
+                onClick={() => toggleReadMode()}
+              />
+
+              <Icon
+                color="white"
+                icon="fe:heart"
+                width="35px"
+                height="35px"
+                onClick={() => {}}
+              />
+            </Box>
             <Box className="player-options">
               <Icon
                 color="white"
@@ -162,13 +185,22 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                 }}
               />
             </Box>
-            <Icon
-              color="white"
-              icon="tabler:arrows-diagonal-minimize-2"
-              width="35px"
-              height="35px"
-              onClick={fullScreenHandler.exit}
-            />
+            <Box className="opt-container">
+              <Icon
+                color="white"
+                icon="material-symbols:headphones"
+                width="35px"
+                height="35px"
+                onClick={() => {}}
+              />
+              <Icon
+                color="white"
+                icon="tabler:arrows-diagonal-minimize-2"
+                width="35px"
+                height="35px"
+                onClick={fullScreenHandler.exit}
+              />
+            </Box>
           </PlayerOptions>
         </Overlay>
       </PlayerContainer>
@@ -182,25 +214,40 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
             marginBottom: "20px",
           }}
         >
-          <Typography>Lyrics</Typography>
+          <Typography sx={{ fontSize: "0.8em" }}>Lyrics</Typography>
           {song?.lyrics?.length > 1 ? (
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select">Language</InputLabel>
-                <Select
-                  labelId="demo-simple-select"
-                  id="demo-simple"
-                  value={language}
-                  label="Language"
-                  onChange={handleChange}
-                  
-                >
-                  {song?.lyrics.map((ly, idx) => (
-                    <MenuItem value={idx}> {ly.language}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
+            <>
+              <Button
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              >
+                {song?.lyrics[language].language}
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                container={ref.current}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                {song?.lyrics?.map((i, idx) => (
+                  <MenuItem
+                    value={idx}
+                    onClick={() => {
+                      setLanguage(idx);
+                    }}
+                  >
+                    {i.language}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </>
           ) : null}
         </Box>
         {lyricState.loading ? (
