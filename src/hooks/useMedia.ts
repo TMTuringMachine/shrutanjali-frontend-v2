@@ -238,6 +238,8 @@ const useMedia = () => {
   }, []);
 
   const getSongLyrics = useCallback(async (url: string) => {
+    console.log(url, ' this is the song lyrics url');
+
     setLyricState({
       loading: true,
       lyrics: null,
@@ -249,10 +251,10 @@ const useMedia = () => {
     });
   }, []);
 
-  const populateMedia = useCallback(async(list:string[])=>{
-    const res = await axiosInstance.post('/media/populate',{list});
+  const populateMedia = useCallback(async (list: string[]) => {
+    const res = await axiosInstance.post('/media/populate', { list });
     return res.data;
-  },[])
+  }, []);
 
   return {
     addMedia,
@@ -276,7 +278,7 @@ const useMedia = () => {
     dadajiSongs,
     getSongLyrics,
     lyricState,
-    populateMedia
+    populateMedia,
   };
 };
 

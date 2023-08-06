@@ -4,11 +4,11 @@ import React, {
   MouseEventHandler,
   useEffect,
   useRef,
-} from "react";
+} from 'react';
 
 //libs
-import { FullScreenHandle } from "react-full-screen";
-import { Icon } from "@iconify/react";
+import { FullScreenHandle } from 'react-full-screen';
+import { Icon } from '@iconify/react';
 import {
   Box,
   Button,
@@ -21,10 +21,10 @@ import {
   Slider,
   Typography,
   useTheme,
-} from "@mui/material";
+} from '@mui/material';
 
 //interfaces
-import { Song } from "../../interfaces/song.interface";
+import { Song } from '../../interfaces/song.interface';
 
 //styles
 import {
@@ -35,9 +35,9 @@ import {
   PlayerOptions,
   LyricsContainer,
   LyricsText,
-} from "./FullScreenPlayer.styles";
-import { IMedia } from "../../interfaces/media.interface";
-import useMedia from "../../hooks/useMedia";
+} from './FullScreenPlayer.styles';
+import { IMedia } from '../../interfaces/media.interface';
+import useMedia from '../../hooks/useMedia';
 
 interface Props {
   fullScreenHandler: FullScreenHandle;
@@ -79,7 +79,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (song) {
-      if (song?.lyrics?.length === 0) {
+      if (song.lyrics === undefined) {
         return;
       }
       getSongLyrics(song.lyrics[language].url);
@@ -87,27 +87,27 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   }, [song, language]);
 
   const handleMouseMove = (e: MouseEvent) => {
-    const timer = ref?.current?.getAttribute("timer");
+    const timer = ref?.current?.getAttribute('timer');
 
     if (timer) {
       clearTimeout(timer);
-      ref?.current?.setAttribute("timer", "");
+      ref?.current?.setAttribute('timer', '');
     }
 
     const t = setTimeout(() => {
-      ref?.current?.setAttribute("timer", "");
+      ref?.current?.setAttribute('timer', '');
       setShowPlayer(false);
     }, 5000);
 
-    ref?.current?.setAttribute("timer", t);
+    ref?.current?.setAttribute('timer', t);
     setShowPlayer(true);
   };
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -120,7 +120,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   };
 
   return (
-    <Box sx={{ width: "100%", height: "100%", display: "flex" }}>
+    <Box sx={{ width: '100%', height: '100%', display: 'flex' }}>
       <PlayerContainer url={song?.thumbnailUrl} ref={ref} read={readMode}>
         <Overlay visible={showPlayer}>
           <SongInfoContainer>
@@ -128,7 +128,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
             <h1 className="song-name">{song!.title}</h1>
           </SongInfoContainer>
           <Slider
-            sx={{ width: "100%" }}
+            sx={{ width: '100%' }}
             color="secondary"
             value={progress}
             onChange={(e: any) => seek(e.target.value)}
@@ -137,7 +137,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
           <PlayerOptions>
             <Box className="opt-container">
               <Icon
-                color={readMode ? theme.palette.primary.main : "#fff"}
+                color={readMode ? theme.palette.primary.main : '#fff'}
                 icon="basil:book-open-solid"
                 width="35px"
                 height="35px"
@@ -166,8 +166,8 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                 color="white"
                 icon={
                   isPlaying
-                    ? "material-symbols:pause-circle-rounded"
-                    : "material-symbols:play-circle-rounded"
+                    ? 'material-symbols:pause-circle-rounded'
+                    : 'material-symbols:play-circle-rounded'
                 }
                 width="80px"
                 height="80px"
@@ -207,21 +207,21 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
       <LyricsContainer read={readMode}>
         <Box
           sx={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "20px",
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px',
           }}
         >
-          <Typography sx={{ fontSize: "0.8em" }}>Lyrics</Typography>
+          <Typography sx={{ fontSize: '0.8em' }}>Lyrics</Typography>
           {song?.lyrics?.length > 1 ? (
             <>
               <Button
                 id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
+                aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
+                aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
               >
                 {song?.lyrics[language].language}
@@ -233,7 +233,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                 onClose={handleClose}
                 container={ref.current}
                 MenuListProps={{
-                  "aria-labelledby": "basic-button",
+                  'aria-labelledby': 'basic-button',
                 }}
               >
                 {song?.lyrics?.map((i, idx) => (
@@ -254,7 +254,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
           <CircularProgress />
         ) : (
           <LyricsText>
-            {lyricState?.lyrics?.split("\n").map((item) => (
+            {lyricState?.lyrics?.split('\n').map((item) => (
               <p>{item}</p>
             ))}
           </LyricsText>
