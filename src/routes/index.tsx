@@ -53,6 +53,10 @@ export default function Router() {
           path: '/dadajisongs',
           element: <DadajiSongs />,
         },
+        {
+          path: '/singleBook/:id',
+          element: <SingleBookPage />,
+        },
       ],
     },
     // {
@@ -89,6 +93,10 @@ const DadajiSongs = Loadable(
 );
 const AdminDashboard = Loadable(
   lazy(() => import('../pages/AdminDashboard/adminDashboard.page'))
+);
+
+const SingleBookPage = Loadable(
+  lazy(() => import('../pages/SingleBook/SingleBook.page'))
 );
 
 //layouts
