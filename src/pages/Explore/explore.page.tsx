@@ -69,6 +69,7 @@ const Explore = () => {
 
   const populateWishList = async () => {
     const list = getWishlist();
+    if(!list) return;
     setWishlist(await populateMedia(list));
   };
 
