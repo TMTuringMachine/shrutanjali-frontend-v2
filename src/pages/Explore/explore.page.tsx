@@ -55,7 +55,7 @@ const Explore = () => {
 
   useEffect(() => {
     console.log(allSongs, 'all songs');
-    if (allSongs.length > 0) {
+    if (allSongs && allSongs?.length > 0) {
       setTopSongs(convertApiMedia(allSongs));
       console.log(allSongs);
     }
@@ -135,7 +135,7 @@ const Explore = () => {
           Browse by interest
         </Typography>
         <ContinueListeningSection onClick={() => blogs()}>
-          <CategoriesOverview title="Blogs" imgSrc={audio} />
+          {/* <CategoriesOverview title="Blogs" imgSrc={audio} /> */}
           <CategoriesOverview title="Audio" imgSrc={audio} />
           <CategoriesOverview title="Books" imgSrc={audio} />
         </ContinueListeningSection>
@@ -143,7 +143,7 @@ const Explore = () => {
           Top bhajans
         </Typography>
         <ContinueListeningSection style={{ marginBottom: '120px' }}>
-          {topSongs && topSongs.length > 0
+          {topSongs && topSongs?.length > 0
             ? topSongs.map((song, idx) => (
                 <SongOverview song={song} handleClick={playSong} idx={idx} />
               ))
@@ -153,7 +153,7 @@ const Explore = () => {
           Your Wishlist
         </Typography>
         <ContinueListeningSection>
-          {wishlist && wishlist.length > 0
+          {wishlist && wishlist?.length > 0
             ? wishlist.map((song, idx) => (
                 <SongOverview song={song} handleClick={playSong} idx={idx} />
               ))
