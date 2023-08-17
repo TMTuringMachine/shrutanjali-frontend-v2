@@ -91,7 +91,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
     useDropzone({
       accept: {
-        image: ['.jpeg', '.png', '.jpg'],
+        image: ['.jpeg', '.png', '.jpg','.tiff'],
       },
       onDrop: (acceptedFiles) => {
         setThumbnail(acceptedFiles[0]);
