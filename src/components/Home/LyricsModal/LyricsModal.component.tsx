@@ -70,7 +70,7 @@ const LyricsModal: FunctionComponent<Props> = ({
                   </Select>
                 </FormControl>
               </Box>
-            ) : null}
+            ) : <Box>Lyrics for this song are not available</Box> }
           </ModalHeader>
           {lyricState.loading ? (
             <CircularProgress />

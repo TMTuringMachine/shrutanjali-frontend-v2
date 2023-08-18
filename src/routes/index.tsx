@@ -1,12 +1,12 @@
-import { Component, FunctionComponent, Suspense, lazy } from 'react';
+import { Component, FunctionComponent, Suspense, lazy } from "react";
 
 //libs
-import { Navigate, useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes } from "react-router-dom";
 
 //components
-import LoadingScreen from '../components/LoadingScreen';
-import AboutGuru from '../pages/About/about.page';
-import AdminLandingPage from '../pages/Admin/Admin.page';
+import LoadingScreen from "../components/LoadingScreen";
+import AboutGuru from "../pages/About/about.page";
+import AdminLandingPage from "../pages/Admin/Admin.page";
 
 const Loadable = (Component: FunctionComponent) => (props: any) => {
   return (
@@ -19,43 +19,51 @@ const Loadable = (Component: FunctionComponent) => (props: any) => {
 export default function Router() {
   return useRoutes([
     {
-      path: '*',
+      path: "*",
       element: <UserLayout />,
       children: [
-        { path: 'coming-soon', element: <ComingSoon /> },
-        { path: 'maintenance', element: <Maintenance /> },
-        { path: '500', element: <Page500 /> },
-        { path: '404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/404" replace /> },
+        { path: "coming-soon", element: <ComingSoon /> },
+        { path: "maintenance", element: <Maintenance /> },
+        { path: "500", element: <Page500 /> },
+        { path: "404", element: <NotFound /> },
+        { path: "*", element: <Navigate to="/404" replace /> },
       ],
     },
     {
-      path: '/',
+      path: "/",
       element: <LandingPage />,
     },
     {
-      path: '/',
+      path: "/",
       element: <UserLayout />,
       children: [
         {
-          path: '/home',
+          path: "/home",
           element: <Home />,
         },
         {
-          path: '/about',
+          path: "/about",
           element: <AboutGuru />,
         },
         {
-          path: '/explore',
+          path: "/explore",
           element: <ExplorePage />,
         },
         {
-          path: '/dadajisongs',
+          path: "/dadajisongs",
           element: <DadajiSongs />,
         },
         {
-          path: '/singleBook/:id',
+          path: "/singleBook/:id",
           element: <SingleBookPage />,
+        },
+        {
+          path: "/blogs",
+          element: <Blogs />,
+        },
+        {
+          path: "/blogs/:id",
+          element: <SingleBlog />,
         },
       ],
     },
@@ -63,41 +71,47 @@ export default function Router() {
     //   path: '/admin',
     //   element: <AdminLandingPage />,
     // },
-    { path: '/admin/login', element: <AdminLogin /> },
-    { path: '/admin/dashboard', element: <AdminDashboard /> },
-    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: "/admin/login", element: <AdminLogin /> },
+    { path: "/admin/dashboard", element: <AdminDashboard /> },
+    { path: "*", element: <Navigate to="/404" replace /> },
   ]);
 }
 
-const ComingSoon = Loadable(lazy(() => import('../components/ComingSoon')));
-const Maintenance = Loadable(lazy(() => import('../components/Maintenance')));
-const Page500 = Loadable(lazy(() => import('../components/Page500')));
-const NotFound = Loadable(lazy(() => import('../components/Page404')));
+const ComingSoon = Loadable(lazy(() => import("../components/ComingSoon")));
+const Maintenance = Loadable(lazy(() => import("../components/Maintenance")));
+const Page500 = Loadable(lazy(() => import("../components/Page500")));
+const NotFound = Loadable(lazy(() => import("../components/Page404")));
 
 //pages
 const LandingPage = Loadable(
-  lazy(() => import('../pages/Landing/landing.page'))
+  lazy(() => import("../pages/Landing/landing.page"))
 );
-const Home = Loadable(lazy(() => import('../pages/Home/home.page')));
+const Home = Loadable(lazy(() => import("../pages/Home/home.page")));
 
 const ExplorePage = Loadable(
-  lazy(() => import('../pages/Explore/explore.page'))
+  lazy(() => import("../pages/Explore/explore.page"))
+);
+
+const Blogs = Loadable(lazy(() => import("../pages/Blogs/blogs.page")));
+
+const SingleBlog = Loadable(
+  lazy(() => import("../pages/SingleBlog/singleBlog.page"))
 );
 
 //admin pages
 const AdminLogin = Loadable(
-  lazy(() => import('../pages/AdminLogin/adminLogin.page'))
+  lazy(() => import("../pages/AdminLogin/adminLogin.page"))
 );
 const DadajiSongs = Loadable(
-  lazy(() => import('../pages/DadajiSongs/dadajiSong.page'))
+  lazy(() => import("../pages/DadajiSongs/dadajiSong.page"))
 );
 const AdminDashboard = Loadable(
-  lazy(() => import('../pages/AdminDashboard/adminDashboard.page'))
+  lazy(() => import("../pages/AdminDashboard/adminDashboard.page"))
 );
 
 const SingleBookPage = Loadable(
-  lazy(() => import('../pages/SingleBook/SingleBook.page'))
+  lazy(() => import("../pages/SingleBook/SingleBook.page"))
 );
 
 //layouts
-const UserLayout = Loadable(lazy(() => import('../layouts/user/user.layout')));
+const UserLayout = Loadable(lazy(() => import("../layouts/user/user.layout")));

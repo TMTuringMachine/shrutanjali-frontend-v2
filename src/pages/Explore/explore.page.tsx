@@ -69,8 +69,13 @@ const Explore = () => {
 
   const populateWishList = async () => {
     const list = getWishlist();
+<<<<<<< HEAD
     if(!list) return;
+=======
+    if(list == undefined) return;
+>>>>>>> c67c37e (add song validations added)
     setWishlist(await populateMedia(list));
+
   };
 
   const togglePlay: Function = (): void => {
