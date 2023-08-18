@@ -10,10 +10,6 @@ type ImageProps = {
   url?: null | string;
 };
 
-export const TestComponentContainer = styled(Box)(()=>({
-  width;"100px";
-      }))
-
 export const BlogBannerImage = styled(Box)<ImageProps>(({ theme, url }) => ({
   width: "100%",
   height: "400px",
