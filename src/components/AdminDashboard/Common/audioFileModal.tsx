@@ -108,7 +108,7 @@ const AudioFileModal: FunctionComponent<Props> = ({
             })}
             <progress value={_progress || 0} max="100" /> {_progress.toString()}{' '}
             / {'100%'}
-            <CustomButton onClick={() => handleUpload(audioFile)}>
+            <CustomButton disabled={_progress != 0} onClick={() => handleUpload(audioFile)}>
               ADD
             </CustomButton>
           </ModalFormContainer>

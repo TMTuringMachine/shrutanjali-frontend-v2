@@ -1,3 +1,4 @@
+import { IBlog } from "../interfaces/blog.interface";
 import { Song } from "../interfaces/song.interface";
 
 export const songs: Song[] = [
@@ -120,5 +121,48 @@ export const songs: Song[] = [
     id: "hehe",
     shortLyrics:
       "Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana.\n Jaanewale bhol  na jaana, laut ke tu aana Vrindavan mai aana",
+  },
+];
+
+export const dummyBlogs: IBlog[] = [
+  {
+    id: "1",
+    title: "Blog1",
+    content: "this is content",
+    coverImage:
+      "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80",
+    createdOn: JSON.stringify(new Date()),
+  },
+  {
+    id: "2",
+    title: "Blog1",
+    content: "this is content",
+    coverImage:
+      "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80",
+    createdOn: JSON.stringify(new Date()),
+  },
+  {
+    id: "3",
+    title: "Blog1",
+    content: "this is content",
+    coverImage:
+      "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80",
+    createdOn: JSON.stringify(new Date()),
+  },
+  {
+    id: "4",
+    title: "Blog1",
+    content: "this is content",
+    coverImage:
+      "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80",
+    createdOn: JSON.stringify(new Date()),
+  },
+  {
+    id: "5",
+    title: "Blog1",
+    content: "this is content",
+    coverImage:
+      "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80",
+    createdOn: JSON.stringify(new Date()),
   },
 ];
