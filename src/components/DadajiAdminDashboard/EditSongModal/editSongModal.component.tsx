@@ -95,7 +95,6 @@ const EditSongModal: FunctionComponent<Props> = ({
           }
         );
         const url = await response.json();
-
         const audioId = await getAudioId(url.uploadID);
 
         const upload = UpChunk.createUpload({
