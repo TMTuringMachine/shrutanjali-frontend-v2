@@ -18,7 +18,8 @@ const AdminLogin = () => {
     password: "",
   });
 
-  const { login, isLoggedIn } = useAuth();
+  const { login,
+    isLoggedIn } = useAuth();
   const navigate = useNavigate()
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -35,11 +36,11 @@ const AdminLogin = () => {
     login(data);
   };
 
-  useEffect(()=>{
-    if(isLoggedIn){
+  useEffect(() => {
+    if (isLoggedIn) {
       navigate('/admin/dashboard')
     }
-  },[isLoggedIn])
+  }, [isLoggedIn])
 
   return (
     <AdminLoginPage>

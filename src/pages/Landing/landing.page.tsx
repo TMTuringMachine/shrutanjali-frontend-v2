@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
 //assets
 import NameBlack from "../../assets/images/shrutanjali-name-black.png";
@@ -19,18 +19,27 @@ import {
   NameContainer,
   ImageContainer,
 } from "./landing.styles";
+import useAuth from "../../hooks/useAuth";
 
-interface Props {}
+interface Props { }
 
 const LandingPage: FunctionComponent<Props> = () => {
   const [nameHover, setNameHover] = useState<boolean>(false);
-
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const { width } = useWindowSize();
 
   const handleClick = () => {
     navigate("/home");
   };
+
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/admin/login")
+    }
+  }, [isLoggedIn])
+
 
   return (
     <Transition>
