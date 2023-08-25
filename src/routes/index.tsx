@@ -60,6 +60,7 @@ export default function Router() {
         {
           path: "/blogs",
           element: <Blogs />,
+
         },
         {
           path: "/blogs/:id",

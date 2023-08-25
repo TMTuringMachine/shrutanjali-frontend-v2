@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 export const SwiperContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   marginTop: "50px",
+  [theme.breakpoints.down('md')]: {
+    padding: "0px 20px"
+  }
 }));
 
 export const SongDataContainer = styled(Box)(({ theme }) => ({
@@ -46,6 +49,12 @@ export const SongData = styled(Box)(({ theme }) => ({
   whiteSpace: "break-spaces",
   // zIndex: "99999999",
   textAlign: "center",
+  [theme.breakpoints.down('md')]: {
+    padding: theme.spacing(1),
+    '& h1': {
+      fontSize: "1.4em",
+    }
+  }
 }));
 
 export const PlayerOptionsContainer = styled(Box)(({ theme }) => ({
@@ -67,6 +76,8 @@ export const PlayerOptionsContainer = styled(Box)(({ theme }) => ({
   },
   [theme.breakpoints.down("md")]: {
     width: "90vw",
+    gap: "26px",
+    padding: theme.spacing(1),
   },
 }));
 
@@ -119,7 +130,7 @@ export const OptionButton = styled(Button)<OptionButtonProps>(
     backgroundColor: active ? theme.palette.primary.main : "#fff",
     color: active ? "#fff" : theme.palette.primary.main,
     padding: "5px 30px",
-    fontSize:'1.1em',
+    fontSize: '1.1em',
     "&:hover": {
       backgroundColor: active ? theme.palette.primary.main : "#fff",
       color: active ? "#fff" : theme.palette.primary.main,

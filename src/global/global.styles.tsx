@@ -18,13 +18,16 @@ export const CustomButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     color: "#fff",
   },
-  marginLeft:'1rem'
+  marginLeft: '1rem'
 }));
 
 export const CustomHeading1 = styled(Box)(({ theme }) => ({
   fontSize: "1.5em",
   color: theme.palette.text.primary,
   fontWeight: 600,
+  [theme.breakpoints.down('md')]: {
+    fontSize: "1.2em"
+  }
 }));
 
 type ModalContainerProps = {
@@ -38,7 +41,7 @@ export const ModalContainer = styled(Box)<ModalContainerProps>(
   ({ theme, width, height, left, top }) => ({
     width: width || "50vw",
     height: height || "fit-content",
-    maxHeight:"80vh",
+    maxHeight: "80vh",
     overflowY: "auto",
     position: "absolute",
     top: top || "10vh",
