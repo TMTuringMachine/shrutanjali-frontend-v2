@@ -69,7 +69,7 @@ const Explore = () => {
 
   const populateWishList = async () => {
     const list = getWishlist();
-    if(!list) return;
+    if (!list) return;
     setWishlist(await populateMedia(list));
 
   };
@@ -146,8 +146,8 @@ const Explore = () => {
         <ContinueListeningSection style={{ marginBottom: '120px' }}>
           {topSongs && topSongs?.length > 0
             ? topSongs.map((song, idx) => (
-                <SongOverview song={song} handleClick={playSong} idx={idx} />
-              ))
+              <SongOverview song={song} handleClick={playSong} idx={idx} />
+            ))
             : null}
         </ContinueListeningSection>
         <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
@@ -156,8 +156,8 @@ const Explore = () => {
         <ContinueListeningSection>
           {wishlist && wishlist?.length > 0
             ? wishlist.map((song, idx) => (
-                <SongOverview song={song} handleClick={playSong} idx={idx} />
-              ))
+              <SongOverview song={song} handleClick={playSong} idx={idx} />
+            ))
             : null}
         </ContinueListeningSection>
         {/* Books section */}

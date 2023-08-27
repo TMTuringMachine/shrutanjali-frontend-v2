@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
-import { Box } from '@mui/material';
+// import styled from '@emotion/styled';
+import { Box, styled } from '@mui/material';
 
 export const OverlayedText = styled(Box)(() => ({
   position: 'absolute',
@@ -24,11 +24,15 @@ export const OverlayedText = styled(Box)(() => ({
     transform: 'scale3d(1.2,1.2,1.2)',
   },
 }));
-export const CategoryCard = styled(Box)(() => ({
+export const CategoryCard = styled(Box)(({ theme }) => ({
   width: '25%',
   boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
   borderRadius: '10px',
   margin: '1rem',
   position: 'relative',
   overflow: 'hidden',
+  [theme.breakpoints.down('md')]: {
+    width: "100%",
+    margin: "1em 0px"
+  }
 }));
