@@ -34,7 +34,7 @@ const useMedia = () => {
     loading: false,
     lyrics: null,
   });
- 
+
   const { featuredSongs, allSongs, dadajiSongs } = useSelector(
     (state: RootState) => state.songs
   );
@@ -56,7 +56,7 @@ const useMedia = () => {
 
   const getLiveMedia = useCallback(async () => {
     const res = await axiosInstance.get('/media/live');
-    console.log(res,"datttttaaaaaaaa");
+    console.log(res, "datttttaaaaaaaa");
     dispatch(setAllSongs(res.data));
   }, []);
 
@@ -253,7 +253,7 @@ const useMedia = () => {
   }, []);
 
   const populateMedia = useCallback(async (list: string[]) => {
-    console.log(list,"LISTTTTTTT"); 
+    // console.log(list,"LISTTTTTTT"); 
     const res = await axiosInstance.post('/media/populate', { list });
     return res.data;
   }, []);

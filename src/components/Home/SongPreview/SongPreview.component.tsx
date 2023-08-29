@@ -8,7 +8,7 @@ import { trimText } from "../../../utils/helper";
 //styles
 import { SongPreviewContainer, SongInfoContainer } from "./SongPreview.styles";
 interface Props {
-  song: string;
+  song: any;
 }
 
 const SongPreview: FunctionComponent<Props> = ({ song }) => {
