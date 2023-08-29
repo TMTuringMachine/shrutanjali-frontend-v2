@@ -10,7 +10,7 @@ import axiosInstance from '../utils/axiosInstance';
 
 interface Props {
   songList: any;
-  ref: any;
+  ref?: any;
 }
 
 interface songChangeProps {
@@ -37,25 +37,39 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
     }
 
     function handleEnded() {
+      setIsPlaying(false);;
+      setProgress(0);
+
+      ref.current.next();
+      if (currentSongIndex === songList.length - 1) {
+        setCurrentSongIndex(0);
+      } else {
+
+        setCurrentSongIndex(currentSongIndex + 1);
+      }
+      setTimeout(() => {
+        audioRef.current?.play();
+        setIsPlaying(true);
+      }, 1000)
       // setIsPlaying(false);
       // setProgress(0);
       // console.log(currentSongIndex, "index right now")
-      if (currentSongIndex === songList?.length - 1) {
-        setCurrentSongIndex(0);
-      } else {
-        setCurrentSongIndex(currentSongIndex + 1);
-      }
-
-      console.log("IT ENDED BROOOO")
-      setTimeout(() => {
-
-        audioRef.current?.play();
-        setProgress(0)
-        // ref.current.next()
-
-        setIsPlaying(true)
-      }, 500)
-      // nextSong({ playing: true })
+      // if (currentSongIndex === songList?.length - 1) {
+      //   setCurrentSongIndex(0);
+      // } else {
+      //   setCurrentSongIndex(currentSongIndex + 1);
+      // }
+      //
+      // console.log("IT ENDED BROOOO")
+      // setTimeout(() => {
+      //
+      //   audioRef.current?.play();
+      //   setProgress(0)
+      //   // ref.current.next()
+      //
+      //   setIsPlaying(true)
+      // }, 500)
+      // // nextSong({ playing: true })
     }
 
     function handleTimeUpdate() {
