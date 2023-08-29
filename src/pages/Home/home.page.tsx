@@ -98,6 +98,8 @@ const Home: FunctionComponent<Props> = () => {
 
   const fullScreenHandler = useFullScreenHandle();
   const { getFeaturedMedia, featuredSongs } = useMedia();
+
+  const ref = useRef<any>();
   const {
     play,
     pause,
@@ -112,10 +114,10 @@ const Home: FunctionComponent<Props> = () => {
     isPlaying: playing,
   } = useAudioPlayer({
     songList: songs,
+    ref: ref
   });
 
   // const audioRef = useRef<HTMLAudioElement>();
-  const ref = useRef<any>();
   const toggleWishlistDrawer: MouseEventHandler<
     HTMLButtonElement
   > = (): void => {
