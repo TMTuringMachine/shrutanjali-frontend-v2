@@ -8,6 +8,10 @@ export const SongOverviewContainer = styled(Box)(({ theme }) => ({
   borderRadius: "20px",
   padding: "5px",
   margin: "1rem",
+  [theme.breakpoints.down('md')]: {
+    width: "100%",
+    margin: "1rem 0px"
+  }
 }));
 
 type SongOverviewImageProps = {
@@ -45,7 +49,7 @@ export const SongOverviewImage = styled("div")<SongOverviewImageProps>(
     },
 
     [theme.breakpoints.down("md")]: {
-      width: "80vw",
+      width: "100%",
     },
   })
 );

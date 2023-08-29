@@ -6,7 +6,7 @@ import { ContinueListeningSection } from './explore.styles';
 
 //data
 import { songs } from '../../helpers/data';
-import { Grid, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box, useTheme } from '@mui/material';
 import { Icon } from '@iconify/react';
 import SongOverview from '../../components/Explore/SongOverview/songOverview.component';
 import CategoriesOverview from '../../components/Explore/CategoriesOverview/CategoriesOverview.component';
@@ -62,7 +62,7 @@ const Explore = () => {
   }, [allSongs]);
 
   const { blogs } = useAuth();
-
+  const { breakpoints } = useTheme();
   const playSong: Function = (idx: number) => {
     playIdxSong(idx, isPlaying);
   };
@@ -121,10 +121,13 @@ const Explore = () => {
             </Box>
           }
           variant="outlined"
-          style={{
+          sx={{
             margin: '1rem 0px',
             width: '40%',
             borderRadius: '2rem',
+            [breakpoints.down('md')]: {
+              width: "100%"
+            }
           }}
         />
         <ContinueListeningSection>

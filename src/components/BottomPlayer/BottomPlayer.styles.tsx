@@ -29,6 +29,9 @@ export const SongImageContainer = styled(Box)(({ theme }) => ({
     width: "30%",
     borderRadius: "5px",
   },
+  [theme.breakpoints.down('sm')]: {
+    // display: 'none'
+  }
 }));
 
 export const SongPlayerOptions = styled(Box)(({ theme }) => ({

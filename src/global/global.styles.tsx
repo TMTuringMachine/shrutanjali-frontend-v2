@@ -57,6 +57,11 @@ export const ModalContainer = styled(Box)<ModalContainerProps>(
       fontSize: "1.5em",
       fontWeight: 700,
     },
+    [theme.breakpoints.down("md")]: {
+      width: "90vw",
+      left: "5vw",
+      top: "8vh"
+    }
   })
 );
 
