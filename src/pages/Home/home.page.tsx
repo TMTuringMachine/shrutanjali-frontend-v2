@@ -379,6 +379,8 @@ const Home: FunctionComponent<Props> = () => {
               progress={progress}
               isPlaying={isPlaying}
               seek={seek}
+              currentAudioIndex={currentAudioIndex}
+              setCurrentAudioIndex={setCurrentAudioIndex}
             />
           ) : null}
         </FullScreen>

@@ -23,7 +23,7 @@ const errorHandler = (err: any) => {
     payload: { text: error, type: "error" },
   });
   return null;
-};
+}
 
 axiosInstance.interceptors.request.use((config) => {
   if (!config?.params?.background)
