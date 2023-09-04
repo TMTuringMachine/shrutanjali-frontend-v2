@@ -34,7 +34,7 @@ const AudioFileModal: FunctionComponent<Props> = ({
   const [files, setFiles] = useState<File[]>([]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
-      audio: ['.mp3'],
+      audio: ['.mp3','.mpeg'],
     },
     onDrop: useCallback(
       (acceptedFiles: File[]) => {
@@ -108,7 +108,7 @@ const AudioFileModal: FunctionComponent<Props> = ({
             })}
             <progress value={_progress || 0} max="100" /> {_progress.toString()}{' '}
             / {'100%'}
-            <CustomButton onClick={() => handleUpload(audioFile)}>
+            <CustomButton disabled={_progress != 0} onClick={() => handleUpload(audioFile)}>
               ADD
             </CustomButton>
           </ModalFormContainer>

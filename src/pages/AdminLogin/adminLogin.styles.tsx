@@ -26,4 +26,12 @@ export const AdminLoginContainer = styled(Box)(({ theme }) => ({
     alignItems: "center",
     gap: "20px",
   },
+  [theme.breakpoints.down('md')]: {
+    width: "70vw"
+  },
+  [theme.breakpoints.down('sm')]: {
+    borderRadius: "10px",
+    width: "90vw",
+    // boxShadow: "none"
+  }
 }));

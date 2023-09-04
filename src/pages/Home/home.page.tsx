@@ -65,7 +65,7 @@ import { convertApiMedia } from './home.utils';
 import SliderProps from '../../components/Home/SliderProps';
 import LyricsModal from '../../components/Home/LyricsModal/LyricsModal.component';
 import useWishlist from '../../hooks/useWishlist';
-interface Props {}
+interface Props { }
 
 SwiperCore.use([Navigation, EffectCoverflow, Mousewheel]);
 
@@ -88,7 +88,7 @@ const Home: FunctionComponent<Props> = () => {
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-
+  const { width } = useWindowSize()
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -97,8 +97,9 @@ const Home: FunctionComponent<Props> = () => {
   const id = open ? 'simple-popover' : undefined;
 
   const fullScreenHandler = useFullScreenHandle();
-  const { width } = useWindowSize();
   const { getFeaturedMedia, featuredSongs } = useMedia();
+
+  const ref = useRef<any>();
   const {
     play,
     pause,
@@ -113,10 +114,10 @@ const Home: FunctionComponent<Props> = () => {
     isPlaying: playing,
   } = useAudioPlayer({
     songList: songs,
+    ref: ref
   });
 
   // const audioRef = useRef<HTMLAudioElement>();
-  const ref = useRef<any>();
   const toggleWishlistDrawer: MouseEventHandler<
     HTMLButtonElement
   > = (): void => {
@@ -195,14 +196,14 @@ const Home: FunctionComponent<Props> = () => {
               slidesPerView={width !== undefined && width > 900 ? 4 : 1}
               centeredSlides
               style={{ overflow: 'visible' }}
-              // onSlideChange={(a) => {
-              //   if (a.activeIndex > currentSongIndex) {
-              //     // playNextSong();
-              //     console.log("next should go here");
-              //   } else { padding: "5px 20px"
-              //     playPreviousSong();
-              //   }
-              // }}
+            // onSlideChange={(a) => {
+            //   if (a.activeIndex > currentSongIndex) {
+            //     // playNextSong();
+            //     console.log("next should go here");
+            //   } else { padding: "5px 20px"
+            //     playPreviousSong();
+            //   }
+            // }}
             >
               <SliderProps ref={ref} />
               {songs.map((item, idx) => (
@@ -225,7 +226,7 @@ const Home: FunctionComponent<Props> = () => {
                         onClick={() => {
                           togglePlay();
                         }}
-                        // setSong={setActiveSong}
+                      // setSong={setActiveSong}
                       />
                     );
                   }}
@@ -235,7 +236,7 @@ const Home: FunctionComponent<Props> = () => {
           ) : null}
         </SwiperContainer>
         <AnimatePresence>
-          {isPlaying && (
+          {isPlaying && width! > 900 && (
             <PlayingSong
               layoutId={activeSong?._id}
               url={activeSong?.thumbnailUrl}
@@ -246,19 +247,7 @@ const Home: FunctionComponent<Props> = () => {
           <SongData>
             {/* <Typography> */}
             {activeSong ? <h1>{activeSong.title}</h1> : null}
-            {/* {currentSong ? <h1>{currentSong.title}</h1> : null} */}
-
-            {/* </Typography> */}
-            {/* <Typography>{activeSong ? <p></p> : null}</Typography> */}
           </SongData>
-          {/* <LinearProgress
-            sx={{ width: "90%" }}
-            variant="determinate"
-            value={progress}
-            onClick={(e) => {
-              console.log(e);
-            }}
-          /> */}
           <Slider
             sx={{ width: '90%' }}
             value={progress}
@@ -266,7 +255,6 @@ const Home: FunctionComponent<Props> = () => {
               seek(e?.target?.value);
             }}
           />
-          {/* <input type="range" value={progress} style={{width:'100%'}} /> */}
           <PlayerOptionsContainer>
             {isWishListed(currentSong?._id) ? (
               <>

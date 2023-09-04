@@ -82,7 +82,10 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
       if (song.lyrics === undefined) {
         return;
       }
-      getSongLyrics(song.lyrics[language].url);
+      if (song.lyrics.length > 0) {
+        getSongLyrics(song.lyrics[language]?.url);
+      }
+
     }
   }, [song, language]);
 
@@ -149,7 +152,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                 icon="fe:heart"
                 width="35px"
                 height="35px"
-                onClick={() => {}}
+                onClick={() => { }}
               />
             </Box>
             <Box className="player-options">
@@ -191,7 +194,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                 icon="material-symbols:headphones"
                 width="35px"
                 height="35px"
-                onClick={() => {}}
+                onClick={() => { }}
               />
               <Icon
                 color="white"

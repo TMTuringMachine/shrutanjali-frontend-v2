@@ -6,7 +6,7 @@ import { ContinueListeningSection } from './explore.styles';
 
 //data
 import { songs } from '../../helpers/data';
-import { Grid, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box, useTheme } from '@mui/material';
 import { Icon } from '@iconify/react';
 import SongOverview from '../../components/Explore/SongOverview/songOverview.component';
 import CategoriesOverview from '../../components/Explore/CategoriesOverview/CategoriesOverview.component';
@@ -55,21 +55,23 @@ const Explore = () => {
 
   useEffect(() => {
     console.log(allSongs, 'all songs');
-    if (allSongs.length > 0) {
+    if (allSongs && allSongs?.length > 0) {
       setTopSongs(convertApiMedia(allSongs));
       console.log(allSongs);
     }
   }, [allSongs]);
 
   const { blogs } = useAuth();
-
+  const { breakpoints } = useTheme();
   const playSong: Function = (idx: number) => {
     playIdxSong(idx, isPlaying);
   };
 
   const populateWishList = async () => {
     const list = getWishlist();
+    if (!list) return;
     setWishlist(await populateMedia(list));
+
   };
 
   const togglePlay: Function = (): void => {
@@ -119,10 +121,13 @@ const Explore = () => {
             </Box>
           }
           variant="outlined"
-          style={{
+          sx={{
             margin: '1rem 0px',
             width: '40%',
             borderRadius: '2rem',
+            [breakpoints.down('md')]: {
+              width: "100%"
+            }
           }}
         />
         <ContinueListeningSection>
@@ -134,7 +139,7 @@ const Explore = () => {
           Browse by interest
         </Typography>
         <ContinueListeningSection onClick={() => blogs()}>
-          <CategoriesOverview title="Blogs" imgSrc={audio} />
+          {/* <CategoriesOverview title="Blogs" imgSrc={audio} /> */}
           <CategoriesOverview title="Audio" imgSrc={audio} />
           <CategoriesOverview title="Books" imgSrc={audio} />
         </ContinueListeningSection>
@@ -142,20 +147,20 @@ const Explore = () => {
           Top bhajans
         </Typography>
         <ContinueListeningSection style={{ marginBottom: '120px' }}>
-          {topSongs && topSongs.length > 0
+          {topSongs && topSongs?.length > 0
             ? topSongs.map((song, idx) => (
-                <SongOverview song={song} handleClick={playSong} idx={idx} />
-              ))
+              <SongOverview song={song} handleClick={playSong} idx={idx} />
+            ))
             : null}
         </ContinueListeningSection>
         <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
           Your Wishlist
         </Typography>
         <ContinueListeningSection>
-          {wishlist && wishlist.length > 0
+          {wishlist && wishlist?.length > 0
             ? wishlist.map((song, idx) => (
-                <SongOverview song={song} handleClick={playSong} idx={idx} />
-              ))
+              <SongOverview song={song} handleClick={playSong} idx={idx} />
+            ))
             : null}
         </ContinueListeningSection>
         {/* Books section */}

@@ -26,6 +26,7 @@ const CarouselCard: FunctionComponent<Props> = ({
       url={song.thumbnailUrl}
       disabled={disabled}
       onClick={onClick}
+      active={active}
     ></CarouselCardContainer>
   );
 };

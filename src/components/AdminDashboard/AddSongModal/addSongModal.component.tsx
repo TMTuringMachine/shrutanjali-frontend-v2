@@ -33,6 +33,7 @@ import LyricFileModal from '../Common/lyricFileModal';
 import useMedia from '../../../hooks/useMedia';
 import * as UpChunk from '@mux/upchunk';
 
+import { store } from '../../../redux/store';
 interface Props {
   state: boolean;
   toggleModal: Function;
@@ -66,6 +67,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const [audios, setAudio] = useState<IAudio[]>([]);
   const [lyrics, setLyrics] = useState<ILyrics[]>([]);
   const [preview, setPreview] = useState<string>();
+  const [loading,setLoading] = useState<boolean>(false);
 
   const toggleAudioModal = () => {
     setShowAudioModal(!showAudioModal);
@@ -74,6 +76,45 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const toggleLyricModal = () => {
     setShowLyricModal(!showLyricModal);
   };
+
+  const validateData = (data:any) => {
+    if(!data.image){
+  
+    store.dispatch({
+      type: 'control/showSnackbar',
+      payload: {
+        text: 'Please upload a image',
+        type: 'error',
+      },
+    });
+      return false;
+    }
+    if(data.audios.length == 0){
+
+    store.dispatch({
+      type: 'control/showSnackbar',
+      payload: {
+        text: 'Please upload a audio',
+        type: 'error',
+      },
+    });
+      return false;
+    
+    }
+
+    if(!data.title || data.title == ""){
+
+    store.dispatch({
+      type: 'control/showSnackbar',
+      payload: {
+        text: 'Please add song name',
+        type: 'error',
+      },
+    });
+      return false;
+    
+    }
+  }
 
   const handleSubmit = async () => {
     const data = {
@@ -84,14 +125,19 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       image: thumbnail,
     };
     console.log(data);
-    addMedia(data);
+    let safe = validateData(data);
+    //validate data
+    if(safe == false) return;
+    setLoading(true);
+    await addMedia(data);
+    setLoading(false);
     toggleModal(!state);
   };
 
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
     useDropzone({
       accept: {
-        image: ['.jpeg', '.png', '.jpg'],
+        image: ['.jpeg', '.png', '.jpg','.tiff'],
       },
       onDrop: (acceptedFiles) => {
         setThumbnail(acceptedFiles[0]);
@@ -105,7 +151,6 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       if (audioFile !== null) {
         const response = await fetch(
           "https://shrutanjali-api.onrender.com/api/mux",
-
           // 'http://localhost:5000/api/mux',
           {
             method: 'POST',
@@ -281,7 +326,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                   justifyContent: 'center',
                 }}
               >
-                <CustomButton onClick={() => handleSubmit()}>
+                <CustomButton disabled={loading} onClick={() => handleSubmit()}>
                   ADD SONG
                 </CustomButton>
               </Box>

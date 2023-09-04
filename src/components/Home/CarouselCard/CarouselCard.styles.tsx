@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 type CardContainerProps = {
   url: string;
   disabled?: boolean;
+  active?: boolean
 };
 
 export const CarouselCardContainer = styled(motion.div)<CardContainerProps>(
-  ({ url, theme, disabled }) => ({
+  ({ url, theme, active, disabled }) => ({
     width: "22vw",
     height: "40vh",
     borderRadius: "20px",
@@ -17,9 +18,9 @@ export const CarouselCardContainer = styled(motion.div)<CardContainerProps>(
     backgroundPosition: "center",
     backgroundSize: "cover",
     transition: "filter 0.3s ease-in",
-    filter: disabled ? "grayscale(100%)" : "",
-    [theme.breakpoints.down('md')]:{
-      width:'80vw'
+    filter: disabled && !active ? "grayscale(100%)" : "",
+    [theme.breakpoints.down('md')]: {
+      width: '80vw'
     }
   })
 );
