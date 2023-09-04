@@ -33,7 +33,11 @@ export const ImageContainer = styled(Box)<ImageContainerProp>(
     },
     [theme.breakpoints.down("md")]: {
       margin: "1rem 0rem",
+      "& img":{
+        height: "400px",
+      }
     },
+    
   })
 );
 

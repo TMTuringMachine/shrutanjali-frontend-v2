@@ -3,7 +3,7 @@ import Transition from '../../components/Transition';
 import { PageContainer } from '../page.styles';
 import { StyledTextField } from '../../global/global.styles';
 import { ContinueListeningSection } from './explore.styles';
-
+import { useLocation } from 'react-router-dom';
 //data
 import { songs } from '../../helpers/data';
 import { Grid, Typography, Box, useTheme } from '@mui/material';
@@ -31,6 +31,7 @@ const Explore = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const { getWishlist } = useWishlist();
   const [wishlist, setWishlist] = useState([]);
+  const location = useLocation()
   const {
     play,
     pause,
@@ -180,7 +181,7 @@ const Explore = () => {
           togglePlay={togglePlay}
           progress={progress}
           isPlaying={isPlaying}
-          song={currentSong}
+          song={location.state?location.state:currentSong}
           seek={seek}
         />
       </PageContainer>
