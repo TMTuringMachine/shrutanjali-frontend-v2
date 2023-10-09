@@ -105,7 +105,7 @@ const useMedia = () => {
   }, []);
 
   const deleteMedia = useCallback(async (mediaId: String) => {
-    await axiosInstance.delete(`/media/${mediaId}`);
+    await axiosInstance.post(`/media/delete/${mediaId}`);
     store.dispatch({
       type: 'control/showSnackbar',
       payload: {
