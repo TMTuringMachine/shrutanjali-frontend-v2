@@ -38,7 +38,7 @@ const AudioFileModal: FunctionComponent<Props> = ({
   const [audioLanaguage, setAudioLanguage] = useState<String>('');
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
-      audio: ['.mp3', '.mpeg'],
+      audio: ['.mp3', '.mpeg', '.aac'],
     },
     onDrop: useCallback(
       (acceptedFiles: File[]) => {
