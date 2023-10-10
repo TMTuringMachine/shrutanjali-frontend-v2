@@ -14,7 +14,6 @@ import useMedia from "../../../hooks/useMedia";
 import { IMedia } from "../../../interfaces/media.interface";
 import { LyricsConatainer, ModalHeader } from "./LyricsModal.styles";
 import Draggable from "react-draggable";
-import PDFViewer from "pdf-viewer-reactjs";
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
