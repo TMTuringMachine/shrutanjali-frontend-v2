@@ -7,7 +7,7 @@ import { store } from "../redux/store";
 import { isDevelopment } from "./helper";
 
 const requestConfig: AxiosRequestConfig = {
-  // baseURL: "http://localhost:5000/api",
+  // baseURL: "http://localhost:8000/api",
   // baseURL: "http://192.168.0.105:5000/api",
   baseURL: "https://shru-2xn2.onrender.com/api",
 };
