@@ -94,6 +94,7 @@ const SongsTable = () => {
 
   const getSongs = async () => {
     const data:any = await getMediaPaginated(page,4);
+    console.log("THIS IS DATA W COUNT",data)
     setMedia(data.data);
     setCount(data.count/4)
   };
@@ -124,7 +125,7 @@ const SongsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {media?.map((song, item) => (
+            {media && media?.map((song, item) => (
               <TableRow
                 key={item}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
