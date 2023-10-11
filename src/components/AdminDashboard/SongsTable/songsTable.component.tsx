@@ -94,9 +94,8 @@ const SongsTable = () => {
 
   const getSongs = async () => {
     const data:any = await getMediaPaginated(page,4);
-    console.log("THIS IS DATA W COUNT",data)
     setMedia(data.data);
-    setCount(data.count/4)
+    setCount(ParseInt(data.count/4, 10))
   };
 
   useEffect(() => {
