@@ -49,6 +49,11 @@ const useMedia = () => {
     return data;
   }, []);
 
+  const getMediaPaginated = useCallback(async(page:number,limit:number)=>{
+      const data = await axiosInstance.get(`/media/page/?page=${page}&limit=${limit}`)
+      return data;
+  },[])
+
   const getAllBasicMedia = useCallback(async () => {
     const data = await axiosInstance.get('/basicMedia/all');
     return data;
@@ -281,6 +286,7 @@ const useMedia = () => {
     getSongLyrics,
     lyricState,
     populateMedia,
+    getMediaPaginated
   };
 };
 
