@@ -62,12 +62,12 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const [isFeatured, setFeatured] = useState<Boolean>(false);
   const { addMedia, uploadFile, getAudioId } = useMedia();
   const [progress, setProgress] = useState(0);
-  const [audioLanaguage, setAudioLanguage] = useState<String>('');
+
   const [lyricsLanguage, setLyricsLanguage] = useState<String>('');
   const [audios, setAudio] = useState<IAudio[]>([]);
   const [lyrics, setLyrics] = useState<ILyrics[]>([]);
   const [preview, setPreview] = useState<string>();
-  const [loading,setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const toggleAudioModal = () => {
     setShowAudioModal(!showAudioModal);
@@ -77,42 +77,42 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
     setShowLyricModal(!showLyricModal);
   };
 
-  const validateData = (data:any) => {
-    if(!data.image){
-  
-    store.dispatch({
-      type: 'control/showSnackbar',
-      payload: {
-        text: 'Please upload a image',
-        type: 'error',
-      },
-    });
+  const validateData = (data: any) => {
+    if (!data.image) {
+
+      store.dispatch({
+        type: 'control/showSnackbar',
+        payload: {
+          text: 'Please upload a image',
+          type: 'error',
+        },
+      });
       return false;
     }
-    if(data.audios.length == 0){
+    if (data.audios.length == 0) {
 
-    store.dispatch({
-      type: 'control/showSnackbar',
-      payload: {
-        text: 'Please upload a audio',
-        type: 'error',
-      },
-    });
+      store.dispatch({
+        type: 'control/showSnackbar',
+        payload: {
+          text: 'Please upload a audio',
+          type: 'error',
+        },
+      });
       return false;
-    
+
     }
 
-    if(!data.title || data.title == ""){
+    if (!data.title || data.title == "") {
 
-    store.dispatch({
-      type: 'control/showSnackbar',
-      payload: {
-        text: 'Please add song name',
-        type: 'error',
-      },
-    });
+      store.dispatch({
+        type: 'control/showSnackbar',
+        payload: {
+          text: 'Please add song name',
+          type: 'error',
+        },
+      });
       return false;
-    
+
     }
   }
 
@@ -127,7 +127,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
     console.log(data);
     let safe = validateData(data);
     //validate data
-    if(safe == false) return;
+    if (safe == false) return;
     setLoading(true);
     await addMedia(data);
     setLoading(false);
@@ -137,7 +137,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
     useDropzone({
       accept: {
-        image: ['.jpeg', '.png', '.jpg','.tiff'],
+        image: ['.jpeg', '.png', '.jpg', '.tiff'],
       },
       onDrop: (acceptedFiles) => {
         setThumbnail(acceptedFiles[0]);
@@ -177,9 +177,10 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         });
 
         upload.on('success', (data: any) => {
-          const language = audioLanaguage;
+          // const language = audioLanaguage;
           setAudio([...audios, { audioId, language }]);
           setShowAudioModal(!showAudioModal);
+          setProgress(0);
           console.log('UPLOAD COMPLETE', language);
         });
       } else {
@@ -306,7 +307,9 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                 toggleModal={toggleAudioModal}
                 handleUpload={handleUploadAudio}
                 _progress={progress}
-                setAudioLanguage={setAudioLanguage}
+                setAudio={(data: any) => {
+                  setAudio([...audios, data])
+                }}
               />
               <LyricFileModal
                 state={showLyricModal}

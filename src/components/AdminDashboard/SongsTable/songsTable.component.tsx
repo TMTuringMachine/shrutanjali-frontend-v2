@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useState,useRef } from 'react';
 
 //styles
 import {
@@ -46,9 +46,13 @@ const SongsTable = () => {
     visible: false,
     song: null,
   });
-
-  const { getAllMedia, deleteMedia } = useMedia();
+  
+  const tableRef = useRef(null)
+  const [height,setHeight] = useState(0)
+  const { getAllMedia, deleteMedia,getMediaPaginated } = useMedia();
   const [media, setMedia] = useState<IMedia[]>([]);
+  const [page,setPage] = useState(0);
+  const [count,setCount] = useState(5);
   // const [updated,setUpdated] = useState<boolean>(true);
 
   const toggleDeleteModal: Function = (name: string, id: string): void => {
@@ -84,26 +88,26 @@ const SongsTable = () => {
     console.log(deleteModalState);
   };
 
-  const deleteSong = () => {
-    //delete the song
+  const handlePagination = (page:number) => {
+    setPage(page)
   };
 
   const getSongs = async () => {
-    const { data } = await getAllMedia();
-    setMedia(data);
-    console.log('media', data);
+    const data:any = await getMediaPaginated(page,4);
+    setMedia(data.data);
+    setCount(data.count/4)
   };
 
   useEffect(() => {
     getSongs();
-  }, []);
+  }, [page]);
 
   return (
     <>
       <TableActions>
         <StyledTextField label="Search songs" variant="standard" />
       </TableActions>
-      <SongsTableContainer>
+      <SongsTableContainer ref={tableRef}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -204,6 +208,19 @@ const SongsTable = () => {
           />
         </Table>
       </SongsTableContainer>
+      <div style={{display:"flex"}}>
+
+          {
+            [...new Array(count)].map((item,i)=>{
+              return(
+                <>
+                  <div onClick={()=>handlePagination(i+1)} style={{padding:"10px",cursor:"pointer",'text-decoration': "underline black 2px"}}>{i+1}</div>
+                </>
+              )
+            })
+          }
+        </div>
+
     </>
   );
 };

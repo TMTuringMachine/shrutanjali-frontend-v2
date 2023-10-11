@@ -34,7 +34,7 @@ const useMedia = () => {
     loading: false,
     lyrics: null,
   });
- 
+
   const { featuredSongs, allSongs, dadajiSongs } = useSelector(
     (state: RootState) => state.songs
   );
@@ -49,6 +49,11 @@ const useMedia = () => {
     return data;
   }, []);
 
+  const getMediaPaginated = useCallback(async(page:number,limit:number)=>{
+      const data = await axiosInstance.get(`/media/page/?page=${page}&limit=${limit}`)
+      return data;
+  },[])
+
   const getAllBasicMedia = useCallback(async () => {
     const data = await axiosInstance.get('/basicMedia/all');
     return data;
@@ -56,7 +61,7 @@ const useMedia = () => {
 
   const getLiveMedia = useCallback(async () => {
     const res = await axiosInstance.get('/media/live');
-    console.log(res,"datttttaaaaaaaa");
+    console.log(res, "datttttaaaaaaaa");
     dispatch(setAllSongs(res.data));
   }, []);
 
@@ -253,7 +258,7 @@ const useMedia = () => {
   }, []);
 
   const populateMedia = useCallback(async (list: string[]) => {
-    console.log(list,"LISTTTTTTT"); 
+    // console.log(list,"LISTTTTTTT"); 
     const res = await axiosInstance.post('/media/populate', { list });
     return res.data;
   }, []);
@@ -281,6 +286,7 @@ const useMedia = () => {
     getSongLyrics,
     lyricState,
     populateMedia,
+    getMediaPaginated
   };
 };
 

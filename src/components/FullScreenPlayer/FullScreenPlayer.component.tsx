@@ -17,6 +17,7 @@ import {
   InputLabel,
   Menu,
   MenuItem,
+  Popover,
   Select,
   Slider,
   Typography,
@@ -36,8 +37,9 @@ import {
   LyricsContainer,
   LyricsText,
 } from './FullScreenPlayer.styles';
-import { IMedia } from '../../interfaces/media.interface';
+import { IAudio, IMedia } from '../../interfaces/media.interface';
 import useMedia from '../../hooks/useMedia';
+import { OptionButton } from '../../pages/Home/home.styles';
 
 interface Props {
   fullScreenHandler: FullScreenHandle;
@@ -48,6 +50,8 @@ interface Props {
   progress: number;
   isPlaying: boolean;
   seek: Function;
+  currentAudioIndex: any;
+  setCurrentAudioIndex: Function;
 }
 
 const FullScreenPlayer: FunctionComponent<Props> = ({
@@ -59,12 +63,17 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   fullScreenHandler,
   isPlaying,
   seek,
+  currentAudioIndex,
+  setCurrentAudioIndex
 }) => {
   const [readMode, setReadMode] = useState<boolean>(false);
   const [showPlayer, setShowPlayer] = useState<boolean>(true);
   const [language, setLanguage] = React.useState<number>(0);
   const ref = useRef<HTMLDivElement>();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [audioAnchorEl, setAudioAnchorEl] = useState(null);
+  const audioOpen = Boolean(audioAnchorEl);
+  const audioPopoverId = audioOpen ? 'audio-popover' : undefined;
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -72,6 +81,13 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleAudioClick = (event: any) => {
+    setAudioAnchorEl(event.currentTarget)
+  }
+
+  const handleAudioClose = () => {
+    setAudioAnchorEl(null)
+  }
 
   const { getSongLyrics, lyricState } = useMedia();
 
@@ -194,7 +210,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                 icon="material-symbols:headphones"
                 width="35px"
                 height="35px"
-                onClick={() => { }}
+                onClick={handleAudioClick}
               />
               <Icon
                 color="white"
@@ -205,8 +221,40 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
               />
             </Box>
           </PlayerOptions>
+          <Popover
+            id={audioPopoverId}
+            open={audioOpen}
+            anchorEl={audioAnchorEl}
+            onClose={handleAudioClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            container={ref.current}
+          >
+            <Box sx={{ width: 'fit-content', padding: '5px' }}>
+              {song?.audios?.map((item: IAudio, idx: number) => (
+                <OptionButton
+                  active={idx == currentAudioIndex}
+                  onClick={() => {
+                    setCurrentAudioIndex(idx);
+                    toggle();
+                    // setIsPlaying(false);
+                  }}
+                >
+                  {item.language}
+                </OptionButton>
+              ))}
+            </Box>
+          </Popover>
+
+
         </Overlay>
-      </PlayerContainer>
+      </PlayerContainer >
       <LyricsContainer read={readMode}>
         <Box
           sx={{
@@ -218,7 +266,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
           }}
         >
           <Typography sx={{ fontSize: '0.8em' }}>Lyrics</Typography>
-          {song?.lyrics?.length > 1 ? (
+          {song?.lyrics?.length! > 1 ? (
             <>
               <Button
                 id="basic-button"
@@ -227,7 +275,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
               >
-                {song?.lyrics[language].language}
+                {song?.lyrics![language].language}
               </Button>
               <Menu
                 id="basic-menu"
@@ -263,7 +311,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
           </LyricsText>
         )}
       </LyricsContainer>
-    </Box>
+    </Box >
   );
 };
 

@@ -8,12 +8,13 @@ export const SongPreviewContainer = styled(Box)(({ theme }) => ({
   boxShadow: " 0px 8px 20px rgba(35, 35, 35, 0.1)",
   padding: theme.spacing(1),
   display: "flex",
-  gap: theme.spacing(1),
+  gap: theme.spacing(2),
   cursor: "pointer",
   transition: "all 0.2s ease-in",
   "& img": {
     borderRadius: "10px",
     objectFit: "cover",
+    width: "26%"
   },
   "&:hover": {
     transform: "translateY(-5px)",
@@ -26,6 +27,7 @@ export const SongInfoContainer = styled(Box)(({ theme }) => ({
 
   "& .song-name": {
     fontWeight: 700,
+    fontSize: "1.2em"
   },
   "& .song-lyrics": {
     fontSize: "0.8em",

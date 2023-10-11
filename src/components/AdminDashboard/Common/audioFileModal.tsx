@@ -1,4 +1,4 @@
-import { Box, Button, Modal, Slide } from '@mui/material';
+import { Box, Button, LinearProgress, Modal, Slide } from '@mui/material';
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import {
   CustomButton,
@@ -13,25 +13,29 @@ import {
 import { Icon } from '@iconify/react';
 import { useDropzone } from 'react-dropzone';
 import { trimText } from '../../../utils/helper';
+import useMedia from '../../../hooks/useMedia';
 
+import * as UpChunk from '@mux/upchunk';
 interface Props {
   state: boolean;
   toggleModal: Function;
   handleUpload: Function;
   _progress: number;
-  setAudioLanguage?: Function;
   fromDadaji?: boolean;
+  setAudio: Function
 }
 const AudioFileModal: FunctionComponent<Props> = ({
   state,
   toggleModal,
   handleUpload,
   _progress,
-  setAudioLanguage,
   fromDadaji,
+  setAudio
 }) => {
-  const [audioFile, setAudioFile] = useState<File>();
+  const [audioFile, setAudioFile] = useState<File | null>();
   const [files, setFiles] = useState<File[]>([]);
+  const [progress, setProgress] = useState(0);
+  const [audioLanaguage, setAudioLanguage] = useState<String>('');
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       audio: ['.mp3', '.mpeg', '.aac'],
@@ -43,13 +47,66 @@ const AudioFileModal: FunctionComponent<Props> = ({
       },
       [audioFile]
     ),
+    multiple: false
   });
-
+  const [isUploading, setIsUploading] = useState(false);
+  const { getAudioId } = useMedia();
   const removeFile = (name: string) => {
     console.log(name);
     // const data = audioFile.filter(())
     // setAudioFile();
   };
+
+  const handleAddClick = async () => {
+    try {
+      if (audioFile !== null) {
+        const response = await fetch(
+          "https://shrutanjali-api.onrender.com/api/mux",
+          // 'http://localhost:5000/api/mux',
+          {
+            method: 'POST',
+          }
+        );
+        const url = await response.json();
+        setIsUploading(true);
+        const audioId = await getAudioId(url.uploadID);
+
+        const upload = UpChunk.createUpload({
+          endpoint: url.url, // Authenticated url
+          file: audioFile!, // File object with your video file’s properties
+          chunkSize: 5120, // Uploads the file in ~5mb chunks
+        });
+        // Subscribe to events
+        upload.on('error', (error: any) => {
+
+          console.log(error);
+        });
+
+        upload.on('progress', (progress: any) => {
+          setProgress(progress.detail);
+          console.log(progress.detail);
+        });
+
+        upload.on('success', (data: any) => {
+          // const language = audioLanaguage;
+          setAudio({ audioId, language: audioLanaguage });
+          setIsUploading(false);
+          toggleModal()
+          // setShowAudioModal(!showAudioModal);
+          setProgress(0);
+          setAudioFile(null);
+          setFiles([])
+          // console.log('UPLOAD COMPLETE', language);
+        });
+      } else {
+        console.log('PLEASE SELECT AUDIO FILE');
+      }
+    } catch (error) {
+      setIsUploading(false);
+      console.log(error);
+    }
+
+  }
 
   return (
     <Modal
@@ -106,9 +163,8 @@ const AudioFileModal: FunctionComponent<Props> = ({
                 </>
               );
             })}
-            <progress value={_progress || 0} max="100" /> {_progress.toString()}{' '}
-            / {'100%'}
-            <CustomButton disabled={_progress != 0} onClick={() => handleUpload(audioFile)}>
+            <LinearProgress variant="determinate" value={progress || 0} />
+            <CustomButton disabled={isUploading} onClick={handleAddClick}>
               ADD
             </CustomButton>
           </ModalFormContainer>

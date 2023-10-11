@@ -2,6 +2,7 @@ import {
   ChangeEvent,
   FunctionComponent,
   MouseEventHandler,
+  useEffect,
   useState,
 } from "react";
 import { Icon } from "@iconify/react";
@@ -36,6 +37,9 @@ const BottomPlayer: FunctionComponent<Prop> = ({
   isPlaying,
   seek,
 }) => {
+
+  
+
   return (
     <BottomPlayerContainer>
       <SongImageContainer>
