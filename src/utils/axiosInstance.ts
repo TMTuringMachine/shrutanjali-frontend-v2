@@ -11,7 +11,7 @@ const requestConfig: AxiosRequestConfig = {
   // baseURL: "http://192.168.0.105:5000/api",
   baseURL: "https://shru-2xn2.onrender.com/api",
 };
-
+console.log(requestConfig)
 const axiosInstance = axios.create(requestConfig);
 
 const errorHandler = (err: any) => {
