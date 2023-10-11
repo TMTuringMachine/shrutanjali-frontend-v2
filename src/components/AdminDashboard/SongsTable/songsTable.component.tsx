@@ -215,7 +215,7 @@ const SongsTable = () => {
             [...new Array(count)].map((item,i)=>{
               return(
                 <>
-                  <div onClick={()=>handlePagination(i+1)} style={{padding:"10px",cursor:"pointer",'text-decoration': "underline black 2px"}}>{i+1}</div>
+                  <div onClick={()=>handlePagination(i+1)} style={{padding:"10px",cursor:"pointer"}}>{i+1}</div>
                 </>
               )
             })
