@@ -5,7 +5,7 @@ export const LyricsConatainer = styled(Box)(() => ({
   width: "100%",
   marginTop: "20px",
   fontFamily: "Noto Sans",
-  fontFamily: "Noto Sans Devanagari",
+  // fontFamily: "Noto Sans Devanagari",
 }));
 
 export const ModalHeader = styled(Box)(() => ({
