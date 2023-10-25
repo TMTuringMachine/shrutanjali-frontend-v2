@@ -24,6 +24,7 @@ import useMedia from '../../../hooks/useMedia';
 import { IMedia } from '../../../interfaces/media.interface';
 import SwitchComponent from './switch.component';
 import EditSongModal from '../EditSongModal/editSongModal.component';
+import { Switch } from '@mui/material';
 
 interface DeleteModalState {
   visible: boolean;
@@ -53,6 +54,7 @@ const SongsTable = () => {
   const [media, setMedia] = useState<IMedia[]>([]);
   const [page,setPage] = useState(0);
   const [count,setCount] = useState(5);
+  const {featureMedia,toggleMedia} = useMedia()
   // const [updated,setUpdated] = useState<boolean>(true);
 
   const toggleDeleteModal: Function = (name: string, id: string): void => {
@@ -96,8 +98,9 @@ const SongsTable = () => {
     const data:any = await getMediaPaginated(page,4);
     console.log("THIS IS DATA W COUNT",data)
     setMedia(data.data);
-    setCount(data.count/4)
+    setCount(parseInt((data.count/4).toString()))
   };
+
 
   useEffect(() => {
     getSongs();
@@ -114,7 +117,7 @@ const SongsTable = () => {
             <TableRow>
               <StyledTableCell align="left"></StyledTableCell>
               <StyledTableCell align="center">Song Name</StyledTableCell>
-              <StyledTableCell align="center">Uploaded on</StyledTableCell>
+              {/* <StyledTableCell align="center">Uploaded on</StyledTableCell> */}
               <StyledTableCell align="center">Streams</StyledTableCell>
               <StyledTableCell align="center">Wish-listed</StyledTableCell>
               <StyledTableCell align="center">FEATURED</StyledTableCell>
@@ -138,28 +141,28 @@ const SongsTable = () => {
                   />
                 </StyledTableCell>
                 <StyledTableCell align="center">{song.title}</StyledTableCell>
-                <StyledTableCell align="center">
+                {/* <StyledTableCell align="center">
                   {moment(new Date()).format()}
-                </StyledTableCell>
+                </StyledTableCell> */}
                 <StyledTableCell align="center">{song.streams}</StyledTableCell>
                 <StyledTableCell align="center">
                   {song.wishlists || 0}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <SwitchComponent
+                  {/* <SwitchComponent
                     featured={song.isFeatured}
                     songId={song._id}
                     type={'Feature'}
-                  />
-                  {/* <Switch checked={song.isFeatured} onChange={()=>{featureMedia(song._id)}}   /> */}
+                  /> */}
+                  <Switch checked={song.isFeatured} onChange={()=>{featureMedia(song._id)}}   />
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <SwitchComponent
+                  {/* <SwitchComponent
                     featured={song.isLive}
                     songId={song._id}
                     type={'Toggle'}
-                  />
-                  {/* <Switch checked={song.isLive}  onChange={()=>{toggleMedia(song._id)}} /> */}
+                  /> */}
+                  <Switch checked={song.isLive}  onChange={()=>{toggleMedia(song._id)}} />
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <Icon
@@ -215,7 +218,7 @@ const SongsTable = () => {
             [...new Array(count)].map((item,i)=>{
               return(
                 <>
-                  <div onClick={()=>handlePagination(i+1)} style={{padding:"10px",cursor:"pointer",'text-decoration': "underline black 2px"}}>{i+1}</div>
+                {page===i?<><div onClick={()=>handlePagination(i)} style={{padding:"10px",cursor:"pointer",color:"red"}}>{i+1}</div></>:<><div onClick={()=>handlePagination(i)} style={{padding:"10px",cursor:"pointer"}}>{i+1}</div></>}
                 </>
               )
             })
