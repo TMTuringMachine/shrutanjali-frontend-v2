@@ -49,7 +49,7 @@ const LyricsModal: FunctionComponent<Props> = ({
       if (song?.lyrics?.length === 0) {
         return;
       }
-      console.log(song.lyrics[language].url);
+      // console.log(song.lyrics[language].url);
       getSongLyrics(song.lyrics[language].url);
     }
   }, [song, language]);

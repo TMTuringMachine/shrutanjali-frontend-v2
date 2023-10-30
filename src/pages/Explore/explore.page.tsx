@@ -55,10 +55,10 @@ const Explore = () => {
   }, []);
 
   useEffect(() => {
-    console.log(allSongs, 'all songs');
+    // console.log(allSongs, 'all songs');
     if (allSongs && allSongs?.length > 0) {
       setTopSongs(convertApiMedia(allSongs));
-      console.log(allSongs);
+      // console.log(allSongs);
     }
   }, [allSongs]);
 

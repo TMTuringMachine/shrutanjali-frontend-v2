@@ -31,7 +31,7 @@ const AdminLogin = () => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e): void => {
     e.preventDefault();
-    console.log(data, "this is the data");
+    // console.log(data, "this is the data");
     // if (data.username == "" || data.password == "") return;
     login(data);
   };

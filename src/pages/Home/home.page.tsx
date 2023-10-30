@@ -199,7 +199,7 @@ const Home: FunctionComponent<Props> = () => {
             // onSlideChange={(a) => {
             //   if (a.activeIndex > currentSongIndex) {
             //     // playNextSong();
-            //     console.log("next should go here");
+            //     // console.log("next should go here");
             //   } else { padding: "5px 20px"
             //     playPreviousSong();
             //   }

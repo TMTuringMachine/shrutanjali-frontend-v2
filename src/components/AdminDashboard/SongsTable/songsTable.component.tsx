@@ -87,7 +87,7 @@ const SongsTable = () => {
   };
 
   const handleDeleteSong: MouseEventHandler<HTMLButtonElement> = (): void => {
-    console.log(deleteModalState);
+    // console.log(deleteModalState);
   };
 
   const handlePagination = (page:number) => {
@@ -195,7 +195,7 @@ const SongsTable = () => {
               toggleDeleteModal();
             }}
             onYes={() => {
-              console.log(deleteMedia, 'delete media state');
+              // console.log(deleteMedia, 'delete media state');
               if (deleteModalState && deleteModalState.id) {
                 deleteMedia(deleteModalState.id);
                 toggleDeleteModal();

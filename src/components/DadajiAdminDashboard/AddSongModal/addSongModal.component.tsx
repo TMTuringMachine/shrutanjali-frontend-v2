@@ -79,7 +79,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       lyrics,
       isFeatured,
     };
-    console.log(data);
+    // console.log(data);
     addBasicMedia(data);
     toggleModal(!state);
   };
@@ -118,25 +118,25 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         // Subscribe to events
         upload.on('error', (error: any) => {
           // setStatusMessage(error.detail);
-          console.log(error);
+          // console.log(error);
         });
 
         upload.on('progress', (progress: any) => {
           setProgress(progress.detail);
-          console.log(progress.detail);
+          // console.log(progress.detail);
         });
 
         upload.on('success', (data: any) => {
           setAudio(audioId);
-          console.log('UPLOAD COMPLETE');
+          // console.log('UPLOAD COMPLETE');
           setShowAudioModal(!showAudioModal);
-          console.log(audio, 'audioo');
+          // console.log(audio, 'audioo');
         });
       } else {
-        console.log('PLEASE SELECT AUDIO FILE');
+        // console.log('PLEASE SELECT AUDIO FILE');
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -146,9 +146,9 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       const url: string = data.url;
       setLyrics(url);
       setShowLyricModal(!showLyricModal);
-      console.log(lyrics);
+      // console.log(lyrics);
     } else {
-      console.log('FILE NOT SELECTED');
+      // console.log('FILE NOT SELECTED');
     }
   };
   const removeAudio = () => {

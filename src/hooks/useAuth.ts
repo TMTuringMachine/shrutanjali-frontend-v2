@@ -21,11 +21,11 @@ const useAuth = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
   const login = useCallback(async (userData: AdminLoginForm) => {
-    console.log("in here");
+    // console.log("in here");
     const res: any = await axiosInstance.post("/admin/login", userData);
     if (res != null) {
       setSession(res.token);
-      console.log(res);
+      // console.log(res);
       dispatch(loginSuccess({}));
       navigate("/admin/dashboard");
     }

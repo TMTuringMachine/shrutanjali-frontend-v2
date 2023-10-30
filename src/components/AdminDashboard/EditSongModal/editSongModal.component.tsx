@@ -77,7 +77,7 @@ const EditSongModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (song) {
-      console.log('INSIDE USE', song);
+      // console.log('INSIDE USE', song);
       setTitle(song?.title);
       setFeatured(song?.isFeatured);
       setAudio(song?.audios);
@@ -97,7 +97,7 @@ const EditSongModal: FunctionComponent<Props> = ({
       thumbnailUrl: preview,
       mediaId,
     };
-    console.log(data);
+    // console.log(data);
     editMedia(data);
     toggleModal(!state);
   };
@@ -135,12 +135,12 @@ const EditSongModal: FunctionComponent<Props> = ({
         // Subscribe to events
         upload.on('error', (error: any) => {
           // setStatusMessage(error.detail);
-          console.log(error);
+          // console.log(error);
         });
 
         upload.on('progress', (progress: any) => {
           setProgress(progress.detail);
-          console.log(progress.detail);
+          // console.log(progress.detail);
         });
 
         upload.on('success', (data: any) => {
@@ -148,14 +148,14 @@ const EditSongModal: FunctionComponent<Props> = ({
           setAudio([...audios, { audioId, language }]);
           setShowAudioModal(!showAudioModal);
 
-          console.log('UPLOAD COMPLETE', language);
-          console.log(audios);
+          // console.log('UPLOAD COMPLETE', language);
+          // console.log(audios);
         });
       } else {
-        console.log('PLEASE SELECT AUDIO FILE');
+        // console.log('PLEASE SELECT AUDIO FILE');
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -166,9 +166,9 @@ const EditSongModal: FunctionComponent<Props> = ({
       const language: String = lyricsLanguage;
       setLyrics([...lyrics, { url, language }]);
       setShowLyricModal(!showLyricModal);
-      console.log(lyrics);
+      // console.log(lyrics);
     } else {
-      console.log('FILE NOT SELECTED');
+      // console.log('FILE NOT SELECTED');
     }
   };
 

@@ -124,7 +124,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       isFeatured,
       image: thumbnail,
     };
-    console.log(data);
+    // console.log(data);
     let safe = validateData(data);
     //validate data
     if (safe == false) return;
@@ -168,12 +168,12 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         // Subscribe to events
         upload.on('error', (error: any) => {
           // setStatusMessage(error.detail);
-          console.log(error);
+          // console.log(error);
         });
 
         upload.on('progress', (progress: any) => {
           setProgress(progress.detail);
-          console.log(progress.detail);
+          // console.log(progress.detail);
         });
 
         upload.on('success', (data: any) => {
@@ -181,13 +181,13 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
           setAudio([...audios, { audioId, language }]);
           setShowAudioModal(!showAudioModal);
           setProgress(0);
-          console.log('UPLOAD COMPLETE', language);
+          // console.log('UPLOAD COMPLETE', language);
         });
       } else {
-        console.log('PLEASE SELECT AUDIO FILE');
+        // console.log('PLEASE SELECT AUDIO FILE');
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -197,10 +197,10 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       const url: String = data.url;
       const language: String = lyricsLanguage;
       setLyrics([...lyrics, { url, language }]);
-      console.log(lyrics);
+      // console.log(lyrics);
       setShowLyricModal(!showLyricModal);
     } else {
-      console.log('FILE NOT SELECTED');
+      // console.log('FILE NOT SELECTED');
     }
   };
 
@@ -234,7 +234,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
               <Typography>Selected Audios:</Typography>
               <Box>
                 {audios.map((_audioFile) => {
-                  console.log(_audioFile);
+                  // console.log(_audioFile);
                   return (
                     <FilePreview>
                       <Typography>{_audioFile?.language} </Typography>

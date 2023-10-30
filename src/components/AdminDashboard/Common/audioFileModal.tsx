@@ -52,7 +52,7 @@ const AudioFileModal: FunctionComponent<Props> = ({
   const [isUploading, setIsUploading] = useState(false);
   const { getAudioId } = useMedia();
   const removeFile = (name: string) => {
-    console.log(name);
+    // console.log(name);
     // const data = audioFile.filter(())
     // setAudioFile();
   };
@@ -79,12 +79,12 @@ const AudioFileModal: FunctionComponent<Props> = ({
         // Subscribe to events
         upload.on('error', (error: any) => {
 
-          console.log(error);
+          // console.log(error);
         });
 
         upload.on('progress', (progress: any) => {
           setProgress(progress.detail);
-          console.log(progress.detail);
+          // console.log(progress.detail);
         });
 
         upload.on('success', (data: any) => {
@@ -96,14 +96,14 @@ const AudioFileModal: FunctionComponent<Props> = ({
           setProgress(0);
           setAudioFile(null);
           setFiles([])
-          // console.log('UPLOAD COMPLETE', language);
+          // // console.log('UPLOAD COMPLETE', language);
         });
       } else {
-        console.log('PLEASE SELECT AUDIO FILE');
+        // console.log('PLEASE SELECT AUDIO FILE');
       }
     } catch (error) {
       setIsUploading(false);
-      console.log(error);
+      // console.log(error);
     }
 
   }

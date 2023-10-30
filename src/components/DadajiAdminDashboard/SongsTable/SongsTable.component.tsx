@@ -84,7 +84,7 @@ const SongsTable = () => {
   const getSongs = async () => {
     const { data } = await getAllBasicMedia();
     setMedia(data);
-    console.log('media', data);
+    // console.log('media', data);
   };
 
   useEffect(() => {
@@ -144,7 +144,7 @@ const SongsTable = () => {
                     height="20px"
                     style={{ cursor: 'pointer', color: 'red' }}
                     onClick={() => {
-                      console.log(song, 'songgg');
+                      // console.log(song, 'songgg');
                       toggleDeleteModal(song.title, song._id);
                     }}
                   />

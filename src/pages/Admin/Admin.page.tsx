@@ -37,14 +37,14 @@ const AdminLandingPage = () => {
 
       upload.on("progress", (progress) => {
         setProgress(progress.detail);
-        console.log(progress);
+        // console.log(progress);
       });
 
       upload.on("success", () => {
         return setStatusMessage("Wrap it up, we're done here. 👋");
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

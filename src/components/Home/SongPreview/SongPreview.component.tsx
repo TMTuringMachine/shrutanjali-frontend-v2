@@ -14,7 +14,7 @@ interface Props {
 const SongPreview: FunctionComponent<Props> = ({ song }) => {
   const navigate = useNavigate()
   useEffect(() => {
-    console.log(song, "this is the song")
+    // console.log(song, "this is the song")
   }, [song])
   return (
     <SongPreviewContainer>

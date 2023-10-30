@@ -9,10 +9,10 @@ interface IProps {
 
 const SwitchComponent:FunctionComponent<IProps> = ({featured,songId,type}) => {
   const {featureMedia,toggleMedia} = useMedia()
-  console.log(featured,songId,type)
+  // console.log(featured,songId,type)
   const [check,setChecked] = useState<boolean>(featured);
   const handleChange = async()=>{
-    console.log(type==="Feature")
+    // console.log(type==="Feature")
     let bool:boolean;
     if(type==="Feature"){
       bool = await featureMedia(songId)
