@@ -15,7 +15,7 @@ const BookOverview: FunctionComponent<Props> = ({ book }) => {
   return (
     <SongOverviewContainer
       onClick={() => {
-        // console.log('here clicked on ', book.id);
+        console.log('here clicked on ', book.id);
         navigate(`/singleBook/${book.id}`);
       }}
     >

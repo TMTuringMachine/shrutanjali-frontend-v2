@@ -53,14 +53,14 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
       }, 1000)
       // setIsPlaying(false);
       // setProgress(0);
-      // // console.log(currentSongIndex, "index right now")
+      // console.log(currentSongIndex, "index right now")
       // if (currentSongIndex === songList?.length - 1) {
       //   setCurrentSongIndex(0);
       // } else {
       //   setCurrentSongIndex(currentSongIndex + 1);
       // }
       //
-      // // console.log("IT ENDED BROOOO")
+      // console.log("IT ENDED BROOOO")
       // setTimeout(() => {
       //
       //   audioRef.current?.play();
@@ -98,7 +98,7 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
   useEffect(() => {
     const handleKeyPress = (e: any) => {
       if (e.code == 'Space') {
-        // // console.log('i am herer you mf');
+        // console.log('i am herer you mf');
         e.preventDefault();
         if (isPlaying) {
           pause();
@@ -158,7 +158,7 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
   }, []);
 
   const nextSong = useCallback(({ playing }: songChangeProps) => {
-    // // console.log(currentSongIndex, 'here i am next current song index');
+    // console.log(currentSongIndex, 'here i am next current song index');
 
     if (currentSongIndex === songs?.length - 1) {
       setCurrentSongIndex(0);
@@ -167,7 +167,7 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
     }
     setProgress(0);
     setCurrSongStreams(0);
-    // // console.log(playing, 'here it is');
+    // console.log(playing, 'here it is');
     setTimeout(() => {
       if (playing) {
         play();
@@ -176,7 +176,7 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
   }, []);
 
   const previousSong = useCallback(({ playing }: songChangeProps) => {
-    // // console.log(currentSongIndex, 'here i am');
+    // console.log(currentSongIndex, 'here i am');
     if (currentSongIndex === 0) {
       setCurrentSongIndex(songs?.length - 1);
     } else {
@@ -203,7 +203,7 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
   // const getPlaybackUrl = useCallback(async (playbackId: string) => {
   //   //getplayback url from apu using playbackid
   //   const res: any = await axiosInstance.get(`/mux/${playbackId}`);
-  //   // console.log(res.url);
+  //   console.log(res.url);
   //   return res.url;
   // }, []);
 

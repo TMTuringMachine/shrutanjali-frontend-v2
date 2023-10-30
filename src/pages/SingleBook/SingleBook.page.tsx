@@ -20,7 +20,7 @@ const SingleBookPage: FunctionComponent = () => {
   const url =
     'http://res.cloudinary.com/ddb2uojz3/image/upload/v1684922158/PDFs/tlxev6ygqwaxio2kppx5.pdf';
 
-  // console.log(currBook, ' thhis s the current book');
+  console.log(currBook, ' thhis s the current book');
 
   return <SingleBook book={currBook} />;
 };

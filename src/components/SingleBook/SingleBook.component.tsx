@@ -16,7 +16,7 @@ const SingleBook: FunctionComponent<Props> = ({ book }) => {
       return;
     }
 
-    // console.log(book, 'how i here');
+    console.log(book, 'how i here');
     getBooksData(book.url);
   }, [book]);
 

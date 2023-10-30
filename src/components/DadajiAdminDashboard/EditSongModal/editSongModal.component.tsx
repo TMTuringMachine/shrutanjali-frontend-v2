@@ -64,7 +64,7 @@ const EditSongModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (song) {
-      // console.log('INSIDE USE', song);
+      console.log('INSIDE USE', song);
       setTitle(song?.title);
       setAudio(song?.audio);
       if (song.lyrics) setLyrics(song?.lyrics);
@@ -79,7 +79,7 @@ const EditSongModal: FunctionComponent<Props> = ({
       lyrics,
       basicMediaId,
     };
-    // console.log(data);
+    console.log(data);
     editBasicMedia(data);
     toggleModal(!state);
   };
@@ -105,25 +105,25 @@ const EditSongModal: FunctionComponent<Props> = ({
         // Subscribe to events
         upload.on('error', (error: any) => {
           // setStatusMessage(error.detail);
-          // console.log(error);
+          console.log(error);
         });
 
         upload.on('progress', (progress: any) => {
           setProgress(progress.detail);
-          // console.log(progress.detail);
+          console.log(progress.detail);
         });
 
         upload.on('success', (data: any) => {
           setAudio(audioId);
-          // console.log('UPLOAD COMPLETE');
-          // console.log(audio, 'audioo');
+          console.log('UPLOAD COMPLETE');
+          console.log(audio, 'audioo');
           setShowAudioModal(!showAudioModal);
         });
       } else {
-        // console.log('PLEASE SELECT AUDIO FILE');
+        console.log('PLEASE SELECT AUDIO FILE');
       }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -133,9 +133,9 @@ const EditSongModal: FunctionComponent<Props> = ({
       const url: string = data.url;
       setLyrics(url);
       setShowLyricModal(!showLyricModal);
-      // console.log(lyrics);
+      console.log(lyrics);
     } else {
-      // console.log('FILE NOT SELECTED');
+      console.log('FILE NOT SELECTED');
     }
   };
 

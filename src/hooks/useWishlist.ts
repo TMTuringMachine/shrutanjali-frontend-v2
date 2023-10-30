@@ -25,7 +25,7 @@ const useWishlist = () => {
     const res = await axiosInstance.post(`/media/updateMediaStats/${media}`, {
       wishlistCount: 1,
     });
-    // console.log(res, 'heres the wishlistt');
+    console.log(res, 'heres the wishlistt');
   }, []);
 
   const removeFromWishlist = useCallback(async (mediaId: string) => {

@@ -19,7 +19,7 @@ export const trimText = (text: string, limit: number = 10): string => {
 import axios from "axios";
 // import pdf from 'pdf-parse';
 // export const pdfTextExtractor = async () => {
-//   // console.log('bruhh??');
+//   console.log('bruhh??');
 //   const pdf = await fetch(
 //     'https://elecbits-platform.s3.ap-south-1.amazonaws.com/Sri%20Aravind%20-%20English-4592.pdf',
 //     {
@@ -32,17 +32,17 @@ import axios from "axios";
 //     }
 //   );
 
-//   // console.log('hii');
-//   // console.log(pdf);
+//   console.log('hii');
+//   console.log(pdf);
 // };
 
 export const pdfTextExtractor = async () => {
-  // console.log("bruhh??");
+  console.log("bruhh??");
   let url =
     "https://res.cloudinary.com/ddb2uojz3/image/upload/v1681543960/Turing_Machine_Kavach_2023_PPT_j8xpfo.pdf";
   let d = fetch(url).then((data) => data.arrayBuffer());
 
   let data = await (await fetch(url)).arrayBuffer();
 
-  // console.log(d, "this is the data");
+  console.log(d, "this is the data");
 };

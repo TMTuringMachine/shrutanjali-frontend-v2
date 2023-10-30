@@ -49,7 +49,7 @@ const DadajiSongs = () => {
 
   useEffect(() => {
     if (dadajiSongs.length > 0) {
-      // console.log(dadajiSongs, "here are dadaji songs");
+      console.log(dadajiSongs, "here are dadaji songs");
       setSongs(convertApiBasicMedia(dadajiSongs));
     }
   }, [dadajiSongs]);

@@ -61,7 +61,7 @@ const useMedia = () => {
 
   const getLiveMedia = useCallback(async () => {
     const res = await axiosInstance.get('/media/live');
-    // console.log(res, "datttttaaaaaaaa");
+    console.log(res, "datttttaaaaaaaa");
     dispatch(setAllSongs(res.data));
   }, []);
 
@@ -86,7 +86,7 @@ const useMedia = () => {
     const { data } = await axiosInstance.post(
       `/basicMedia/toggle/${basicMediaId}`
     );
-    // console.log(data, 'dattaa');
+    console.log(data, 'dattaa');
     store.dispatch({
       type: 'control/showSnackbar',
       payload: {
@@ -149,7 +149,7 @@ const useMedia = () => {
         },
       });
     }
-    // console.log(res);
+    console.log(res);
   }, []);
 
   const addBasicMedia = useCallback(async (data: IAddBasicMedia) => {
@@ -205,7 +205,7 @@ const useMedia = () => {
     form.append('mediaId', data.mediaId);
 
     const res: any = await axiosInstance.patch('/media', form);
-    // console.log(res);
+    console.log(res);
     if (res) {
       store.dispatch({
         type: 'control/showSnackbar',
@@ -218,7 +218,7 @@ const useMedia = () => {
   }, []);
 
   const editBasicMedia = useCallback(async (data: IUpdateBasicMedia) => {
-    // console.log(data, 'dattaa heree');
+    console.log(data, 'dattaa heree');
     const form: IUpdateBasicMedia = {
       title: '',
       audio: '',
@@ -229,9 +229,9 @@ const useMedia = () => {
     form['audio'] = data.audio?.toString() || '';
     form['lyrics'] = data.lyrics?.toString() || '';
     form['basicMediaId'] = data.basicMediaId?.toString() || '';
-    // console.log(form, 'formmdata');
+    console.log(form, 'formmdata');
     const res: any = await axiosInstance.post('/basicMedia/update', form);
-    // console.log(res);
+    console.log(res);
     if (res) {
       store.dispatch({
         type: 'control/showSnackbar',
@@ -244,7 +244,7 @@ const useMedia = () => {
   }, []);
 
   const getSongLyrics = useCallback(async (url: string) => {
-    // console.log(url, ' this is the song lyrics url');
+    console.log(url, ' this is the song lyrics url');
 
     setLyricState({
       loading: true,
@@ -258,7 +258,7 @@ const useMedia = () => {
   }, []);
 
   const populateMedia = useCallback(async (list: string[]) => {
-    // // console.log(list,"LISTTTTTTT"); 
+    // console.log(list,"LISTTTTTTT"); 
     const res = await axiosInstance.post('/media/populate', { list });
     return res.data;
   }, []);
