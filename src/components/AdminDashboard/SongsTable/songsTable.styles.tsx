@@ -6,7 +6,7 @@ export const SongsTableContainer = styled(TableContainer)(({ theme }) => ({
   maxHeight: "45vh",
   backgroundColor: theme.palette.background.default,
   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-  borderRadius: "30px",
+  borderRadius: "10px",
   padding: "10px 20px",
   overflowY: "auto",
   overflowX: "initial",

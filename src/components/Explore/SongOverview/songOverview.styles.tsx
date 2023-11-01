@@ -5,7 +5,7 @@ export const SongOverviewContainer = styled(Box)(({ theme }) => ({
   height: "250px",
   backgroundColor: theme.palette.background.default,
   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-  borderRadius: "20px",
+  borderRadius: "10px",
   padding: "5px",
   margin: "1rem",
   [theme.breakpoints.down('md')]: {
@@ -23,13 +23,12 @@ export const SongOverviewImage = styled("div")<SongOverviewImageProps>(
   ({ url, theme, disabled }) => ({
     width: "100%",
     height: "85%",
-    borderRadius: "20px",
+    borderRadius: "10px",
     //   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     backgroundColor: theme.palette.grey[400],
     backgroundImage: `url('${url}')`,
     backgroundPosition: "center",
     backgroundSize: "cover",
-    transition: "all 0.3s ease-in",
     display: "grid",
     placeItems: "center",
     cursor: "pointer",

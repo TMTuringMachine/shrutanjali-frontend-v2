@@ -1,37 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import Transition from '../../components/Transition';
-import { PageContainer } from '../page.styles';
-import { StyledTextField } from '../../global/global.styles';
-import { ContinueListeningSection } from './explore.styles';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import Transition from "../../components/Transition";
+import { PageContainer } from "../page.styles";
+import { StyledTextField } from "../../global/global.styles";
+import { ContinueListeningSection, EmptyWishList } from "./explore.styles";
+import { useLocation } from "react-router-dom";
 //data
-import { songs } from '../../helpers/data';
-import { Grid, Typography, Box, useTheme } from '@mui/material';
-import { Icon } from '@iconify/react';
-import SongOverview from '../../components/Explore/SongOverview/songOverview.component';
-import CategoriesOverview from '../../components/Explore/CategoriesOverview/CategoriesOverview.component';
+import { songs } from "../../helpers/data";
+import {
+  Grid,
+  Typography,
+  Box,
+  useTheme,
+  Pagination,
+  CircularProgress,
+} from "@mui/material";
+import { Icon } from "@iconify/react";
+import SongOverview from "../../components/Explore/SongOverview/songOverview.component";
+import CategoriesOverview from "../../components/Explore/CategoriesOverview/CategoriesOverview.component";
 
-import audio from '../../assets/images/audio.png';
-import books from '../../assets/images/books.png';
-import BottomPlayer from '../../components/BottomPlayer/BottomPlayer.component';
-import useMedia from '../../hooks/useMedia';
-import { IMedia } from '../../interfaces/media.interface';
-import { convertApiMedia } from '../Home/home.utils';
-import useAudioPlayer from '../../hooks/useAudioPlayer';
-import { useFullScreenHandle } from 'react-full-screen';
-import MuxAudio from '@mux/mux-audio-react';
-import useWishlist from '../../hooks/useWishlist';
-import useAuth from '../../hooks/useAuth';
-import AllBooks from '../../utils/AllBooksData';
-import BookOverview from '../../components/SingleBook/BookOverview.component';
+import audio from "../../assets/images/audio.png";
+import books from "../../assets/images/books.png";
+import BottomPlayer from "../../components/BottomPlayer/BottomPlayer.component";
+import useMedia from "../../hooks/useMedia";
+import { IMedia } from "../../interfaces/media.interface";
+import { convertApiMedia } from "../Home/home.utils";
+import useAudioPlayer from "../../hooks/useAudioPlayer";
+import { useFullScreenHandle } from "react-full-screen";
+import MuxAudio from "@mux/mux-audio-react";
+import useWishlist from "../../hooks/useWishlist";
+import useAuth from "../../hooks/useAuth";
+import AllBooks from "../../utils/AllBooksData";
+import BookOverview from "../../components/SingleBook/BookOverview.component";
 const Explore = () => {
-  const { getLiveMedia, allSongs, populateMedia } = useMedia();
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(5);
+  const { getLiveMedia, allSongs, populateMedia, getLiveMediaPaginated } =
+    useMedia();
   const [topSongs, setTopSongs] = useState<IMedia[]>([]);
   const fullScreenHandler = useFullScreenHandle();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const { getWishlist } = useWishlist();
   const [wishlist, setWishlist] = useState([]);
-  const location = useLocation()
+  const location = useLocation();
   const {
     play,
     pause,
@@ -50,12 +60,23 @@ const Explore = () => {
   });
 
   useEffect(() => {
-    getLiveMedia();
     populateWishList();
   }, []);
 
+  const handlePageChange = (event: any, value: number) => {
+    setPage(value);
+  };
+
+  const getLiveSongs = async () => {
+    const data: any = await getLiveMediaPaginated(page, 12);
+    setCount(Math.ceil(parseInt(data.count) / 12));
+  };
   useEffect(() => {
-    console.log(allSongs, 'all songs');
+    getLiveSongs();
+  }, [page]);
+
+  useEffect(() => {
+    console.log(allSongs, "all songs");
     if (allSongs && allSongs?.length > 0) {
       setTopSongs(convertApiMedia(allSongs));
       console.log(allSongs);
@@ -70,9 +91,8 @@ const Explore = () => {
 
   const populateWishList = async () => {
     const list = getWishlist();
-    if (!list) return;
+    if (!list || list.lenght === 0) return;
     setWishlist(await populateMedia(list));
-
   };
 
   const togglePlay: Function = (): void => {
@@ -99,22 +119,22 @@ const Explore = () => {
 
   return (
     <Transition>
-      <PageContainer>
+      <PageContainer style={{paddingBottom:"200px"}}>
         <MuxAudio
           src={currentSong && currentSong?.audios[0].audioId?.playbackUrl}
           type="hls"
           controls
           ref={audioRef}
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
         />
         <StyledTextField
           label={
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '10rem',
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "10rem",
               }}
             >
               <Icon width="30" height="30" icon="ic:baseline-search" />
@@ -123,12 +143,12 @@ const Explore = () => {
           }
           variant="outlined"
           sx={{
-            margin: '1rem 0px',
-            width: '40%',
-            borderRadius: '2rem',
-            [breakpoints.down('md')]: {
-              width: "100%"
-            }
+            margin: "1rem 0px",
+            width: "40%",
+            borderRadius: "2rem",
+            [breakpoints.down("md")]: {
+              width: "100%",
+            },
           }}
         />
         <ContinueListeningSection>
@@ -136,44 +156,77 @@ const Explore = () => {
             <SongOverview song={song} />
           ))} */}
         </ContinueListeningSection>
+        {/**
+           
         <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
           Browse by interest
         </Typography>
         <ContinueListeningSection onClick={() => blogs()}>
-          {/* <CategoriesOverview title="Blogs" imgSrc={audio} /> */}
           <CategoriesOverview title="Audio" imgSrc={audio} />
           <CategoriesOverview title="Books" imgSrc={audio} />
-        </ContinueListeningSection>
-        <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
+        </ContinueListeningSecion>
+            **/}
+        <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
           Top bhajans
         </Typography>
-        <ContinueListeningSection style={{ marginBottom: '120px' }}>
+        <ContinueListeningSection style={{ marginBottom: "120px" }}>
+          {topSongs.length === 0 && (
+            <Box>
+              <CircularProgress />
+            </Box>
+          )}
           {topSongs && topSongs?.length > 0
             ? topSongs.map((song, idx) => (
-              <SongOverview song={song} handleClick={playSong} idx={idx} />
-            ))
+                <SongOverview
+                  song={song}
+                  handleClick={playSong}
+                  idx={idx}
+                  key={idx}
+                />
+              ))
             : null}
+          <Pagination
+            shape="rounded"
+            page={page}
+            onChange={handlePageChange}
+            count={count}
+            sx={{ margin: "30px auto" }}
+          />
         </ContinueListeningSection>
-        <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
+        <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
           Your Wishlist
         </Typography>
         <ContinueListeningSection>
+          {wishlist && wishlist.length === 0 && (
+            <EmptyWishList>
+              <Icon icon="ri:heart-add-fill" width="50px" height="50px" />
+              <Typography sx={{ fontSize: "1.5em" }}>
+                Your wishlist is empty!
+              </Typography>
+              <Typography sx={{ color: "gray" }}>
+                Add songs to your wishlist to enjoy the songs special to you !
+              </Typography>
+            </EmptyWishList>
+          )}
           {wishlist && wishlist?.length > 0
             ? wishlist.map((song, idx) => (
-              <SongOverview song={song} handleClick={playSong} idx={idx} />
-            ))
+                <SongOverview song={song} handleClick={playSong} idx={idx} />
+              ))
             : null}
         </ContinueListeningSection>
         {/* Books section */}
-        <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
+
+        {/**
+           
+        <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
           Books
         </Typography>
-        <ContinueListeningSection style={{ marginBottom: '120px' }}>
+        <ContinueListeningSection style={{ marginBottom: "120px" }}>
           {AllBooks.map((book) => {
             return <BookOverview book={book} />;
           })}
         </ContinueListeningSection>
-
+           * */}
         <BottomPlayer
           fullScreenHandler={fullScreenHandler}
           nextSong={playNextSong}
@@ -181,7 +234,7 @@ const Explore = () => {
           togglePlay={togglePlay}
           progress={progress}
           isPlaying={isPlaying}
-          song={location.state?location.state:currentSong}
+          song={location.state ? location.state : currentSong}
           seek={seek}
         />
       </PageContainer>

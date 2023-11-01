@@ -16,6 +16,16 @@ export const trimText = (text: string, limit: number = 10): string => {
   return res + "...";
 };
 
+export const optimizeImage = (url: string) => {
+  let nurl = url;
+  let idx = url.indexOf("upload");
+  if (idx == -1) return nurl;
+  let prev = url.slice(0, idx);
+  const post = url.slice(idx + 6);
+  nurl = prev + "upload/q_auto:low" + post;
+
+  return nurl;
+};
 import axios from "axios";
 // import pdf from 'pdf-parse';
 // export const pdfTextExtractor = async () => {
