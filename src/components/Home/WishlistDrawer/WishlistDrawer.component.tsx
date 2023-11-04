@@ -45,8 +45,8 @@ const WishlistDrawer: FunctionComponent<Props> = ({ state, toggleDrawer }) => {
         <Typography className="modalHeader">YOUR WISHLIST</Typography>
         {
           wishlist ? <> <Grid container spacing={3}>
-            {wishlist?.slice(0, 8)?.map((song) => (
-              <Grid item md={6}>
+            {wishlist?.slice(0, 8)?.map((song,idx) => (
+              <Grid key={idx} item md={6}>
                 <SongPreview song={song} />
               </Grid>
             ))}

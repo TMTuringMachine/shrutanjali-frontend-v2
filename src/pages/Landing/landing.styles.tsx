@@ -21,7 +21,7 @@ export const NameContainer = styled(Box)(() => ({
 }));
 
 type ImageProps = {
-  active: boolean;
+  active: Boolean;
 };
 
 export const ImageContainer = styled(Box)<ImageProps>(({ active, theme }) => ({
