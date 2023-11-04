@@ -63,7 +63,7 @@ export const ActionPanelContainer = styled(Box)(({ theme }) => ({
   height: 'fit-content',
   backgroundColor: theme.palette.background.default,
   boxShadow: 'rgba(139, 139, 156, 0.2) 0px 7px 29px 0px',
-  borderRadius: '30px',
+  borderRadius: '10px',
   padding: theme.spacing(3),
   display: 'flex',
   flexDirection: 'column',

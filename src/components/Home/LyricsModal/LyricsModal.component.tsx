@@ -54,6 +54,18 @@ const LyricsModal: FunctionComponent<Props> = ({
     }
   }, [song, language]);
 
+  const fixUrl = (url: string) => {
+    if (!url) return url;
+    let nurl = url;
+    if (url.slice(0, 6) != "https") {
+      //http://something.com
+      //https://something
+      let main = url.slice(7);
+      nurl = "https://" + main;
+    }
+    return nurl;
+  };
+
   return (
     <Modal
       open={state}
@@ -98,7 +110,7 @@ const LyricsModal: FunctionComponent<Props> = ({
                    */}
               <div style={{ overflowX: "hidden" }}>
                 <Document
-                  file={song?.lyrics[language]?.url}
+                  file={fixUrl(song?.lyrics![language]?.url)}
                   onLoadSuccess={onDocumentLoadSuccess}
                 >
                   {Array.from(new Array(numPages), (el, index) => (
@@ -113,7 +125,6 @@ const LyricsModal: FunctionComponent<Props> = ({
                     />
                   ))}
                 </Document>
-                
               </div>
             </LyricsConatainer>
           )}

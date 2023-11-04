@@ -6,6 +6,7 @@ import { Song } from "../../../interfaces/song.interface";
 //styles
 import { CarouselCardContainer } from "./CarouselCard.styles";
 import { IMedia } from "../../../interfaces/media.interface";
+import { optimizeImage } from "../../../utils/helper";
 
 interface Props {
   song: IMedia;
@@ -23,7 +24,7 @@ const CarouselCard: FunctionComponent<Props> = ({
   return (
     <CarouselCardContainer
       layoutId={song._id}
-      url={song.thumbnailUrl}
+      url={optimizeImage(song.thumbnailUrl)}
       disabled={disabled}
       onClick={onClick}
       active={active}

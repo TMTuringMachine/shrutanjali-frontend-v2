@@ -4,37 +4,37 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from 'react';
+} from "react";
 
 //libs
-import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from "swiper/react";
 import SwiperCore, {
   Navigation,
   Pagination,
   EffectCoverflow,
   Mousewheel,
-} from 'swiper';
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/mousewheel';
-import { Icon } from '@iconify/react';
-import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import MuxAudio from '@mux/mux-audio-react';
+} from "swiper";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/mousewheel";
+import { Icon } from "@iconify/react";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import MuxAudio from "@mux/mux-audio-react";
 
 //components
-import Transition from '../../components/Transition';
-import CarouselCard from '../../components/Home/CarouselCard/CarouselCard.component';
-import WishlistDrawer from '../../components/Home/WishlistDrawer/WishlistDrawer.component';
+import Transition from "../../components/Transition";
+import CarouselCard from "../../components/Home/CarouselCard/CarouselCard.component";
+import WishlistDrawer from "../../components/Home/WishlistDrawer/WishlistDrawer.component";
 
 //hooks
-import { useWindowSize } from '../../hooks/useWindowSize';
-import useMedia from '../../hooks/useMedia';
-import useAudioPlayer from '../../hooks/useAudioPlayer';
+import { useWindowSize } from "../../hooks/useWindowSize";
+import useMedia from "../../hooks/useMedia";
+import useAudioPlayer from "../../hooks/useAudioPlayer";
 
 //styles
-import { PageContainer } from '../page.styles';
+import { PageContainer } from "../page.styles";
 import {
   SwiperContainer,
   SongData,
@@ -43,29 +43,30 @@ import {
   PlayerOptionsContainer,
   PlayingSong,
   OptionButton,
-} from './home.styles';
+} from "./home.styles";
 
 //data
 // import { songs } from "../../helpers/data";
 
 //interfaces
-import { Song } from '../../interfaces/song.interface';
+import { Song } from "../../interfaces/song.interface";
 import {
   Box,
   Button,
+  CircularProgress,
   LinearProgress,
   Popover,
   Slider,
   Typography,
-} from '@mui/material';
-import { AnimatePresence } from 'framer-motion';
-import FullScreenPlayer from '../../components/FullScreenPlayer/FullScreenPlayer.component';
-import { IAudio, IMedia } from '../../interfaces/media.interface';
-import { convertApiMedia } from './home.utils';
-import SliderProps from '../../components/Home/SliderProps';
-import LyricsModal from '../../components/Home/LyricsModal/LyricsModal.component';
-import useWishlist from '../../hooks/useWishlist';
-interface Props { }
+} from "@mui/material";
+import { AnimatePresence } from "framer-motion";
+import FullScreenPlayer from "../../components/FullScreenPlayer/FullScreenPlayer.component";
+import { IAudio, IMedia } from "../../interfaces/media.interface";
+import { convertApiMedia } from "./home.utils";
+import SliderProps from "../../components/Home/SliderProps";
+import LyricsModal from "../../components/Home/LyricsModal/LyricsModal.component";
+import useWishlist from "../../hooks/useWishlist";
+interface Props {}
 
 SwiperCore.use([Navigation, EffectCoverflow, Mousewheel]);
 
@@ -88,13 +89,13 @@ const Home: FunctionComponent<Props> = () => {
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-  const { width } = useWindowSize()
+  const { width } = useWindowSize();
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? "simple-popover" : undefined;
 
   const fullScreenHandler = useFullScreenHandle();
   const { getFeaturedMedia, featuredSongs } = useMedia();
@@ -114,7 +115,7 @@ const Home: FunctionComponent<Props> = () => {
     isPlaying: playing,
   } = useAudioPlayer({
     songList: songs,
-    ref: ref
+    ref: ref,
   });
 
   // const audioRef = useRef<HTMLAudioElement>();
@@ -165,6 +166,11 @@ const Home: FunctionComponent<Props> = () => {
     setIsPlaying(playing);
   }, [playing]);
 
+  const handleFullScreenFromCard = (song:any) => {
+    setActiveSong(song);
+    fullScreenHandler.enter();
+  };
+
   return (
     <Transition>
       <PageContainer>
@@ -176,14 +182,26 @@ const Home: FunctionComponent<Props> = () => {
           type="hls"
           controls
           ref={audioRef}
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
         />
         <SwiperContainer>
+          {songs === null && (
+            <Box
+              sx={{
+                width: "100$",
+                height: "36vh",
+                display: "grid",
+                placeItems: "center",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
           {songs && songs.length > 0 ? (
             <Swiper
               navigation
               pagination={{ clickable: true }}
-              effect={'coverflow'}
+              effect={"coverflow"}
               coverflowEffect={{
                 rotate: 50,
                 stretch: 0,
@@ -193,17 +211,9 @@ const Home: FunctionComponent<Props> = () => {
               }}
               loop
               mousewheel
-              slidesPerView={width !== undefined && width > 900 ? 4 : 1}
+              slidesPerView={width !== undefined && width > 900 ? 3 : 1}
               centeredSlides
-              style={{ overflow: 'visible' }}
-            // onSlideChange={(a) => {
-            //   if (a.activeIndex > currentSongIndex) {
-            //     // playNextSong();
-            //     console.log("next should go here");
-            //   } else { padding: "5px 20px"
-            //     playPreviousSong();
-            //   }
-            // }}
+              style={{ overflow: "visible" }}
             >
               <SliderProps ref={ref} />
               {songs.map((item, idx) => (
@@ -223,11 +233,15 @@ const Home: FunctionComponent<Props> = () => {
                       key={idx}
                         song={item}
                         active={isActive}
+                        key={idx}
                         disabled={isPlaying}
                         onClick={() => {
-                          togglePlay();
+                          // setActiveSong(item);
+                          // fullScreenHandler.enter();
+                          handleFullScreenFromCard(item);
+                          // togglePlay();
                         }}
-                      // setSong={setActiveSong}
+                        // setSong={setActiveSong}
                       />
                     );
                   }}
@@ -250,7 +264,7 @@ const Home: FunctionComponent<Props> = () => {
             {activeSong ? <h1>{activeSong.title}</h1> : null}
           </SongData>
           <Slider
-            sx={{ width: '90%' }}
+            sx={{ width: "90%" }}
             value={progress}
             onChange={(e: any) => {
               seek(e?.target?.value);
@@ -307,8 +321,8 @@ const Home: FunctionComponent<Props> = () => {
               <Icon
                 icon={
                   isPlaying
-                    ? 'material-symbols:pause-circle-rounded'
-                    : 'material-symbols:play-circle-rounded'
+                    ? "material-symbols:pause-circle-rounded"
+                    : "material-symbols:play-circle-rounded"
                 }
                 width="50px"
                 height="50px"
@@ -338,15 +352,15 @@ const Home: FunctionComponent<Props> = () => {
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
+                vertical: "top",
+                horizontal: "center",
               }}
               transformOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
+                vertical: "bottom",
+                horizontal: "center",
               }}
             >
-              <Box sx={{ width: 'fit-content', padding: '5px' }}>
+              <Box sx={{ width: "fit-content", padding: "5px" }}>
                 {currentSong?.audios?.map((item: IAudio, idx: number) => (
                   <OptionButton
                   key={idx}

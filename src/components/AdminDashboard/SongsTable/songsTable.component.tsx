@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useState,useRef } from 'react';
+import React, { MouseEventHandler, useEffect, useState, useRef } from "react";
 
 //styles
 import {
@@ -6,25 +6,25 @@ import {
   StyledTableCell,
   TableActions,
   TableSongImage,
-} from './songsTable.styles';
-import { StyledTextField } from '../../../global/global.styles';
+} from "./songsTable.styles";
+import { StyledTextField } from "../../../global/global.styles";
 
 //libs
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { Icon } from '@iconify/react';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import { Icon } from "@iconify/react";
 
 //data
 // import { songs } from "../../../helpers/data";
-import moment from 'moment';
-import DeleteModal from '../../Modals/DeleteModal';
-import useMedia from '../../../hooks/useMedia';
-import { IMedia } from '../../../interfaces/media.interface';
-import SwitchComponent from './switch.component';
-import EditSongModal from '../EditSongModal/editSongModal.component';
-import { Switch } from '@mui/material';
+import moment from "moment";
+import DeleteModal from "../../Modals/DeleteModal";
+import useMedia from "../../../hooks/useMedia";
+import { IMedia } from "../../../interfaces/media.interface";
+import SwitchComponent from "./switch.component";
+import EditSongModal from "../EditSongModal/editSongModal.component";
+import { Pagination, Switch } from "@mui/material";
 
 interface DeleteModalState {
   visible: boolean;
@@ -40,21 +40,21 @@ interface EditModalState {
 const SongsTable = () => {
   const [deleteModalState, setDeleteModalState] = useState<DeleteModalState>({
     visible: false,
-    text: '',
+    text: "",
     id: null,
   });
   const [editModalState, setEditModalState] = useState<EditModalState>({
     visible: false,
     song: null,
   });
-  
-  const tableRef = useRef(null)
-  const [height,setHeight] = useState(0)
-  const { getAllMedia, deleteMedia,getMediaPaginated } = useMedia();
+
+  const tableRef = useRef(null);
+  const [height, setHeight] = useState(0);
+  const { getAllMedia, deleteMedia, getMediaPaginated } = useMedia();
   const [media, setMedia] = useState<IMedia[]>([]);
-  const [page,setPage] = useState(0);
-  const [count,setCount] = useState(5);
-  const {featureMedia,toggleMedia} = useMedia()
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(5);
+  const { featureMedia, toggleMedia } = useMedia();
   // const [updated,setUpdated] = useState<boolean>(true);
 
   const toggleDeleteModal: Function = (name: string, id: string): void => {
@@ -90,16 +90,19 @@ const SongsTable = () => {
     console.log(deleteModalState);
   };
 
-  const handlePagination = (page:number) => {
-    setPage(page)
+  const handlePageChange = (event: any, value: number) => {
+    setPage(value);
   };
+
+  // const handlePagination = (page: number) => {
+  //   setPage(page);
+  // };
 
   const getSongs = async () => {
-    const data:any = await getMediaPaginated(page,4);
+    const data: any = await getMediaPaginated(page - 1, 8);
     setMedia(data.data);
-    setCount(parseInt((data.count/4).toString()))
+    setCount(parseInt((data.count / 8).toString()));
   };
-
 
   useEffect(() => {
     getSongs();
@@ -127,66 +130,79 @@ const SongsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {media && media?.map((song, item) => (
-              <TableRow
-                key={item}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <StyledTableCell align="left">
-                  <TableSongImage
-                    src={song.thumbnailUrl}
-                    alt=""
-                    loading="lazy"
-                  />
-                </StyledTableCell>
-                <StyledTableCell align="center">{song.title}</StyledTableCell>
-                {/* <StyledTableCell align="center">
+            {media &&
+              media?.map((song, item) => (
+                <TableRow
+                  key={item}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <StyledTableCell align="left">
+                    <TableSongImage
+                      src={song.thumbnailUrl}
+                      alt=""
+                      loading="lazy"
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{song.title}</StyledTableCell>
+                  {/* <StyledTableCell align="center">
                   {moment(new Date()).format()}
                 </StyledTableCell> */}
-                <StyledTableCell align="center">{song.streams}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {song.wishlists || 0}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {/* <SwitchComponent
+                  <StyledTableCell align="center">
+                    {song.streams}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {song.wishlists || 0}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {/* <SwitchComponent
                     featured={song.isFeatured}
                     songId={song._id}
                     type={'Feature'}
                   /> */}
-                  <Switch checked={song.isFeatured} onChange={()=>{featureMedia(song._id)}}   />
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {/* <SwitchComponent
+                    <Switch
+                      checked={song.isFeatured}
+                      onChange={() => {
+                        featureMedia(song._id);
+                      }}
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {/* <SwitchComponent
                     featured={song.isLive}
                     songId={song._id}
                     type={'Toggle'}
                   /> */}
-                  <Switch checked={song.isLive}  onChange={()=>{toggleMedia(song._id)}} />
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <Icon
-                    icon="material-symbols:edit-square-outline"
-                    width="20px"
-                    height="20px"
-                    style={{ cursor: 'pointer', color: 'gray' }}
-                    onClick={() => {
-                      toggleEditModal(song);
-                    }}
-                  />
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <Icon
-                    icon="material-symbols:delete-rounded"
-                    width="20px"
-                    height="20px"
-                    style={{ cursor: 'pointer', color: 'red' }}
-                    onClick={() => {
-                      toggleDeleteModal(song.title, song._id);
-                    }}
-                  />
-                </StyledTableCell>
-              </TableRow>
-            ))}
+                    <Switch
+                      checked={song.isLive}
+                      onChange={() => {
+                        toggleMedia(song._id);
+                      }}
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Icon
+                      icon="material-symbols:edit-square-outline"
+                      width="20px"
+                      height="20px"
+                      style={{ cursor: "pointer", color: "gray" }}
+                      onClick={() => {
+                        toggleEditModal(song);
+                      }}
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Icon
+                      icon="material-symbols:delete-rounded"
+                      width="20px"
+                      height="20px"
+                      style={{ cursor: "pointer", color: "red" }}
+                      onClick={() => {
+                        toggleDeleteModal(song.title, song._id);
+                      }}
+                    />
+                  </StyledTableCell>
+                </TableRow>
+              ))}
           </TableBody>
           <DeleteModal
             state={deleteModalState.visible}
@@ -195,7 +211,7 @@ const SongsTable = () => {
               toggleDeleteModal();
             }}
             onYes={() => {
-              console.log(deleteMedia, 'delete media state');
+              console.log(deleteMedia, "delete media state");
               if (deleteModalState && deleteModalState.id) {
                 deleteMedia(deleteModalState.id);
                 toggleDeleteModal();
@@ -211,19 +227,43 @@ const SongsTable = () => {
           />
         </Table>
       </SongsTableContainer>
-      <div style={{display:"flex"}}>
-
-          {
-            [...new Array(count)].map((item,i)=>{
-              return(
+      <Pagination
+        count={count}
+        page={page}
+        onChange={handlePageChange}
+        shape="rounded"
+        sx={{ marginTop: "20px" }}
+      />
+      {/**
+         
+      <div style={{ display: "flex" }}>
+        {[...new Array(count)].map((item, i) => {
+          return (
+            <>
+              {page === i ? (
                 <>
-                {page===i?<><div onClick={()=>handlePagination(i)} style={{padding:"10px",cursor:"pointer",color:"red"}}>{i+1}</div></>:<><div onClick={()=>handlePagination(i)} style={{padding:"10px",cursor:"pointer"}}>{i+1}</div></>}
+                  <div
+                    onClick={() => handlePagination(i)}
+                    style={{ padding: "10px", cursor: "pointer", color: "red" }}
+                  >
+                    {i + 1}
+                  </div>
                 </>
-              )
-            })
-          }
-        </div>
-
+              ) : (
+                <>
+                  <div
+                    onClick={() => handlePagination(i)}
+                    style={{ padding: "10px", cursor: "pointer" }}
+                  >
+                    {i + 1}
+                  </div>
+                </>
+              )}
+            </>
+          );
+        })}
+      </div>
+         * **/}
     </>
   );
 };
