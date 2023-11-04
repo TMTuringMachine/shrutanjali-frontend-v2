@@ -233,7 +233,6 @@ const Home: FunctionComponent<Props> = () => {
                       key={idx}
                         song={item}
                         active={isActive}
-                        key={idx}
                         disabled={isPlaying}
                         onClick={() => {
                           // setActiveSong(item);
