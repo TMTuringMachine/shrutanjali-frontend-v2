@@ -166,9 +166,16 @@ const Home: FunctionComponent<Props> = () => {
     setIsPlaying(playing);
   }, [playing]);
 
-  const handleFullScreenFromCard = (song:any) => {
+  const handleFullScreenFromCard = (song: any, index: number) => {
     setActiveSong(song);
-    fullScreenHandler.enter();
+    if (index === currentSongIndex + 1) {
+      ref?.current?.next();
+    } else if (index !== currentSongIndex) {
+      ref?.current?.previous();
+    }
+    setTimeout(() => {
+      fullScreenHandler.enter();
+    }, 300);
   };
 
   return (
@@ -237,7 +244,7 @@ const Home: FunctionComponent<Props> = () => {
                         onClick={() => {
                           // setActiveSong(item);
                           // fullScreenHandler.enter();
-                          handleFullScreenFromCard(item);
+                          handleFullScreenFromCard(item, idx);
                           // togglePlay();
                         }}
                         // setSong={setActiveSong}
