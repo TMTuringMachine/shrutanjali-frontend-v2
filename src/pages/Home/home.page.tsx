@@ -237,9 +237,9 @@ const Home: FunctionComponent<Props> = () => {
                     }
                     return (
                       <CarouselCard
+                      key={idx}
                         song={item}
                         active={isActive}
-                        key={idx}
                         disabled={isPlaying}
                         onClick={() => {
                           // setActiveSong(item);
@@ -369,6 +369,7 @@ const Home: FunctionComponent<Props> = () => {
               <Box sx={{ width: "fit-content", padding: "5px" }}>
                 {currentSong?.audios?.map((item: IAudio, idx: number) => (
                   <OptionButton
+                  key={idx}
                     active={idx == currentAudioIndex}
                     onClick={() => {
                       setCurrentAudioIndex(idx);
