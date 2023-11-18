@@ -8,7 +8,7 @@ export const isDevelopment: boolean =
   !process.env.NODE_ENV || process.env.NODE_ENV === "development";
 
 export const trimText = (text: string, limit: number = 10): string => {
-  if(!text) return text;
+  if (!text) return text;
   if (text.length < limit) {
     return text;
   }
@@ -18,13 +18,15 @@ export const trimText = (text: string, limit: number = 10): string => {
 };
 
 export const optimizeImage = (url: string) => {
-  if(!url) return url;
+  if (!url) return url;
   let nurl = url;
   let idx = url.indexOf("upload");
   if (idx == -1) return nurl;
   let prev = url.slice(0, idx);
   const post = url.slice(idx + 6);
-  nurl = prev + "upload/q_auto:low" + post;
+  // nurl = prev + "upload/q_auto:low" + post;
+
+  nurl = prev + "upload/q_1" + post;
 
   return nurl;
 };

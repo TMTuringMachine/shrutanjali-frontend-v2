@@ -37,14 +37,11 @@ const BottomPlayer: FunctionComponent<Prop> = ({
   isPlaying,
   seek,
 }) => {
-
-  
-
   return (
     <BottomPlayerContainer>
       <SongImageContainer>
         <img src={song?.thumbnailUrl} className="song-image" alt="" />
-        <Box>
+        <Box sx={{ fontWeight: 600,fontSize:"1.2em" }}>
           <p>{song?.title}</p>
         </Box>
       </SongImageContainer>

@@ -61,9 +61,10 @@ const Explore = () => {
 
   useEffect(() => {
     populateWishList();
+    setCurrentSongIndex(0);
   }, []);
 
-  const handlePageChange = (event: any, value: number) => {
+  const handlePageChange = (_: any, value: number) => {
     setPage(value);
   };
 
@@ -76,14 +77,11 @@ const Explore = () => {
   }, [page]);
 
   useEffect(() => {
-    console.log(allSongs, "all songs");
     if (allSongs && allSongs?.length > 0) {
       setTopSongs(convertApiMedia(allSongs));
-      console.log(allSongs);
     }
   }, [allSongs]);
 
-  const { blogs } = useAuth();
   const { breakpoints } = useTheme();
   const playSong: Function = (idx: number) => {
     playIdxSong(idx, isPlaying);
@@ -116,6 +114,9 @@ const Explore = () => {
   const playPreviousSong = () => {
     previousSong({ playing: isPlaying });
   };
+  useEffect(()=>{
+    console.log(currentSong,"this is current song")
+  },[currentSong])
 
   return (
     <Transition>
@@ -141,7 +142,7 @@ const Explore = () => {
               backgroundColor: "#fff",
               padding: "10px",
               // border: "none",
-              border:'1px solid gray',
+              border: "1px solid gray",
               textAlign: "center",
               borderRadius: "10px",
               // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -181,7 +182,7 @@ const Explore = () => {
           <Grid container spacing={3} columns={10}>
             {topSongs && topSongs?.length > 0
               ? topSongs.map((song, idx) => (
-                  <Grid item xs={10} sm={5} md={3} lg={2}>
+                  <Grid item xs={10} sm={5} md={3} lg={2} key={song?.title}>
                     <SongOverview
                       song={song}
                       handleClick={playSong}
@@ -218,7 +219,7 @@ const Explore = () => {
           <Grid container columns={10} spacing={3}>
             {wishlist && wishlist?.length > 0
               ? wishlist.map((song, idx) => (
-                  <Grid item sm={2}>
+                  <Grid item sm={2} key={idx}>
                     <SongOverview
                       song={song}
                       handleClick={playSong}
