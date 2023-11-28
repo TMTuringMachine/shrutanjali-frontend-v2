@@ -101,7 +101,7 @@ const SongsTable = () => {
   const getSongs = async () => {
     const data: any = await getMediaPaginated(page - 1, 8);
     setMedia(data.data);
-    setCount(parseInt((data.count / 8).toString()));
+    setCount(Math.ceil(parseInt(data.count)/8));
   };
 
   useEffect(() => {
