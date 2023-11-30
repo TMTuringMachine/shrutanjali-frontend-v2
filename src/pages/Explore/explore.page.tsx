@@ -42,6 +42,7 @@ const Explore = () => {
   const { getWishlist } = useWishlist();
   const [wishlist, setWishlist] = useState([]);
   const location = useLocation();
+  const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   const {
     play,
     pause,
@@ -114,15 +115,18 @@ const Explore = () => {
   const playPreviousSong = () => {
     previousSong({ playing: isPlaying });
   };
-  useEffect(()=>{
-    console.log(currentSong,"this is current song")
-  },[currentSong])
+  useEffect(() => {
+    console.log(currentSong, "this is current song");
+  }, [currentSong]);
 
   return (
     <Transition>
       <PageContainer style={{ paddingBottom: "200px" }}>
         <MuxAudio
-          src={currentSong && currentSong?.audios[0].audioId?.playbackUrl}
+          src={
+            currentSong &&
+            currentSong?.audios[currentAudioIndex].audioId?.playbackUrl
+          }
           type="hls"
           controls
           ref={audioRef}
@@ -252,6 +256,8 @@ const Explore = () => {
           progress={progress}
           isPlaying={isPlaying}
           song={location.state ? location.state : currentSong}
+          currentAudioIndex={currentAudioIndex}
+          setCurrentAudioIndex={setCurrentAudioIndex}
           seek={seek}
         />
       </PageContainer>

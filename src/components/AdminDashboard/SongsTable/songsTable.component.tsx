@@ -25,6 +25,7 @@ import { IMedia } from "../../../interfaces/media.interface";
 import SwitchComponent from "./switch.component";
 import EditSongModal from "../EditSongModal/editSongModal.component";
 import { Pagination, Switch } from "@mui/material";
+import CustomSwitch from "./CustomSwitch.component";
 
 interface DeleteModalState {
   visible: boolean;
@@ -101,7 +102,7 @@ const SongsTable = () => {
   const getSongs = async () => {
     const data: any = await getMediaPaginated(page - 1, 8);
     setMedia(data.data);
-    setCount(Math.ceil(parseInt(data.count)/8));
+    setCount(Math.ceil(parseInt(data.count) / 8));
   };
 
   useEffect(() => {
@@ -154,27 +155,17 @@ const SongsTable = () => {
                     {song.wishlists || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {/* <SwitchComponent
-                    featured={song.isFeatured}
-                    songId={song._id}
-                    type={'Feature'}
-                  /> */}
-                    <Switch
+                    <CustomSwitch
                       checked={song.isFeatured}
-                      onChange={() => {
+                      handleChange={() => {
                         featureMedia(song._id);
                       }}
                     />
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {/* <SwitchComponent
-                    featured={song.isLive}
-                    songId={song._id}
-                    type={'Toggle'}
-                  /> */}
-                    <Switch
+                    <CustomSwitch
                       checked={song.isLive}
-                      onChange={() => {
+                      handleChange={() => {
                         toggleMedia(song._id);
                       }}
                     />
