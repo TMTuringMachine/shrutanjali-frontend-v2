@@ -177,6 +177,10 @@ const Home: FunctionComponent<Props> = () => {
       fullScreenHandler.enter();
     }, 300);
   };
+  
+  useEffect(()=>{
+    setCurrentAudioIndex(0);
+  },[currentSong])
 
   return (
     <Transition>
