@@ -188,7 +188,7 @@ const Home: FunctionComponent<Props> = () => {
         <MuxAudio
           src={
             currentSong &&
-            currentSong?.audios[currentAudioIndex].audioId?.playbackUrl
+            currentSong?.audios[currentAudioIndex]?.audioId?.playbackUrl
           }
           type="hls"
           controls
