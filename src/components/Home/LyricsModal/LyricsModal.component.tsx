@@ -58,8 +58,6 @@ const LyricsModal: FunctionComponent<Props> = ({
     if (!url) return url;
     let nurl = url;
     if (url.slice(0, 6) != "https") {
-      //http://something.com
-      //https://something
       let main = url.slice(7);
       nurl = "https://" + main;
     }
@@ -96,9 +94,7 @@ const LyricsModal: FunctionComponent<Props> = ({
                   </Select>
                 </FormControl>
               </Box>
-            ) : (
-              <Box>Lyrics for this song are not available</Box>
-            )}
+            ) : null}
           </ModalHeader>
           {lyricState.loading ? (
             <CircularProgress />

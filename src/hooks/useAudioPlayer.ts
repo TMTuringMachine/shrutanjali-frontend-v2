@@ -5,8 +5,8 @@ import React, {
   useState,
   useEffect,
   KeyboardEvent,
-} from 'react';
-import axiosInstance from '../utils/axiosInstance';
+} from "react";
+import axiosInstance from "../utils/axiosInstance";
 
 interface Props {
   songList: any;
@@ -37,20 +37,19 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
     }
 
     function handleEnded() {
-      setIsPlaying(false);;
+      setIsPlaying(false);
       setProgress(0);
 
       ref.current.next();
       if (currentSongIndex === songList.length - 1) {
         setCurrentSongIndex(0);
       } else {
-
         setCurrentSongIndex(currentSongIndex + 1);
       }
       setTimeout(() => {
         audioRef.current?.play();
         setIsPlaying(true);
-      }, 1000)
+      }, 1000);
       // setIsPlaying(false);
       // setProgress(0);
       // console.log(currentSongIndex, "index right now")
@@ -79,25 +78,25 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
     }
 
     if (audio) {
-      audio.addEventListener('play', handlePlay);
-      audio.addEventListener('pause', handlePause);
-      audio.addEventListener('ended', handleEnded);
-      audio.addEventListener('timeupdate', handleTimeUpdate);
+      audio.addEventListener("play", handlePlay);
+      audio.addEventListener("pause", handlePause);
+      audio.addEventListener("ended", handleEnded);
+      audio.addEventListener("timeupdate", handleTimeUpdate);
     }
 
     return () => {
       if (audio) {
-        audio.removeEventListener('play', handlePlay);
-        audio.removeEventListener('pause', handlePause);
-        audio.removeEventListener('ended', handleEnded);
-        audio.removeEventListener('timeupdate', handleTimeUpdate);
+        audio.removeEventListener("play", handlePlay);
+        audio.removeEventListener("pause", handlePause);
+        audio.removeEventListener("ended", handleEnded);
+        audio.removeEventListener("timeupdate", handleTimeUpdate);
       }
     };
   }, [currentSongIndex, songs]);
 
   useEffect(() => {
     const handleKeyPress = (e: any) => {
-      if (e.code == 'Space') {
+      if (e.code == "Space") {
         // console.log('i am herer you mf');
         e.preventDefault();
         if (isPlaying) {
@@ -109,10 +108,10 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
         }
       }
     };
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
   }, [isPlaying]);
 
@@ -125,7 +124,7 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
           `/media/updateMediaStats/${currentSong._id}`,
           {
             streamCount: 1,
-          }
+          },
         );
       }
     }
@@ -193,6 +192,7 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
 
   const playSong = useCallback((idx: number, playing: boolean) => {
     setCurrentSongIndex(idx);
+    console.log("i am called", idx, "this is index");
     setProgress(0);
     setTimeout(() => {
       play();

@@ -42,6 +42,7 @@ const Explore = () => {
   const { getWishlist } = useWishlist();
   const [wishlist, setWishlist] = useState([]);
   const location = useLocation();
+  const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   const {
     play,
     pause,
@@ -61,29 +62,27 @@ const Explore = () => {
 
   useEffect(() => {
     populateWishList();
+    setCurrentSongIndex(0);
   }, []);
 
-  const handlePageChange = (event: any, value: number) => {
+  const handlePageChange = (_: any, value: number) => {
     setPage(value);
   };
 
   const getLiveSongs = async () => {
-    const data: any = await getLiveMediaPaginated(page, 12);
-    setCount(Math.ceil(parseInt(data.count) / 12));
+    const data: any = await getLiveMediaPaginated(page, 10);
+    setCount(Math.ceil(parseInt(data.count) / 10));
   };
   useEffect(() => {
     getLiveSongs();
   }, [page]);
 
   useEffect(() => {
-    console.log(allSongs, "all songs");
     if (allSongs && allSongs?.length > 0) {
       setTopSongs(convertApiMedia(allSongs));
-      console.log(allSongs);
     }
   }, [allSongs]);
 
-  const { blogs } = useAuth();
   const { breakpoints } = useTheme();
   const playSong: Function = (idx: number) => {
     playIdxSong(idx, isPlaying);
@@ -116,41 +115,50 @@ const Explore = () => {
   const playPreviousSong = () => {
     previousSong({ playing: isPlaying });
   };
+  useEffect(() => {
+    console.log(currentSong, "this is current song");
+  }, [currentSong]);
 
   return (
     <Transition>
-      <PageContainer style={{paddingBottom:"200px"}}>
+      <PageContainer style={{ paddingBottom: "200px" }}>
         <MuxAudio
-          src={currentSong && currentSong?.audios[0].audioId?.playbackUrl}
+          src={
+            currentSong &&
+            currentSong?.audios[currentAudioIndex].audioId?.playbackUrl
+          }
           type="hls"
           controls
           ref={audioRef}
           style={{ display: "none" }}
         />
-        <StyledTextField
-          label={
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "10rem",
-              }}
-            >
-              <Icon width="30" height="30" icon="ic:baseline-search" />
-              <Box>Search Songs</Box>
-            </Box>
-          }
-          variant="outlined"
-          sx={{
-            margin: "1rem 0px",
-            width: "40%",
-            borderRadius: "2rem",
-            [breakpoints.down("md")]: {
-              width: "100%",
-            },
-          }}
-        />
+        <Box sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
+          <StyledTextField
+            // label="Search Songs"
+            placeholder="Search Songs"
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+            }}
+            sx={{
+              margin: "1rem auto",
+              width: "30%",
+              backgroundColor: "#fff",
+              padding: "10px",
+              // border: "none",
+              border: "1px solid gray",
+              textAlign: "center",
+              borderRadius: "10px",
+              // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+              "& input": {
+                textAlign: "center",
+              },
+              [breakpoints.down("md")]: {
+                width: "100%",
+              },
+            }}
+          />
+        </Box>
         <ContinueListeningSection>
           {/* {songs.slice(10).map((song) => (
             <SongOverview song={song} />
@@ -175,16 +183,20 @@ const Explore = () => {
               <CircularProgress />
             </Box>
           )}
-          {topSongs && topSongs?.length > 0
-            ? topSongs.map((song, idx) => (
-                <SongOverview
-                  song={song}
-                  handleClick={playSong}
-                  idx={idx}
-                  key={idx}
-                />
-              ))
-            : null}
+          <Grid container spacing={3} columns={10}>
+            {topSongs && topSongs?.length > 0
+              ? topSongs.map((song, idx) => (
+                  <Grid item xs={10} sm={5} md={3} lg={2} key={song?.title}>
+                    <SongOverview
+                      song={song}
+                      handleClick={playSong}
+                      idx={idx}
+                      key={song?.title}
+                    />
+                  </Grid>
+                ))
+              : null}
+          </Grid>
           <Pagination
             shape="rounded"
             page={page}
@@ -208,11 +220,20 @@ const Explore = () => {
               </Typography>
             </EmptyWishList>
           )}
-          {wishlist && wishlist?.length > 0
-            ? wishlist.map((song, idx) => (
-                <SongOverview song={song} handleClick={playSong} idx={idx} />
-              ))
-            : null}
+          <Grid container columns={10} spacing={3}>
+            {wishlist && wishlist?.length > 0
+              ? wishlist.map((song, idx) => (
+                  <Grid item sm={2} key={idx}>
+                    <SongOverview
+                      song={song}
+                      handleClick={playSong}
+                      idx={idx}
+                      key={idx}
+                    />
+                  </Grid>
+                ))
+              : null}
+          </Grid>
         </ContinueListeningSection>
         {/* Books section */}
 
@@ -235,6 +256,8 @@ const Explore = () => {
           progress={progress}
           isPlaying={isPlaying}
           song={location.state ? location.state : currentSong}
+          currentAudioIndex={currentAudioIndex}
+          setCurrentAudioIndex={setCurrentAudioIndex}
           seek={seek}
         />
       </PageContainer>

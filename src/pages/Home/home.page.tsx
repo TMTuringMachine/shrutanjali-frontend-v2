@@ -166,10 +166,21 @@ const Home: FunctionComponent<Props> = () => {
     setIsPlaying(playing);
   }, [playing]);
 
-  const handleFullScreenFromCard = (song:any) => {
+  const handleFullScreenFromCard = (song: any, index: number) => {
     setActiveSong(song);
-    fullScreenHandler.enter();
+    if (index === currentSongIndex + 1) {
+      ref?.current?.next();
+    } else if (index !== currentSongIndex) {
+      ref?.current?.previous();
+    }
+    setTimeout(() => {
+      fullScreenHandler.enter();
+    }, 300);
   };
+  
+  useEffect(()=>{
+    setCurrentAudioIndex(0);
+  },[currentSong])
 
   return (
     <Transition>
@@ -177,7 +188,7 @@ const Home: FunctionComponent<Props> = () => {
         <MuxAudio
           src={
             currentSong &&
-            currentSong?.audios[currentAudioIndex].audioId?.playbackUrl
+            currentSong?.audios[currentAudioIndex]?.audioId?.playbackUrl
           }
           type="hls"
           controls
@@ -237,7 +248,7 @@ const Home: FunctionComponent<Props> = () => {
                         onClick={() => {
                           // setActiveSong(item);
                           // fullScreenHandler.enter();
-                          handleFullScreenFromCard(item);
+                          handleFullScreenFromCard(item, idx);
                           // togglePlay();
                         }}
                         // setSong={setActiveSong}

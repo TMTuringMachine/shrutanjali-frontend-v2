@@ -23,8 +23,10 @@ const CarouselCard: FunctionComponent<Props> = ({
 }) => {
   return (
     <CarouselCardContainer
+      src={optimizeImage(song.thumbnailUrl)}
+      loading="lazy"
       layoutId={song._id}
-      url={optimizeImage(song.thumbnailUrl)}
+      // url={optimizeImage(song.thumbnailUrl)}
       disabled={disabled}
       onClick={onClick}
       active={active}

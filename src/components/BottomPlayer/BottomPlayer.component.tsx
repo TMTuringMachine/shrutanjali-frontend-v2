@@ -7,15 +7,17 @@ import {
 } from "react";
 import { Icon } from "@iconify/react";
 
-import { Box, Slider } from "@mui/material";
+import { Box, Popover, Slider } from "@mui/material";
 import {
   BottomPlayerContainer,
   SongActionsContainer,
   SongImageContainer,
   SongPlayerOptions,
 } from "./BottomPlayer.styles";
-import { IMedia } from "../../interfaces/media.interface";
+import { IAudio, IMedia } from "../../interfaces/media.interface";
 import { FullScreenHandle } from "react-full-screen";
+import LyricsModal from "../Home/LyricsModal/LyricsModal.component";
+import { OptionButton } from "../../pages/Home/home.styles";
 
 interface Prop {
   fullScreenHandler: FullScreenHandle;
@@ -26,6 +28,8 @@ interface Prop {
   progress: number;
   isPlaying: boolean;
   seek: Function;
+  currentAudioIndex: number;
+  setCurrentAudioIndex: Function;
 }
 const BottomPlayer: FunctionComponent<Prop> = ({
   song,
@@ -36,15 +40,27 @@ const BottomPlayer: FunctionComponent<Prop> = ({
   fullScreenHandler,
   isPlaying,
   seek,
+  currentAudioIndex,
+  setCurrentAudioIndex,
 }) => {
-
-  
-
+  const [lyricModalState, setLyricModalState] = useState<any>({
+    open: false,
+    song: null,
+  });
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   return (
     <BottomPlayerContainer>
       <SongImageContainer>
         <img src={song?.thumbnailUrl} className="song-image" alt="" />
-        <Box>
+        <Box sx={{ fontWeight: 600, fontSize: "1.2em" }}>
           <p>{song?.title}</p>
         </Box>
       </SongImageContainer>
@@ -97,7 +113,50 @@ const BottomPlayer: FunctionComponent<Prop> = ({
           icon="basil:book-open-solid"
           width="30px"
           height="30px"
+          onClick={() => {
+            setLyricModalState({
+              open: true,
+              song: song,
+            });
+          }}
         />{" "}
+        <Icon
+          icon="material-symbols:headphones"
+          width="35px"
+          height="35px"
+          aria-describedby={id}
+          onClick={handleClick}
+        />
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+        >
+          <Box sx={{ width: "fit-content", padding: "5px" }}>
+            {song?.audios?.map((item: IAudio, idx: number) => (
+              <OptionButton
+                key={idx}
+                active={idx == currentAudioIndex}
+                onClick={() => {
+                  setCurrentAudioIndex(idx);
+                  // pause();
+                  // setIsPlaying(false);
+                }}
+              >
+                {item.language}
+              </OptionButton>
+            ))}
+          </Box>
+        </Popover>
         <Icon
           color="black"
           icon="material-symbols:fullscreen-rounded"
@@ -105,6 +164,17 @@ const BottomPlayer: FunctionComponent<Prop> = ({
           height="30px"
         />
       </SongActionsContainer>
+
+      <LyricsModal
+        state={lyricModalState.open}
+        toggleModal={() => {
+          setLyricModalState({
+            ...lyricModalState,
+            open: false,
+          });
+        }}
+        song={lyricModalState.song}
+      />
     </BottomPlayerContainer>
     // <Box
     //   sx={{
