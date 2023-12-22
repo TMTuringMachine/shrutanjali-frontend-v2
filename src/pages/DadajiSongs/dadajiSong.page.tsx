@@ -93,7 +93,7 @@ const DadajiSongs = () => {
         <DadajiSongsContainer>
           <ImageContainer imgWidth="580px">
             <img src={dadaji} alt="" />
-            <DadajiName>Shri Dilip Kumar Roy - Dadaji</DadajiName>
+            {/* <DadajiName>Shri Dilip Kumar Roy - Dadaji</DadajiName> */}
           </ImageContainer>
           <SongsContainer>
             <Box
