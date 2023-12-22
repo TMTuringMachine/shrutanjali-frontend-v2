@@ -175,7 +175,7 @@ const Explore = () => {
         </ContinueListeningSecion>
             **/}
         <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
-          Top bhajans
+          All Songs
         </Typography>
         <ContinueListeningSection style={{ marginBottom: "120px" }}>
           {topSongs.length === 0 && (

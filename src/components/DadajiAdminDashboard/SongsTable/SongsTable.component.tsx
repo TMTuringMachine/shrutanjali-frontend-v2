@@ -93,9 +93,9 @@ const SongsTable = () => {
 
   return (
     <>
-      <TableActions>
+      {/* <TableActions>
         <StyledTextField label="Search songs" variant="standard" />
-      </TableActions>
+      </TableActions> */}
       <SongsTableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

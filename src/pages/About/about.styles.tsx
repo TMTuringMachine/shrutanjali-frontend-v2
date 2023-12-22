@@ -86,7 +86,8 @@ export const ScrollContent = styled(Box)(({}) => ({
   height: 'calc(100vh - 120px)',
   maxHeight: 'calc(100vh - 120px)',
   overflowY: 'scroll',
-  fontSize: '1.3rem',
+  fontSize: '1.1rem',
   // whiteSpace: 'wrap',
   textOverflow: 'clip',
+  padding:"3rem"
 }));

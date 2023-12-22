@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import axiosInstance from '../utils/axiosInstance';
+import { store } from "../redux/store";
 
 const useWishlist = () => {
   const getWishlist = useCallback(() => {
@@ -25,7 +26,13 @@ const useWishlist = () => {
     const res = await axiosInstance.post(`/media/updateMediaStats/${media}`, {
       wishlistCount: 1,
     });
-    console.log(res, 'heres the wishlistt');
+    store.dispatch({
+      type: "control/showSnackbar",
+      payload: {
+        text: "Song Added To WishList!",
+        type: "success",
+      },
+    });
   }, []);
 
   const removeFromWishlist = useCallback(async (mediaId: string) => {
@@ -44,6 +51,13 @@ const useWishlist = () => {
         }
       );
     }
+    store.dispatch({
+      type: "control/showSnackbar",
+      payload: {
+        text: "Song Removed From WishList!",
+        type: "warning",
+      },
+    });
     return wish;
   }, []);
 

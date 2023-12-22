@@ -59,3 +59,8 @@ html{
   height: 100vh;
   overflow: hidden;
 }
+
+
+.swiper-button-next, .swiper-button-prev{
+  color: black !important;
+}
