@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Icon } from "@iconify/react";
 
-import { Box, Popover, Slider } from "@mui/material";
+import { Box, Popover, Slider, Tooltip } from "@mui/material";
 import {
   BottomPlayerContainer,
   SongActionsContainer,
@@ -66,6 +66,7 @@ const BottomPlayer: FunctionComponent<Prop> = ({
       </SongImageContainer>
       <SongPlayerOptions>
         <Box className="player-options">
+        <Tooltip title={"Previous Song"} arrow >
           <Icon
             color="black"
             icon="material-symbols:skip-previous-rounded"
@@ -74,20 +75,25 @@ const BottomPlayer: FunctionComponent<Prop> = ({
             onClick={() => {
               previousSong();
             }}
-          />
+            />
+            </Tooltip>
+        <Tooltip title={"Play"} arrow >
+
           <Icon
             color="black"
             icon={
               isPlaying
-                ? "material-symbols:pause-circle-rounded"
-                : "material-symbols:play-circle-rounded"
+              ? "material-symbols:pause-circle-rounded"
+              : "material-symbols:play-circle-rounded"
             }
             width="50px"
             height="50px"
             onClick={() => {
               togglePlay();
             }}
-          />
+            />
+          </Tooltip>
+          <Tooltip title={"Next Song"} arrow >
           <Icon
             color="black"
             icon="material-symbols:skip-next-rounded"
@@ -96,7 +102,8 @@ const BottomPlayer: FunctionComponent<Prop> = ({
             onClick={() => {
               nextSong();
             }}
-          />
+            />
+            </Tooltip>
         </Box>
         <Slider
           sx={{ width: "90%" }}
@@ -108,6 +115,7 @@ const BottomPlayer: FunctionComponent<Prop> = ({
         />
       </SongPlayerOptions>
       <SongActionsContainer>
+      <Tooltip title={"Lyrics"} arrow >
         <Icon
           color="black"
           icon="basil:book-open-solid"
@@ -119,14 +127,17 @@ const BottomPlayer: FunctionComponent<Prop> = ({
               song: song,
             });
           }}
-        />{" "}
+          />
+          </Tooltip>
+        <Tooltip title={"Change Audio"} arrow >
         <Icon
           icon="material-symbols:headphones"
           width="35px"
           height="35px"
           aria-describedby={id}
           onClick={handleClick}
-        />
+          />
+          </Tooltip>
         <Popover
           id={id}
           open={open}
@@ -157,12 +168,14 @@ const BottomPlayer: FunctionComponent<Prop> = ({
             ))}
           </Box>
         </Popover>
+        <Tooltip title={"Fullscreen Mode"} arrow >
         <Icon
           color="black"
           icon="material-symbols:fullscreen-rounded"
           width="30px"
           height="30px"
-        />
+          />
+          </Tooltip>
       </SongActionsContainer>
 
       <LyricsModal
