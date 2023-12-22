@@ -6,27 +6,27 @@ interface IHeaderOption {
 
 export const headerOptions: IHeaderOption[] = [
   {
-    name: "home",
+    name: "Home",
     icon: "material-symbols:home-rounded",
     link: "/home",
   },
   {
-    name: "explore",
+    name: "Explore",
     icon: "material-symbols:explore",
     link: "/explore",
   },
   {
-    name: "music",
+    name: "Music",
     icon: "material-symbols:headphones",
     link: "/dadajisongs",
   },
   {
-    name: "books",
+    name: "Books",
     icon: "ph:books-bold",
     link: "/dadajisongs",
   },
   {
-    name: "about",
+    name: "About",
     icon: "material-symbols:info",
     link: "/about",
   },

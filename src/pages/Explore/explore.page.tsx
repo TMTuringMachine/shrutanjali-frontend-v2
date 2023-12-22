@@ -210,7 +210,7 @@ const Explore = () => {
         </Typography>
         <ContinueListeningSection>
           {wishlist && wishlist.length === 0 && (
-            <EmptyWishList>
+            <EmptyWishList> 
               <Icon icon="ri:heart-add-fill" width="50px" height="50px" />
               <Typography sx={{ fontSize: "1.5em" }}>
                 Your wishlist is empty!

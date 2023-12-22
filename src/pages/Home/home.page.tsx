@@ -57,6 +57,7 @@ import {
   LinearProgress,
   Popover,
   Slider,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
@@ -283,6 +284,8 @@ const Home: FunctionComponent<Props> = () => {
           <PlayerOptionsContainer>
             {isWishListed(currentSong?._id) ? (
               <>
+              <Tooltip title={"Remove From Wishlist"} arrow >
+
                 <Icon
                   icon="fe:heart"
                   width="35px"
@@ -292,10 +295,13 @@ const Home: FunctionComponent<Props> = () => {
                     removeFromWishlist(currentSong?._id);
                     setRender(!render);
                   }}
-                />
+                  />
+                  </Tooltip>
               </>
             ) : (
               <>
+              <Tooltip title={"Add To Wishlist"} arrow >
+
                 <Icon
                   icon="fe:heart"
                   width="35px"
@@ -304,9 +310,12 @@ const Home: FunctionComponent<Props> = () => {
                     addToWishlist(currentSong?._id);
                     setRender(!render);
                   }}
-                />
+                  />
+                  </Tooltip>
               </>
             )}
+            <Tooltip title={"Lyrics"} arrow >
+
             <Icon
               icon="basil:book-open-solid"
               width="35px"
@@ -317,9 +326,11 @@ const Home: FunctionComponent<Props> = () => {
                   song: currentSong,
                 });
               }}
-            />
+              />
+              </Tooltip>
 
             <Box className="player-options">
+            <Tooltip title={"Previous Song"} arrow >
               <Icon
                 icon="material-symbols:skip-previous-rounded"
                 width="30px"
@@ -328,18 +339,24 @@ const Home: FunctionComponent<Props> = () => {
                   playPreviousSong();
                 }}
               />
+             </Tooltip> 
+             <Tooltip title={"Play"} arrow >
+
               <Icon
                 icon={
                   isPlaying
-                    ? "material-symbols:pause-circle-rounded"
-                    : "material-symbols:play-circle-rounded"
+                  ? "material-symbols:pause-circle-rounded"
+                  : "material-symbols:play-circle-rounded"
                 }
                 width="50px"
                 height="50px"
                 onClick={() => {
                   togglePlay();
                 }}
-              />
+                />
+                </Tooltip>
+                <Tooltip title={"Next Song"} arrow >
+
               <Icon
                 icon="material-symbols:skip-next-rounded"
                 width="30px"
@@ -347,15 +364,19 @@ const Home: FunctionComponent<Props> = () => {
                 onClick={() => {
                   playNextSong();
                 }}
-              />
+                />
+                </Tooltip>
             </Box>
+            <Tooltip title={"Change Audio"} arrow >
+
             <Icon
               icon="material-symbols:headphones"
               width="35px"
               height="35px"
               aria-describedby={id}
               onClick={handleClick}
-            />
+              />
+              </Tooltip>
             <Popover
               id={id}
               open={open}
@@ -386,12 +407,14 @@ const Home: FunctionComponent<Props> = () => {
                 ))}
               </Box>
             </Popover>
+            <Tooltip title={"Fullscreen Mode"} arrow >
             <Icon
               icon="material-symbols:fullscreen-rounded"
               width="35px"
               height="35px"
               onClick={fullScreenHandler.enter}
-            />
+              />
+              </Tooltip>
           </PlayerOptionsContainer>
         </SongDataContainer>
         <FullScreen handle={fullScreenHandler}>
@@ -420,9 +443,11 @@ const Home: FunctionComponent<Props> = () => {
           }}
           song={lyricModalState.song}
         />
+        <Tooltip title={"Open Wishlist"} arrow >
         <WhishListButton onClick={toggleWishlistDrawer}>
           <Icon icon="mdi:music-circle" width="30px" height="30px" />
         </WhishListButton>
+        </Tooltip>
         <WishlistDrawer
           state={showWishlist}
           toggleDrawer={toggleWishlistDrawer}

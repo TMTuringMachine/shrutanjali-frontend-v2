@@ -1,6 +1,6 @@
 import Transition from "../../components/Transition";
 import { PageContainer } from "../page.styles";
-import { Box, Slider } from "@mui/material";
+import { Box, Slider, Tooltip } from "@mui/material";
 
 import dadaji from "../../assets/images/dadaji.png";
 import {
@@ -133,6 +133,7 @@ const DadajiSongs = () => {
                     height="35px"
                   /> */}
                   <Box className="player-options">
+                  <Tooltip title={"Previous Song"} arrow >
                     <Icon
                       icon="material-symbols:skip-previous-rounded"
                       width="30px"
@@ -141,18 +142,22 @@ const DadajiSongs = () => {
                         playPreviousSong();
                       }}
                     />
+                  </Tooltip>
+                  <Tooltip title={"Play"} arrow >
                     <Icon
                       icon={
                         isPlaying
-                          ? "material-symbols:pause-circle-rounded"
-                          : "material-symbols:play-circle-rounded"
+                        ? "material-symbols:pause-circle-rounded"
+                        : "material-symbols:play-circle-rounded"
                       }
                       width="50px"
                       height="50px"
                       onClick={() => {
                         togglePlay();
                       }}
-                    />
+                      />
+                  </Tooltip>
+                  <Tooltip title={"Next Song"} arrow >
                     <Icon
                       icon="material-symbols:skip-next-rounded"
                       width="30px"
@@ -160,7 +165,8 @@ const DadajiSongs = () => {
                       onClick={() => {
                         playNextSong();
                       }}
-                    />
+                      />
+                  </Tooltip>
                   </Box>
                   {/* <Icon
                     icon="material-symbols:fullscreen-rounded"
