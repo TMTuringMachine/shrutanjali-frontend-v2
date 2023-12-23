@@ -17,7 +17,7 @@ const AdminLandingPage = () => {
   const handleUpload = async (inputRef: any) => {
     try {
       const response = await fetch(
-        "https://shrutanjali-api.onrender.com/api/mux",
+        "https://shrutanjali-api-ce3d.onrender.com/api/mux",
         {
           method: "POST",
         }

@@ -18,6 +18,20 @@ interface Props {
   idx: number;
 }
 
+function formatTime(secondsStr:any) {
+  const seconds = parseInt(secondsStr, 10); // Convert string to number
+  if (isNaN(seconds)) {
+    return 'Invalid input';
+  }
+
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+
+  const formattedMins = String(mins).padStart(2, '0'); // Ensure two digits for minutes
+  const formattedSecs = String(secs).padStart(2, '0'); // Ensure two digits for seconds
+
+  return `${formattedMins}:${formattedSecs}`;
+}
 const CustomSongImage = ({ url }: { url: string }) => {
   const [loaded, setLoaded] = useState<boolean>(false);
 
@@ -114,7 +128,7 @@ const SongOverview: FunctionComponent<Props> = ({ song, handleClick, idx }) => {
       <SongDetails>
            <Box sx={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
         <div className="song-title">{trimText(song?.title, 20)}</div>
-        <Typography>2.23</Typography>
+        <Typography>{song.audios[0].audioId.duration?formatTime(song.audios[0].audioId.duration):2.23}</Typography>
 
            </Box>
       </SongDetails>

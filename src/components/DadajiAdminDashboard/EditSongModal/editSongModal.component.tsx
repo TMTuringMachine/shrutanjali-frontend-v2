@@ -88,7 +88,7 @@ const EditSongModal: FunctionComponent<Props> = ({
     try {
       if (audioFile !== null) {
         const response = await fetch(
-          "https://shrutanjali-api.onrender.com/api/mux",
+          "https://shrutanjali-api-ce3d.onrender.com/api/mux",
           // 'http://localhost:5000/api/mux',
           {
             method: 'POST',
