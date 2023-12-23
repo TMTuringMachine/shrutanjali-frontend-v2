@@ -4,22 +4,9 @@ import { PageContainer } from "../page.styles";
 import { StyledTextField } from "../../global/global.styles";
 import { ContinueListeningSection, EmptyWishList } from "./explore.styles";
 import { useLocation } from "react-router-dom";
-//data
-import { songs } from "../../helpers/data";
-import {
-  Grid,
-  Typography,
-  Box,
-  useTheme,
-  Pagination,
-  CircularProgress,
-} from "@mui/material";
+import {Grid,Typography,Box,useTheme,Pagination,CircularProgress} from "@mui/material";
 import { Icon } from "@iconify/react";
 import SongOverview from "../../components/Explore/SongOverview/songOverview.component";
-import CategoriesOverview from "../../components/Explore/CategoriesOverview/CategoriesOverview.component";
-
-import audio from "../../assets/images/audio.png";
-import books from "../../assets/images/books.png";
 import BottomPlayer from "../../components/BottomPlayer/BottomPlayer.component";
 import useMedia from "../../hooks/useMedia";
 import { IMedia } from "../../interfaces/media.interface";
@@ -28,9 +15,8 @@ import useAudioPlayer from "../../hooks/useAudioPlayer";
 import { useFullScreenHandle } from "react-full-screen";
 import MuxAudio from "@mux/mux-audio-react";
 import useWishlist from "../../hooks/useWishlist";
-import useAuth from "../../hooks/useAuth";
-import AllBooks from "../../utils/AllBooksData";
-import BookOverview from "../../components/SingleBook/BookOverview.component";
+
+
 const Explore = () => {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(5);
@@ -76,6 +62,7 @@ const Explore = () => {
   useEffect(() => {
     getLiveSongs();
   }, [page]);
+
 
   useEffect(() => {
     if (allSongs && allSongs?.length > 0) {
@@ -132,9 +119,8 @@ const Explore = () => {
           ref={audioRef}
           style={{ display: "none" }}
         />
-        <Box sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
+        {/* <Box sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
           <StyledTextField
-            // label="Search Songs"
             placeholder="Search Songs"
             variant="standard"
             InputProps={{
@@ -145,11 +131,9 @@ const Explore = () => {
               width: "30%",
               backgroundColor: "#fff",
               padding: "10px",
-              // border: "none",
               border: "1px solid gray",
               textAlign: "center",
               borderRadius: "10px",
-              // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
               "& input": {
                 textAlign: "center",
               },
@@ -158,22 +142,9 @@ const Explore = () => {
               },
             }}
           />
-        </Box>
+        </Box> */}
         <ContinueListeningSection>
-          {/* {songs.slice(10).map((song) => (
-            <SongOverview song={song} />
-          ))} */}
         </ContinueListeningSection>
-        {/**
-           
-        <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
-          Browse by interest
-        </Typography>
-        <ContinueListeningSection onClick={() => blogs()}>
-          <CategoriesOverview title="Audio" imgSrc={audio} />
-          <CategoriesOverview title="Books" imgSrc={audio} />
-        </ContinueListeningSecion>
-            **/}
         <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
           All Songs
         </Typography>
@@ -235,19 +206,6 @@ const Explore = () => {
               : null}
           </Grid>
         </ContinueListeningSection>
-        {/* Books section */}
-
-        {/**
-           
-        <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
-          Books
-        </Typography>
-        <ContinueListeningSection style={{ marginBottom: "120px" }}>
-          {AllBooks.map((book) => {
-            return <BookOverview book={book} />;
-          })}
-        </ContinueListeningSection>
-           * */}
         <BottomPlayer
           fullScreenHandler={fullScreenHandler}
           nextSong={playNextSong}

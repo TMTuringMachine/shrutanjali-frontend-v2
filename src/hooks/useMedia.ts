@@ -1,25 +1,18 @@
-// import { useCallback } from 'react';
 import {
   IAddBasicMedia,
   IUpdateBasicMedia,
 } from "../interfaces/basic.media.interface";
-// import { IAddMedia, IEditMedia } from '../interfaces/media.interface';
 import axiosInstance from "../utils/axiosInstance";
 import { useCallback, useState } from "react";
-// import { IAddBasicMedia } from "../interfaces/basic.media.interface";
 import { IAddMedia, IEditMedia } from "../interfaces/media.interface";
-// import axiosInstance from "../utils/axiosInstance";
-
-//libs
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-//redux
 import {
   setFeaturedSongs,
   setAllSongs,
   setDadajiSongs,
 } from "../redux/slices/songs.slice";
+
 import { AppDispatch, RootState, store } from "../redux/store";
 
 interface lyricStateProps {
@@ -161,7 +154,6 @@ const useMedia = () => {
         },
       });
     }
-    // console.log(res);
   }, []);
 
   const addBasicMedia = useCallback(async (data: IAddBasicMedia) => {
