@@ -19,16 +19,14 @@ interface Props {
 }
 
 function formatTime(secondsStr:any) {
-  const seconds = parseInt(secondsStr, 10); // Convert string to number
-  if (isNaN(seconds)) {
-    return 'Invalid input';
-  }
-
+  if(secondsStr===null) return 2.23
+  const seconds = parseInt(secondsStr, 10); 
+  
   const mins = Math.floor(seconds / 60);
   const secs = seconds % 60;
 
-  const formattedMins = String(mins).padStart(2, '0'); // Ensure two digits for minutes
-  const formattedSecs = String(secs).padStart(2, '0'); // Ensure two digits for seconds
+  const formattedMins = String(mins).padStart(2, '0'); 
+  const formattedSecs = String(secs).padStart(2, '0'); 
 
   return `${formattedMins}:${formattedSecs}`;
 }
@@ -128,7 +126,7 @@ const SongOverview: FunctionComponent<Props> = ({ song, handleClick, idx }) => {
       <SongDetails>
            <Box sx={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
         <div className="song-title">{trimText(song?.title, 20)}</div>
-        <Typography>{song.audios[0].audioId.duration?formatTime(song.audios[0].audioId.duration):2.23}</Typography>
+        <Typography>{song?.audios[0]?.audioId?.duration?formatTime(song?.audios[0]?.audioId?.duration):2.23}</Typography>
 
            </Box>
       </SongDetails>
