@@ -1,4 +1,4 @@
-import { styled, Box, LinearProgress } from "@mui/material";
+import { styled, Box, LinearProgress, Slider } from "@mui/material";
 
 type PlayerContainerProps = {
   url: string | undefined;
@@ -19,7 +19,7 @@ export const PlayerContainer = styled(Box)<PlayerContainerProps>(
       backgroundImage: "none",
       backgroundColor: theme.palette.background.default,
     },
-  })
+  }),
 );
 
 interface LyricsContainerProps {
@@ -36,7 +36,7 @@ export const LyricsContainer = styled(Box)<LyricsContainerProps>(
     fontSize: "2em",
     padding: read ? "30px" : "0px",
     height: "100%",
-  })
+  }),
 );
 
 interface OverlayProps {
@@ -116,6 +116,11 @@ export const ProgressBar = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
+export const ProgressSlider = styled(Slider)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    color: theme.palette.primary.main,
+  },
+}));
 export const PlayerOptions = styled(Box)(({ theme }) => ({
   width: "100%",
   display: "flex",
@@ -125,6 +130,7 @@ export const PlayerOptions = styled(Box)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "space-between",
   padding: theme.spacing(2),
+  gap: "10px",
 
   "& .player-options": {
     display: "flex",
@@ -132,15 +138,23 @@ export const PlayerOptions = styled(Box)(({ theme }) => ({
     gap: "20px",
   },
 
-  [theme.breakpoints.down("sm")]: {
-    "& svg > path": {
-      fill: "#000",
-    },
-  },
   "& .opt-container": {
     display: "flex",
     alignItems: "center",
     gap: "30px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    padding: "10px",
+    "& svg > path": {
+      fill: "#000",
+    },
+
+    "& .player-options": {
+      gap: "10px",
+    },
+    "& .opt-container": {
+      gap: "10px",
+    },
   },
 }));
 
