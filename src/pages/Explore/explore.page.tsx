@@ -16,10 +16,10 @@ import { useFullScreenHandle } from "react-full-screen";
 import MuxAudio from "@mux/mux-audio-react";
 import useWishlist from "../../hooks/useWishlist";
 
-
 const Explore = () => {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(5);
+  const [search,setSearch] = useState('');
   const { getLiveMedia, allSongs, populateMedia, getLiveMediaPaginated } =
     useMedia();
   const [topSongs, setTopSongs] = useState<IMedia[]>([]);
@@ -56,12 +56,13 @@ const Explore = () => {
   };
 
   const getLiveSongs = async () => {
-    const data: any = await getLiveMediaPaginated(page, 10);
+    const data: any = await getLiveMediaPaginated(page, 10,search);
     setCount(Math.ceil(parseInt(data.count) / 10));
   };
+
   useEffect(() => {
     getLiveSongs();
-  }, [page]);
+  }, [page,search]);
 
 
   useEffect(() => {
@@ -103,7 +104,7 @@ const Explore = () => {
     previousSong({ playing: isPlaying });
   };
   useEffect(() => {
-    console.log(currentSong, "this is current song");
+    // console.log(currentSong, "this is current song");
   }, [currentSong]);
 
   return (
@@ -119,8 +120,12 @@ const Explore = () => {
           ref={audioRef}
           style={{ display: "none" }}
         />
-        {/* <Box sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
+        <Box sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
           <StyledTextField
+            onChange={(e)=>{
+              setSearch(e.target.value)
+              // setPage(1)
+            }}
             placeholder="Search Songs"
             variant="standard"
             InputProps={{
@@ -142,12 +147,15 @@ const Explore = () => {
               },
             }}
           />
-        </Box> */}
+        </Box>
         <ContinueListeningSection>
         </ContinueListeningSection>
+        {/* <Box sx={{display:"flex", justifyContent:"space-between"}}> */}
         <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
           All Songs
         </Typography>
+        {/* <StyledTextField label="Search songs" variant="standard" /> */}
+        {/* </Box> */}
         <ContinueListeningSection style={{ marginBottom: "120px" }}>
           {topSongs.length === 0 && (
             <Box>

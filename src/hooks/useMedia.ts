@@ -50,15 +50,17 @@ const useMedia = () => {
   }, []);
 
   const getLiveMediaPaginated = useCallback(
-    async (page: number, limit: number) => {
+    async (page: number, limit: number,search:string) => {
       const res = await axiosInstance.get(
-        `/media/paginatedLive/?page=${page}&limit=${limit}`,
+        `/media/paginatedLive/?page=${page}&limit=${limit}&search=${search}`,
       );
       dispatch(setAllSongs(res.data))
       return res;
     },
     [],
   );
+
+
 
   const getAllBasicMedia = useCallback(async () => {
     const data = await axiosInstance.get("/basicMedia/all");
