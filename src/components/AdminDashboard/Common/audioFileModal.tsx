@@ -62,7 +62,7 @@ const AudioFileModal: FunctionComponent<Props> = ({
       if (audioFile !== null) {
         setIsUploading(true);
         const response = await fetch(
-          "https://shrutanjali-api.onrender.com/api/mux",
+          "https://shrutanjali-api-ce3d.onrender.com/api/mux",
           // 'http://localhost:5000/api/mux',
           {
             method: "POST",

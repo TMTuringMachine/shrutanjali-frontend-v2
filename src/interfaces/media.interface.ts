@@ -33,6 +33,7 @@ export interface IMedia {
     {
       audioId: any;
       language: string;
+      duration?:any
     }
   ];
   lyrics?: [

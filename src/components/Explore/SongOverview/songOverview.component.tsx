@@ -9,7 +9,7 @@ import { Song } from "../../../interfaces/song.interface";
 import { optimizeImage, trimText } from "../../../utils/helper";
 import { IMedia } from "../../../interfaces/media.interface";
 import { Icon } from "@iconify/react";
-import { CircularProgress, LinearProgress, Skeleton } from "@mui/material";
+import { CircularProgress, LinearProgress, Skeleton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 interface Props {
@@ -18,6 +18,18 @@ interface Props {
   idx: number;
 }
 
+function formatTime(secondsStr:any) {
+  if(secondsStr===null) return 2.23
+  const seconds = parseInt(secondsStr, 10); 
+  
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+
+  const formattedMins = String(mins).padStart(2, '0'); 
+  const formattedSecs = String(secs).padStart(2, '0'); 
+
+  return `${formattedMins}:${formattedSecs}`;
+}
 const CustomSongImage = ({ url }: { url: string }) => {
   const [loaded, setLoaded] = useState<boolean>(false);
 
@@ -77,8 +89,9 @@ const SongOverview: FunctionComponent<Props> = ({ song, handleClick, idx }) => {
         style={{
           // display: imageLoading ? "none" : "block",
           width: "100%",
+          // height:"80%",
           flex: 1,
-          objectFit: "cover",
+          objectFit: "contain",
           borderRadius: "10px",
         }}
       />
@@ -100,25 +113,22 @@ const SongOverview: FunctionComponent<Props> = ({ song, handleClick, idx }) => {
       <div
         style={{
           display: imageLoading ? "block" : "none",
-          // placeItems: "center",
           position: "absolute",
           width: "fit-content",
           height: "fit-content",
-
           top: "50%",
           left: "50%",
           transform: "translate(-50%,-50%)",
-          // flex: 1,
         }}
       >
         <CircularProgress />
       </div>
       <SongDetails>
-        <div className="song-title">{trimText(song?.title, 15)}</div>
-        <div className="song-data">
-          <div>2:23</div>
-          <Icon icon="fe:heart" />
-        </div>
+           <Box sx={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
+        <div className="song-title">{trimText(song?.title, 20)}</div>
+        <Typography>{song?.audios[0]?.audioId?.duration?formatTime(song?.audios[0]?.audioId?.duration):2.23}</Typography>
+
+           </Box>
       </SongDetails>
     </SongOverviewContainer>
   );
