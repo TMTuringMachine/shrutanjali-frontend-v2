@@ -41,10 +41,12 @@ import {
   PlayerOptions,
   LyricsContainer,
   LyricsText,
+  ProgressSlider,
 } from "./FullScreenPlayer.styles";
 import { IAudio, IMedia } from "../../interfaces/media.interface";
 import useMedia from "../../hooks/useMedia";
 import { OptionButton } from "../../pages/Home/home.styles";
+import { useWindowSize } from "../../hooks/useWindowSize";
 
 interface Props {
   fullScreenHandler: FullScreenHandle;
@@ -79,6 +81,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   const [audioAnchorEl, setAudioAnchorEl] = useState(null);
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
+  const [mobileReadMode, setMobileReadModa] = useState<boolean>(false);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
@@ -103,6 +106,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   const { getSongLyrics, lyricState } = useMedia();
 
   const theme = useTheme();
+  const mywindow = useWindowSize();
 
   useEffect(() => {
     if (song) {
@@ -133,14 +137,19 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-
+    if (mywindow.width! > 600) {
+      window.addEventListener("mousemove", handleMouseMove);
+    }
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [mywindow]);
 
   const toggleReadMode = () => {
+    if (mywindow.width < 600) {
+      setMobileReadModa(!mobileReadMode);
+      return;
+    }
     setReadMode(!readMode);
   };
 
@@ -158,6 +167,15 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
     return nurl;
   };
 
+  useEffect(() => {
+    console.log(mywindow, "this is current dimensions");
+  }, [mywindow]);
+
+  const getIconColor = () => {
+    if (mywindow.width < 600) return "black";
+    return "white";
+  };
+
   return (
     <Box sx={{ width: "100%", height: "100%", display: "flex" }}>
       <PlayerContainer url={song?.thumbnailUrl} ref={ref} read={readMode}>
@@ -166,13 +184,12 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
             <img src={song!.thumbnailUrl} alt="" />
             <h1 className="song-name">{song!.title}</h1>
           </SongInfoContainer>
-          <Slider
+          <ProgressSlider
             sx={{ width: "100%" }}
             color="secondary"
             value={progress}
             onChange={(e: any) => seek(e.target.value)}
           />
-
           <PlayerOptions>
             <Box className="opt-container">
               <Icon
@@ -208,8 +225,12 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                     ? "material-symbols:pause-circle-rounded"
                     : "material-symbols:play-circle-rounded"
                 }
-                width="80px"
-                height="80px"
+                // width="80px"
+                width={mywindow.width! < 600 ? "60px" : "80px"}
+                height={mywindow.width! < 600 ? "60px" : "80px"}
+                // width={theme.breakpoints.down("sm") ? "60px" : "80px"}
+                // height={theme.breakpoints.down("sm") ? "60px" : "80px"}
+                // height="80px"
                 onClick={() => {
                   toggle();
                 }}
@@ -233,7 +254,8 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                 onClick={handleAudioClick}
               />
               <Icon
-                color="white"
+                // color="white"
+                color={getIconColor()}
                 icon="tabler:arrows-diagonal-minimize-2"
                 width="35px"
                 height="35px"
@@ -271,6 +293,33 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
               ))}
             </Box>
           </Popover>
+
+          {mywindow.width! < 600 && mobileReadMode ? (
+            <Box sx={{ overflow: "auto" }}>
+              {lyricState.loading ? (
+                <CircularProgress />
+              ) : (
+                <LyricsText>
+                  <Document
+                    file={fixUrl(song?.lyrics![language]?.url)}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                  >
+                    {Array.from(new Array(numPages), (el, index) => (
+                      <Page
+                        renderTextLayer={false}
+                        renderAnnotationLayer={false}
+                        customTextRenderer={false}
+                        key={`page_${index + 1}`}
+                        className="pdf-page"
+                        pageNumber={index + 1}
+                        scale={1.7}
+                      />
+                    ))}
+                  </Document>
+                </LyricsText>
+              )}
+            </Box>
+          ) : null}
         </Overlay>
       </PlayerContainer>
       <LyricsContainer read={readMode}>
