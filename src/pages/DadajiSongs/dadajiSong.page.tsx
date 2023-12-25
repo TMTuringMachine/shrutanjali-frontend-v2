@@ -1,8 +1,8 @@
-import Transition from "../../components/Transition";
-import { PageContainer } from "../page.styles";
-import { Box, Slider, Tooltip } from "@mui/material";
+import Transition from '../../components/Transition';
+import { PageContainer } from '../page.styles';
+import { Box, Slider, Tooltip } from '@mui/material';
 
-import dadaji from "../../assets/images/dadaji.png";
+import dadaji from '../../assets/images/dadaji.png';
 import {
   DadajiSongsContainer,
   ImageContainer,
@@ -11,15 +11,15 @@ import {
   DadajiSingleSongsContainer,
   DadajiSingleSongStyled,
   DadajiPlayerContainer,
-} from "./dadajiSong.styles";
-import DadajiSingleSong from "./DadajiSingleSong";
-import useMedia from "../../hooks/useMedia";
-import { useEffect, useState } from "react";
-import { convertApiBasicMedia } from "../Home/home.utils";
-import { IBasicMedia } from "../../interfaces/media.interface";
-import { Icon } from "@iconify/react";
-import useAudioPlayer from "../../hooks/useAudioPlayer";
-import MuxAudio from "@mux/mux-audio-react";
+} from './dadajiSong.styles';
+import DadajiSingleSong from './DadajiSingleSong';
+import useMedia from '../../hooks/useMedia';
+import { useEffect, useState } from 'react';
+import { convertApiBasicMedia } from '../Home/home.utils';
+import { IBasicMedia } from '../../interfaces/media.interface';
+import { Icon } from '@iconify/react';
+import useAudioPlayer from '../../hooks/useAudioPlayer';
+import MuxAudio from '@mux/mux-audio-react';
 
 const DadajiSongs = () => {
   const { getDadajiSongs, dadajiSongs } = useMedia();
@@ -49,7 +49,7 @@ const DadajiSongs = () => {
 
   useEffect(() => {
     if (dadajiSongs.length > 0) {
-      console.log(dadajiSongs, "here are dadaji songs");
+      console.log(dadajiSongs, 'here are dadaji songs');
       setSongs(convertApiBasicMedia(dadajiSongs));
     }
   }, [dadajiSongs]);
@@ -88,7 +88,7 @@ const DadajiSongs = () => {
           type="hls"
           controls
           ref={audioRef}
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
         />
         <DadajiSongsContainer>
           <ImageContainer imgWidth="580px">
@@ -98,11 +98,11 @@ const DadajiSongs = () => {
           <SongsContainer>
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                width: "100%",
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                width: '100%',
               }}
             >
               <h1>Dadaji’s songs</h1>
@@ -120,7 +120,7 @@ const DadajiSongs = () => {
               </DadajiSingleSongsContainer>
               <DadajiPlayerContainer>
                 <Slider
-                  sx={{ width: "95%" }}
+                  sx={{ width: '95%' }}
                   value={progress}
                   onChange={(e: any) => {
                     seek(e.target.value);
@@ -133,40 +133,40 @@ const DadajiSongs = () => {
                     height="35px"
                   /> */}
                   <Box className="player-options">
-                  <Tooltip title={"Previous Song"} arrow >
-                    <Icon
-                      icon="material-symbols:skip-previous-rounded"
-                      width="30px"
-                      height="30px"
-                      onClick={() => {
-                        playPreviousSong();
-                      }}
-                    />
-                  </Tooltip>
-                  <Tooltip title={"Play"} arrow >
-                    <Icon
-                      icon={
-                        isPlaying
-                        ? "material-symbols:pause-circle-rounded"
-                        : "material-symbols:play-circle-rounded"
-                      }
-                      width="50px"
-                      height="50px"
-                      onClick={() => {
-                        togglePlay();
-                      }}
+                    <Tooltip title={'Previous Song'} arrow>
+                      <Icon
+                        icon="material-symbols:skip-previous-rounded"
+                        width="30px"
+                        height="30px"
+                        onClick={() => {
+                          playPreviousSong();
+                        }}
                       />
-                  </Tooltip>
-                  <Tooltip title={"Next Song"} arrow >
-                    <Icon
-                      icon="material-symbols:skip-next-rounded"
-                      width="30px"
-                      height="30px"
-                      onClick={() => {
-                        playNextSong();
-                      }}
+                    </Tooltip>
+                    <Tooltip title={'Play'} arrow>
+                      <Icon
+                        icon={
+                          isPlaying
+                            ? 'material-symbols:pause-circle-rounded'
+                            : 'material-symbols:play-circle-rounded'
+                        }
+                        width="50px"
+                        height="50px"
+                        onClick={() => {
+                          togglePlay();
+                        }}
                       />
-                  </Tooltip>
+                    </Tooltip>
+                    <Tooltip title={'Next Song'} arrow>
+                      <Icon
+                        icon="material-symbols:skip-next-rounded"
+                        width="30px"
+                        height="30px"
+                        onClick={() => {
+                          playNextSong();
+                        }}
+                      />
+                    </Tooltip>
                   </Box>
                   {/* <Icon
                     icon="material-symbols:fullscreen-rounded"
