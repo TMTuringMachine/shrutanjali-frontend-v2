@@ -3,7 +3,9 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 //assets
 import NameBlack from "../../assets/images/shrutanjali-name-black.png";
 import NameOrange from "../../assets/images/shrutanjali-name-orange.png";
-import MaImage from "../../assets/images/MA-image1.png";
+// import MaImage from "../../assets/images/MA-image1.png";
+import MaImage from "../../assets/images/MA_IMAGE.png";
+
 
 import Transition from "../../components/Transition";
 
