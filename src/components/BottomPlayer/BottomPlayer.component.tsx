@@ -129,7 +129,7 @@ const BottomPlayer: FunctionComponent<Prop> = ({
           }}
           />
           </Tooltip>
-        <Tooltip title={"Change Audio"} arrow >
+        <Tooltip title={"Audio Options"} arrow >
         <Icon
           icon="material-symbols:headphones"
           width="35px"
