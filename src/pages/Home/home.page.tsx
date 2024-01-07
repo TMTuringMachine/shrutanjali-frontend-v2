@@ -367,7 +367,7 @@ const Home: FunctionComponent<Props> = () => {
                 />
                 </Tooltip>
             </Box>
-            <Tooltip title={"Change Audio"} arrow >
+            <Tooltip title={"Audio Options"} arrow >
 
             <Icon
               icon="material-symbols:headphones"

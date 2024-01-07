@@ -105,7 +105,7 @@ const DadajiSongs = () => {
                 width: '100%',
               }}
             >
-              <h1>Dadaji’s songs</h1>
+              <h1>Transcendental Voice of Dilip Kumar Roy</h1>
               <DadajiSingleSongsContainer>
                 {songs && songs.length > 0
                   ? songs.map((s, idx) => (
