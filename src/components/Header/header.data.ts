@@ -23,7 +23,7 @@ export const headerOptions: IHeaderOption[] = [
   {
     name: "Books",
     icon: "ph:books-bold",
-    link: "/dadajisongs",
+    link: "/book",
   },
   {
     name: "About",

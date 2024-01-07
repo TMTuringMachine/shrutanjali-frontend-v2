@@ -54,18 +54,22 @@ export default function Router() {
           element: <DadajiSongs />,
         },
         {
-          path: "/singleBook/:id",
+          path: "/book",
           element: <SingleBookPage />,
         },
-        {
-          path: "/blogs",
-          element: <Blogs />,
+        // {
+        //   path: "/singleBook/:id",
+        //   element: <SingleBookPage />,
+        // },
+        // {
+        //   path: "/blogs",
+        //   element: <Blogs />,
 
-        },
-        {
-          path: "/blogs/:id",
-          element: <SingleBlog />,
-        },
+        // },
+        // {
+        //   path: "/blogs/:id",
+        //   element: <SingleBlog />,
+        // },
       ],
     },
     // {
