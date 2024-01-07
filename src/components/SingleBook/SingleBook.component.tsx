@@ -1,6 +1,6 @@
 import './styles.css'
 import { FunctionComponent,useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { Page, pdfjs,Document } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -60,8 +60,8 @@ const SingleBook: FunctionComponent<Props> = () => {
     </Box>
     <div className="App">
       <div className="page-container">
-        <Document file={LifeOfLight} onLoadSuccess={onDocumentLoadSuccess}>
-          <Page pageNumber={pageNumber} scale={pageScale} />
+        <Document loading={<Box sx={{display:"flex",justifyContent:"center",alignItems:"center",'height':'700px'}} ><CircularProgress/></Box>} file={LifeOfLight} onLoadSuccess={onDocumentLoadSuccess}>
+          <Page loading={<><CircularProgress/></>} pageNumber={pageNumber} scale={pageScale} />
         </Document>
       </div>
       <div className="footer">
