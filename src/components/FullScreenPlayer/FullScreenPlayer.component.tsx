@@ -23,6 +23,7 @@ import {
   Tooltip,
   Typography,
   useTheme,
+  Tooltip
 } from "@mui/material";
 
 import { Document, Page, pdfjs } from "react-pdf";
@@ -48,6 +49,7 @@ import { IAudio, IMedia } from "../../interfaces/media.interface";
 import useMedia from "../../hooks/useMedia";
 import { OptionButton } from "../../pages/Home/home.styles";
 import { useWindowSize } from "../../hooks/useWindowSize";
+import useWishlist from "../../hooks/useWishlist";
 
 interface Props {
   fullScreenHandler: FullScreenHandle;
@@ -177,6 +179,23 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
     return "white";
   };
 
+  const { addToWishlist,getWishlist,removeFromWishlist } = useWishlist();
+  const [wish, setWish] = useState<string[]>([]);
+  const [render, setRender] = useState<Boolean>(false);
+
+  const isWishListed = (songId: string) => {
+    if (wish?.includes(songId)) return true;
+    return false;
+  };
+
+  useEffect(() => {
+    setWish(getWishlist());
+  }, [render])
+
+  
+
+
+
   return (
     <Box sx={{ width: "100%", height: "100%", display: "flex" }}>
       <PlayerContainer url={song?.thumbnailUrl} ref={ref} read={readMode}>
@@ -193,21 +212,50 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
           />
           <PlayerOptions>
             <Box className="opt-container">
+
+            <Tooltip title={"Lyrics"} >
               <Icon
                 color={readMode ? theme.palette.primary.main : "#fff"}
                 icon="basil:book-open-solid"
                 width="35px"
                 height="35px"
                 onClick={() => toggleReadMode()}
-              />
+                />
+            </Tooltip>
 
-              <Icon
-                color="white"
-                icon="fe:heart"
-                width="35px"
-                height="35px"
-                onClick={() => {}}
-              />
+            {isWishListed(song?._id) ? (
+              <>
+              <Tooltip title={"Remove From Wishlist"} arrow >
+
+                <Icon
+                  icon="fe:heart"
+                  width="35px"
+                  height="35px"
+                  style={{ color: "red" }}
+                  onClick={() => {
+                    removeFromWishlist(song?._id);
+                    setRender(!render);
+                  }}
+                  />
+                  </Tooltip>
+              </>
+            ) : (
+              <>
+              <Tooltip title={"Add To Wishlist"} arrow >
+
+                <Icon
+                  color="#ffffff"
+                  icon="fe:heart"
+                  width="35px"
+                  height="35px"
+                  onClick={() => {
+                    addToWishlist(song?._id);
+                    setRender(!render);
+                  }}
+                  />
+                  </Tooltip>
+              </>
+            )}
             </Box>
             <Box className="player-options">
               <Icon
