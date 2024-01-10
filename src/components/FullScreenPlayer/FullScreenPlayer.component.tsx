@@ -23,7 +23,6 @@ import {
   Tooltip,
   Typography,
   useTheme,
-  Tooltip
 } from "@mui/material";
 
 import { Document, Page, pdfjs } from "react-pdf";
