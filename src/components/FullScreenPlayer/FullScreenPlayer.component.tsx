@@ -20,6 +20,7 @@ import {
   Popover,
   Select,
   Slider,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";

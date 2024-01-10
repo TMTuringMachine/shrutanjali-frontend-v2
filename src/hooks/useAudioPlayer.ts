@@ -92,7 +92,7 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
         audio.removeEventListener("timeupdate", handleTimeUpdate);
       }
     };
-  }, [currentSongIndex, songs]);
+  }, [currentSongIndex, songs, songList]);
 
   useEffect(() => {
     const handleKeyPress = (e: any) => {
@@ -132,6 +132,8 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
   }, [currentSongIndex, isPlaying]);
 
   const play = useCallback(() => {
+    console.log("i am called");
+    console.log(songList, "this is the current song list");
     audioRef.current?.play();
   }, []);
 

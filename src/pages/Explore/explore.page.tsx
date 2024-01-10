@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Transition from "../../components/Transition";
 import { PageContainer } from "../page.styles";
-import { StyledTextField } from "../../global/global.styles";
+import {
+  CustomButton,
+  CustomToggleButton,
+  StyledTextField,
+} from "../../global/global.styles";
 import { ContinueListeningSection, EmptyWishList } from "./explore.styles";
 import { useLocation } from "react-router-dom";
-import {Grid,Typography,Box,useTheme,Pagination,CircularProgress} from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Box,
+  useTheme,
+  Pagination,
+  CircularProgress,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "@mui/material";
 import { Icon } from "@iconify/react";
 import SongOverview from "../../components/Explore/SongOverview/songOverview.component";
 import BottomPlayer from "../../components/BottomPlayer/BottomPlayer.component";
@@ -16,10 +29,12 @@ import { useFullScreenHandle } from "react-full-screen";
 import MuxAudio from "@mux/mux-audio-react";
 import useWishlist from "../../hooks/useWishlist";
 
+type modeType = "wishlist" | "all";
+
 const Explore = () => {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(5);
-  const [search,setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const { getLiveMedia, allSongs, populateMedia, getLiveMediaPaginated } =
     useMedia();
   const [topSongs, setTopSongs] = useState<IMedia[]>([]);
@@ -29,6 +44,7 @@ const Explore = () => {
   const [wishlist, setWishlist] = useState([]);
   const location = useLocation();
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
+  const [mode, setMode] = useState<modeType>("all");
   const {
     play,
     pause,
@@ -56,14 +72,13 @@ const Explore = () => {
   };
 
   const getLiveSongs = async () => {
-    const data: any = await getLiveMediaPaginated(page, 10,search);
+    const data: any = await getLiveMediaPaginated(page, 10, search);
     setCount(Math.ceil(parseInt(data.count) / 10));
   };
 
   useEffect(() => {
     getLiveSongs();
-  }, [page,search]);
-
+  }, [page, search]);
 
   useEffect(() => {
     if (allSongs && allSongs?.length > 0) {
@@ -105,7 +120,12 @@ const Explore = () => {
   };
   useEffect(() => {
     // console.log(currentSong, "this is current song");
-  }, [currentSong]);
+    if (mode === "wishlist") {
+      setTopSongs(convertApiMedia(wishlist));
+    } else if (mode === "all") {
+      setTopSongs(convertApiMedia(allSongs));
+    }
+  }, [mode]);
 
   return (
     <Transition>
@@ -122,8 +142,8 @@ const Explore = () => {
         />
         <Box sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
           <StyledTextField
-            onChange={(e)=>{
-              setSearch(e.target.value)
+            onChange={(e) => {
+              setSearch(e.target.value);
               // setPage(1)
             }}
             placeholder="Search Songs"
@@ -148,72 +168,108 @@ const Explore = () => {
             }}
           />
         </Box>
-        <ContinueListeningSection>
-        </ContinueListeningSection>
+        <ContinueListeningSection></ContinueListeningSection>
         {/* <Box sx={{display:"flex", justifyContent:"space-between"}}> */}
+        <Box>
+          <CustomToggleButton
+            active={mode === "all"}
+            onClick={() => {
+              setMode("all");
+            }}
+          >
+            ALL SONGS
+          </CustomToggleButton>
+          <CustomToggleButton
+            active={mode === "wishlist"}
+            onClick={() => {
+              setMode("wishlist");
+            }}
+          >
+            WISHLIST SONGS
+          </CustomToggleButton>
+        </Box>
+
+        {/**
+           *
+        <ToggleButtonGroup
+          color="primary"
+          value={mode}
+          exclusive
+          onChange={(e, v) => {
+            setMode(v);
+          }}
+          aria-label="Platform"
+        >
+          <ToggleButton value="all">All Songs</ToggleButton>
+          <ToggleButton value="wishlist">Wishlisted songs</ToggleButton>
+        </ToggleButtonGroup>
+           * **/}
+        {/**
+           *
         <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
           All Songs
         </Typography>
+           * **/}
         {/* <StyledTextField label="Search songs" variant="standard" /> */}
         {/* </Box> */}
-        <ContinueListeningSection style={{ marginBottom: "120px" }}>
-          {topSongs.length === 0 && (
-            <Box>
-              <CircularProgress />
-            </Box>
-          )}
-          <Grid container spacing={3} columns={10}>
-            {topSongs && topSongs?.length > 0
-              ? topSongs.map((song, idx) => (
-                  <Grid item xs={10} sm={5} md={3} lg={2} key={song?.title}>
-                    <SongOverview
-                      song={song}
-                      handleClick={playSong}
-                      idx={idx}
-                      key={song?.title}
-                    />
-                  </Grid>
-                ))
-              : null}
-          </Grid>
-          <Pagination
-            shape="rounded"
-            page={page}
-            onChange={handlePageChange}
-            count={count}
-            sx={{ margin: "30px auto" }}
-          />
-        </ContinueListeningSection>
-        <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
-          Your Wishlist
-        </Typography>
-        <ContinueListeningSection>
-          {wishlist && wishlist.length === 0 && (
-            <EmptyWishList> 
-              <Icon icon="ri:heart-add-fill" width="50px" height="50px" />
-              <Typography sx={{ fontSize: "1.5em" }}>
-                Your wishlist is empty!
-              </Typography>
-              <Typography sx={{ color: "gray" }}>
-                Add songs to your wishlist to enjoy the songs special to you !
-              </Typography>
-            </EmptyWishList>
-          )}
-          <Grid container columns={10} spacing={3}>
-            {wishlist && wishlist?.length > 0
-              ? wishlist.map((song, idx) => (
-                  <Grid item sm={2} key={idx}>
-                    <SongOverview
-                      song={song}
-                      handleClick={playSong}
-                      idx={idx}
-                      key={idx}
-                    />
-                  </Grid>
-                ))
-              : null}
-          </Grid>
-        </ContinueListeningSection>
+        {mode === "all" ? (
+          <ContinueListeningSection style={{ marginBottom: "120px" }}>
+            {topSongs.length === 0 && (
+              <Box>
+                <CircularProgress />
+              </Box>
+            )}
+            <Grid container spacing={3} columns={10}>
+              {topSongs && topSongs?.length > 0
+                ? topSongs.map((song, idx) => (
+                    <Grid item xs={10} sm={5} md={3} lg={2} key={song?.title}>
+                      <SongOverview
+                        song={song}
+                        handleClick={playSong}
+                        idx={idx}
+                        key={song?.title}
+                      />
+                    </Grid>
+                  ))
+                : null}
+            </Grid>
+            <Pagination
+              shape="rounded"
+              page={page}
+              onChange={handlePageChange}
+              count={count}
+              sx={{ margin: "30px auto" }}
+            />
+          </ContinueListeningSection>
+        ) : (
+          <ContinueListeningSection>
+            {topSongs && topSongs.length === 0 && (
+              <EmptyWishList>
+                <Icon icon="ri:heart-add-fill" width="50px" height="50px" />
+                <Typography sx={{ fontSize: "1.5em" }}>
+                  Your wishlist is empty!
+                </Typography>
+                <Typography sx={{ color: "gray" }}>
+                  Add songs to your wishlist to enjoy the songs special to you !
+                </Typography>
+              </EmptyWishList>
+            )}
+            <Grid container columns={10} spacing={3}>
+              {topSongs && topSongs?.length > 0
+                ? topSongs.map((song, idx) => (
+                    <Grid item sm={2} key={idx}>
+                      <SongOverview
+                        song={song}
+                        handleClick={playSong}
+                        idx={idx}
+                        key={idx}
+                      />
+                    </Grid>
+                  ))
+                : null}
+            </Grid>
+          </ContinueListeningSection>
+        )}
         <BottomPlayer
           fullScreenHandler={fullScreenHandler}
           nextSong={playNextSong}

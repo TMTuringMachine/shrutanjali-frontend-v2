@@ -26,7 +26,7 @@ export const optimizeImage = (url: string) => {
   const post = url.slice(idx + 6);
   // nurl = prev + "upload/q_auto:low" + post;
 
-  nurl = prev + "upload/q_80" + post;
+  nurl = prev + "upload/q_60" + post;
 
   return nurl;
 };

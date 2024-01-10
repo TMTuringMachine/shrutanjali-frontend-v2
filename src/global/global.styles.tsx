@@ -6,6 +6,20 @@ export const AppContainer = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 
+export const CustomToggleButton = styled(Button)(({ theme, active }) => ({
+  width: "fit-content",
+  height: "fit-content",
+  backgroundColor: active ? theme.palette.primary.main : "white",
+  color: active ? "#fff" : theme.palette.primary.main,
+  padding: "3px 20px",
+  borderRadius: "5px",
+  fontStyle: "bold",
+  "&:hover": {
+    backgroundColor: active ? theme.palette.primary.main : "white",
+    color: active ? "#fff" : theme.palette.primary.main,
+  },
+  marginLeft: "1rem",
+}));
 export const CustomButton = styled(Button)(({ theme }) => ({
   width: "fit-content",
   height: "fit-content",
@@ -18,16 +32,16 @@ export const CustomButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     color: "#fff",
   },
-  marginLeft: '1rem'
+  marginLeft: "1rem",
 }));
 
 export const CustomHeading1 = styled(Box)(({ theme }) => ({
   fontSize: "1.5em",
   color: theme.palette.text.primary,
   fontWeight: 600,
-  [theme.breakpoints.down('md')]: {
-    fontSize: "1.2em"
-  }
+  [theme.breakpoints.down("md")]: {
+    fontSize: "1.2em",
+  },
 }));
 
 type ModalContainerProps = {
@@ -60,9 +74,9 @@ export const ModalContainer = styled(Box)<ModalContainerProps>(
     [theme.breakpoints.down("md")]: {
       width: "90vw",
       left: "5vw",
-      top: "8vh"
-    }
-  })
+      top: "8vh",
+    },
+  }),
 );
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({

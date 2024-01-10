@@ -91,7 +91,7 @@ const SongOverview: FunctionComponent<Props> = ({ song, handleClick, idx }) => {
           width: "100%",
           // height:"80%",
           flex: 1,
-          objectFit: "contain",
+          objectFit: "cover",
           borderRadius: "10px",
         }}
       />
