@@ -22,6 +22,8 @@ import {
   ImageContainer,
 } from "./landing.styles";
 import useAuth from "../../hooks/useAuth";
+import useWishlist from "../../hooks/useWishlist";
+import useMedia from "../../hooks/useMedia";
 
 interface Props { }
 
@@ -30,16 +32,23 @@ const LandingPage: FunctionComponent<Props> = () => {
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const { width } = useWindowSize();
-
+  const {getWishlist,setWishList} = useWishlist();
+  const {checkSongsAvailable} = useMedia();
   const handleClick = () => {
     navigate("/home");
   };
 
+  const checkWishlist = async()=>{
+    const list = getWishlist();
+    const updatedList = await checkSongsAvailable(list);
+    setWishList(updatedList)
+  }
 
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/admin/login")
     }
+    checkWishlist()
   }, [isLoggedIn])
 
 

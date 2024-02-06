@@ -3,6 +3,10 @@ import axiosInstance from '../utils/axiosInstance';
 import { store } from "../redux/store";
 
 const useWishlist = () => {
+  const setWishList = useCallback((list:any[]) => {
+    localStorage.setItem('wishlist', JSON.stringify(list));
+  }, []);
+
   const getWishlist = useCallback(() => {
     let wish;
     const list = localStorage.getItem('wishlist');
@@ -61,10 +65,13 @@ const useWishlist = () => {
     return wish;
   }, []);
 
+  
+
   return {
     getWishlist,
     addToWishlist,
     removeFromWishlist,
+    setWishList
   };
 };
 
