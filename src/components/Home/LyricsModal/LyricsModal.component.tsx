@@ -104,10 +104,10 @@ const LyricsModal: FunctionComponent<Props> = ({
 
                {lyricState?.lyrics?.split("\n").map((item) => <p>{item}</p>)}
                    */}
-              <div style={{ overflowX: "hidden" }}>
                 <Document
                   file={fixUrl(song?.lyrics![language]?.url)}
                   onLoadSuccess={onDocumentLoadSuccess}
+                  className="pdf-doc"
                 >
                   {Array.from(new Array(numPages), (el, index) => (
                     <Page
@@ -121,7 +121,6 @@ const LyricsModal: FunctionComponent<Props> = ({
                     />
                   ))}
                 </Document>
-              </div>
             </LyricsConatainer>
           )}
         </ModalContainer>

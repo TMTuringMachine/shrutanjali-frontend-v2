@@ -57,6 +57,14 @@ export default function Router() {
           path: "/book",
           element: <SingleBookPage />,
         },
+        {
+          path: "/blogs",
+          element: <Blogs />,
+        },
+        {
+          path: "/blogs/:id",
+          element: <SingleBlog />,
+        },
         // {
         //   path: "/singleBook/:id",
         //   element: <SingleBookPage />,
@@ -89,33 +97,33 @@ const NotFound = Loadable(lazy(() => import("../components/Page404")));
 
 //pages
 const LandingPage = Loadable(
-  lazy(() => import("../pages/Landing/landing.page"))
+  lazy(() => import("../pages/Landing/landing.page")),
 );
 const Home = Loadable(lazy(() => import("../pages/Home/home.page")));
 
 const ExplorePage = Loadable(
-  lazy(() => import("../pages/Explore/explore.page"))
+  lazy(() => import("../pages/Explore/explore.page")),
 );
 
 const Blogs = Loadable(lazy(() => import("../pages/Blogs/blogs.page")));
 
 const SingleBlog = Loadable(
-  lazy(() => import("../pages/SingleBlog/singleBlog.page"))
+  lazy(() => import("../pages/SingleBlog/singleBlog.page")),
 );
 
 //admin pages
 const AdminLogin = Loadable(
-  lazy(() => import("../pages/AdminLogin/adminLogin.page"))
+  lazy(() => import("../pages/AdminLogin/adminLogin.page")),
 );
 const DadajiSongs = Loadable(
-  lazy(() => import("../pages/DadajiSongs/dadajiSong.page"))
+  lazy(() => import("../pages/DadajiSongs/dadajiSong.page")),
 );
 const AdminDashboard = Loadable(
-  lazy(() => import("../pages/AdminDashboard/adminDashboard.page"))
+  lazy(() => import("../pages/AdminDashboard/adminDashboard.page")),
 );
 
 const SingleBookPage = Loadable(
-  lazy(() => import("../pages/SingleBook/SingleBook.page"))
+  lazy(() => import("../pages/SingleBook/SingleBook.page")),
 );
 
 //layouts

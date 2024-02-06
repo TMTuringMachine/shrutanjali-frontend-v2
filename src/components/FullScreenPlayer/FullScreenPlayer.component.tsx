@@ -61,6 +61,7 @@ interface Props {
   seek: Function;
   currentAudioIndex: any;
   setCurrentAudioIndex: Function;
+  restartSong: Function;
 }
 
 const FullScreenPlayer: FunctionComponent<Props> = ({
@@ -74,6 +75,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
   seek,
   currentAudioIndex,
   setCurrentAudioIndex,
+  restartSong,
 }) => {
   const [readMode, setReadMode] = useState<boolean>(false);
   const [showPlayer, setShowPlayer] = useState<boolean>(true);
@@ -178,7 +180,7 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
     return "white";
   };
 
-  const { addToWishlist,getWishlist,removeFromWishlist } = useWishlist();
+  const { addToWishlist, getWishlist, removeFromWishlist } = useWishlist();
   const [wish, setWish] = useState<string[]>([]);
   const [render, setRender] = useState<Boolean>(false);
 
@@ -189,15 +191,22 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
 
   useEffect(() => {
     setWish(getWishlist());
-  }, [render])
+  }, [render]);
 
-  
-
-
+  const handlePlayerContainerClick = () => {
+    if (readMode) {
+      setReadMode(false);
+    }
+  };
 
   return (
     <Box sx={{ width: "100%", height: "100%", display: "flex" }}>
-      <PlayerContainer url={song?.thumbnailUrl} ref={ref} read={readMode}>
+      <PlayerContainer
+        url={song?.thumbnailUrl}
+        ref={ref}
+        read={readMode}
+        onClick={handlePlayerContainerClick}
+      >
         <Overlay visible={showPlayer}>
           <SongInfoContainer>
             <img src={song!.thumbnailUrl} alt="" />
@@ -211,50 +220,47 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
           />
           <PlayerOptions>
             <Box className="opt-container">
-
-            <Tooltip title={"Lyrics"} >
-              <Icon
-                color={readMode ? theme.palette.primary.main : "#fff"}
-                icon="basil:book-open-solid"
-                width="35px"
-                height="35px"
-                onClick={() => toggleReadMode()}
+              <Tooltip title={"Lyrics"}>
+                <Icon
+                  color={readMode ? theme.palette.primary.main : "#fff"}
+                  icon="basil:book-open-solid"
+                  width="35px"
+                  height="35px"
+                  onClick={() => toggleReadMode()}
                 />
-            </Tooltip>
+              </Tooltip>
 
-            {isWishListed(song?._id) ? (
-              <>
-              <Tooltip title={"Remove From Wishlist"} arrow >
-
-                <Icon
-                  icon="fe:heart"
-                  width="35px"
-                  height="35px"
-                  style={{ color: "red" }}
-                  onClick={() => {
-                    removeFromWishlist(song?._id);
-                    setRender(!render);
-                  }}
-                  />
+              {isWishListed(song?._id) ? (
+                <>
+                  <Tooltip title={"Remove From Wishlist"} arrow>
+                    <Icon
+                      icon="fe:heart"
+                      width="35px"
+                      height="35px"
+                      style={{ color: "red" }}
+                      onClick={() => {
+                        removeFromWishlist(song?._id);
+                        setRender(!render);
+                      }}
+                    />
                   </Tooltip>
-              </>
-            ) : (
-              <>
-              <Tooltip title={"Add To Wishlist"} arrow >
-
-                <Icon
-                  color="#ffffff"
-                  icon="fe:heart"
-                  width="35px"
-                  height="35px"
-                  onClick={() => {
-                    addToWishlist(song?._id);
-                    setRender(!render);
-                  }}
-                  />
+                </>
+              ) : (
+                <>
+                  <Tooltip title={"Add To Wishlist"} arrow>
+                    <Icon
+                      color="#ffffff"
+                      icon="fe:heart"
+                      width="35px"
+                      height="35px"
+                      onClick={() => {
+                        addToWishlist(song?._id);
+                        setRender(!render);
+                      }}
+                    />
                   </Tooltip>
-              </>
-            )}
+                </>
+              )}
             </Box>
             <Box className="player-options">
               <Icon
@@ -332,7 +338,10 @@ const FullScreenPlayer: FunctionComponent<Props> = ({
                   active={idx == currentAudioIndex}
                   onClick={() => {
                     setCurrentAudioIndex(idx);
-                    toggle();
+                    setTimeout(() => {
+                      restartSong();
+                    }, 500);
+                    // toggle();
                     // setIsPlaying(false);
                   }}
                 >

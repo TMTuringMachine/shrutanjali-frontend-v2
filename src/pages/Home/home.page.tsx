@@ -114,6 +114,7 @@ const Home: FunctionComponent<Props> = () => {
     currentSongIndex,
     seek,
     isPlaying: playing,
+    restartSong,
   } = useAudioPlayer({
     songList: songs,
     ref: ref,
@@ -393,8 +394,15 @@ const Home: FunctionComponent<Props> = () => {
                     active={idx == currentAudioIndex}
                     onClick={() => {
                       setCurrentAudioIndex(idx);
-                      pause();
-                      setIsPlaying(false);
+                      setTimeout(() => {
+                        restartSong();
+                      }, 500);
+                      // pause();
+                      // setIsPlaying(false);
+                      // handleClose();
+                      // setTimeout(() => {
+                      //   togglePlay();
+                      // }, 1000);
                     }}
                   >
                     {item.language}
@@ -425,6 +433,7 @@ const Home: FunctionComponent<Props> = () => {
               seek={seek}
               currentAudioIndex={currentAudioIndex}
               setCurrentAudioIndex={setCurrentAudioIndex}
+              restartSong={restartSong}
             />
           ) : null}
         </FullScreen>

@@ -12,8 +12,11 @@ export const PlayerContainer = styled(Box)<PlayerContainerProps>(
     transition: "width 0.3s ease-in",
     backgroundColor: theme.palette.grey[400],
     backgroundImage: `url('${url}')`,
+    // objectFit: "cover",
     backgroundPosition: "center",
     backgroundSize: "cover",
+    // backgroundSize: "contain",
+    // backgroundRepeat: "no-repeat",
     // filter:'brightness(70%)'
     [theme.breakpoints.down("sm")]: {
       backgroundImage: "none",

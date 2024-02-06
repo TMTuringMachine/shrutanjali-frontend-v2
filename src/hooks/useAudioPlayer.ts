@@ -151,6 +151,12 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
     }
   }, []);
 
+  const restartSong = useCallback(() => {
+    setProgress(0);
+    play();
+    setIsPlaying(true);
+  }, []);
+
   const seek = useCallback((val: number) => {
     if (audioRef.current) {
       audioRef.current.currentTime = (val / 100) * audioRef?.current?.duration;
@@ -223,6 +229,7 @@ const useAudioPlayer = ({ songList, ref }: Props) => {
     seek,
     togglePlay,
     playSong,
+    restartSong
   };
 };
 

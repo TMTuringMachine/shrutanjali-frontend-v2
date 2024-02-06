@@ -23,7 +23,7 @@ const Header: FunctionComponent<Props> = () => {
       <Slide in={showOptions} direction="left">
         <HeaderOptions>
           {headerOptions.map((option) => (
-            <Tooltip title={option.name} arrow >
+            <Tooltip title={option.name} arrow>
               <CustomLink to={option.link}>
                 <Icon
                   icon={option.icon}
@@ -37,17 +37,19 @@ const Header: FunctionComponent<Props> = () => {
         </HeaderOptions>
       </Slide>
       {/* ) : ( */}
-      <Icon
-        icon="material-symbols:keyboard-double-arrow-left"
-        width="40px"
-        height="40px"
-        style={{
-          cursor: "pointer",
-          transform: showOptions ? "rotateZ(180deg)" : "rotateZ(0deg)",
-          transition: "all 0.2s ease-in-out",
-        }}
-        onClick={toggleOptions}
-      />
+      <Tooltip title="Menu">
+        <Icon
+          icon="material-symbols:keyboard-double-arrow-left"
+          width="40px"
+          height="40px"
+          style={{
+            cursor: "pointer",
+            transform: showOptions ? "rotateZ(180deg)" : "rotateZ(0deg)",
+            transition: "all 0.2s ease-in-out",
+          }}
+          onClick={toggleOptions}
+        />
+      </Tooltip>
       {/* )} */}
     </HeaderContainer>
   );
