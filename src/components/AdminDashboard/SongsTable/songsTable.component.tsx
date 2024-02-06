@@ -99,15 +99,17 @@ const SongsTable = () => {
   //   setPage(page);
   // };
 
+  const [render,setRender] = useState(false);
+
   const getSongs = async () => {
-    const data: any = await getMediaPaginated(page - 1, 8);
+    const data: any = await getMediaPaginated(page - 1, 6);
     setMedia(data.data);
-    setCount(Math.ceil(parseInt(data.count) / 8));
+    setCount(Math.ceil(parseInt(data.count) / 6));
   };
 
   useEffect(() => {
     getSongs();
-  }, [page]);
+  }, [page,render]);
 
   return (
     <>
@@ -118,7 +120,7 @@ const SongsTable = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="left"></StyledTableCell>
+              <StyledTableCell align="center">Index</StyledTableCell>
               <StyledTableCell align="center">Song Name</StyledTableCell>
               {/* <StyledTableCell align="center">Uploaded on</StyledTableCell> */}
               <StyledTableCell align="center">Streams</StyledTableCell>
@@ -132,68 +134,82 @@ const SongsTable = () => {
           </TableHead>
           <TableBody>
             {media &&
-              media?.map((song, item) => (
-                <TableRow
-                  key={item}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <StyledTableCell align="left">
-                    <TableSongImage
-                      src={song.thumbnailUrl}
-                      alt=""
-                      loading="lazy"
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{song.title}</StyledTableCell>
-                  {/* <StyledTableCell align="center">
-                  {moment(new Date()).format()}
-                </StyledTableCell> */}
-                  <StyledTableCell align="center">
-                    {song.streams}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {song.wishlists || 0}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <CustomSwitch
-                      checked={song.isFeatured}
-                      handleChange={() => {
-                        featureMedia(song._id);
-                      }}
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <CustomSwitch
-                      checked={song.isLive}
-                      handleChange={() => {
-                        toggleMedia(song._id);
-                      }}
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Icon
-                      icon="material-symbols:edit-square-outline"
-                      width="20px"
-                      height="20px"
-                      style={{ cursor: "pointer", color: "gray" }}
-                      onClick={() => {
-                        toggleEditModal(song);
-                      }}
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Icon
-                      icon="material-symbols:delete-rounded"
-                      width="20px"
-                      height="20px"
-                      style={{ cursor: "pointer", color: "red" }}
-                      onClick={() => {
-                        toggleDeleteModal(song.title, song._id);
-                      }}
-                    />
-                  </StyledTableCell>
-                </TableRow>
-              ))}
+              media?.map((song, item) => {
+                console.log(song.title, "FEATURED : ",song.isFeatured, "LIVE : ",song.isLive)
+                return (
+                  <TableRow
+                    key={item}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    {/* <StyledTableCell align="left">
+                      <TableSongImage
+                        src={song.thumbnailUrl}
+                        alt=""
+                        loading="lazy"
+                      />
+                    </StyledTableCell> */}
+                    <StyledTableCell align="center">{item+1}</StyledTableCell>
+  
+                    <StyledTableCell align="center">{song.title}</StyledTableCell>
+                    {/* <StyledTableCell align="center">
+                    {moment(new Date()).format()}
+                  </StyledTableCell> */}
+                    <StyledTableCell align="center">
+                      {song.streams}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {song.wishlists || 0}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {/* <CustomSwitch
+                        checked={song.isFeatured}
+                        handleChange={async() => {
+                          await featureMedia(song._id);
+                        }}
+                      /> */}
+                      <Switch checked={song.isFeatured} onChange={async()=>{
+                        await featureMedia(song._id)
+                        setRender(!render)
+                      }} />
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {/* <CustomSwitch
+                        checked={song.isLive}
+                        handleChange={async() => {
+                          await toggleMedia(song._id);
+                        }}
+                      /> */}
+                      <Switch checked={song.isLive} onChange={async()=>{
+                        await toggleMedia(song._id)
+                        setRender(!render)
+                      }} />
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Icon
+                        icon="material-symbols:edit-square-outline"
+                        width="20px"
+                        height="20px"
+                        style={{ cursor: "pointer", color: "gray" }}
+                        onClick={() => {
+                          toggleEditModal(song);
+                        }}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Icon
+                        icon="material-symbols:delete-rounded"
+                        width="20px"
+                        height="20px"
+                        style={{ cursor: "pointer", color: "red" }}
+                        onClick={() => {
+                          toggleDeleteModal(song.title, song._id);
+                        }}
+                      />
+                    </StyledTableCell>
+                  </TableRow>
+                )
+              }
+              )}
           </TableBody>
           <DeleteModal
             state={deleteModalState.visible}
