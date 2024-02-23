@@ -7,9 +7,9 @@ import { store } from '../redux/store';
 import { isDevelopment } from './helper';
 
 const requestConfig: AxiosRequestConfig = {
-  baseURL: 'http://localhost:5000/api',
+  // baseURL: 'http://localhost:5000/api',
   // baseURL: "http://192.168.0.105:5000/api",
-  // baseURL: 'https://shrutanjali-api-ce3d.onrender.com/api',
+  baseURL: 'https://shrutanjali-api-ce3d.onrender.com/api',
 };
 // console.log(requestConfig)
 const axiosInstance = axios.create(requestConfig);
