@@ -101,10 +101,11 @@ const SongsTable = () => {
           <TableHead>
             <TableRow>
               <StyledTableCell align="center">Song Name</StyledTableCell>
+              <StyledTableCell align="center">Streams</StyledTableCell>
               <StyledTableCell align="center">Uploaded on</StyledTableCell>
               <StyledTableCell align="center">LIVE</StyledTableCell>
 
-              <StyledTableCell align="center">EDIT</StyledTableCell>
+              {/* <StyledTableCell align="center">EDIT</StyledTableCell> */}
               <StyledTableCell align="center">DELETE</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -115,6 +116,7 @@ const SongsTable = () => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <StyledTableCell align="center">{song.title}</StyledTableCell>
+                <StyledTableCell align="center">{song.streams}</StyledTableCell>
                 <StyledTableCell align="center">
                   {moment(new Date()).format()}
                 </StyledTableCell>
@@ -126,7 +128,7 @@ const SongsTable = () => {
                     type={'Toggle'}
                   />
                 </StyledTableCell>
-                <StyledTableCell align="center">
+                {/* <StyledTableCell align="center">
                   <Icon
                     icon="material-symbols:edit-square-outline"
                     width="20px"
@@ -136,7 +138,7 @@ const SongsTable = () => {
                       toggleEditModal(song);
                     }}
                   />
-                </StyledTableCell>
+                </StyledTableCell> */}
                 <StyledTableCell align="center">
                   <Icon
                     icon="material-symbols:delete-rounded"
@@ -167,11 +169,11 @@ const SongsTable = () => {
             }}
             text={deleteModalState.text}
           />
-          <EditSongModal
+          {/* <EditSongModal
             state={editModalState.visible}
             toggleModal={toggleEditModal}
             song={editModalState.song}
-          />
+          /> */}
         </Table>
       </SongsTableContainer>
     </>

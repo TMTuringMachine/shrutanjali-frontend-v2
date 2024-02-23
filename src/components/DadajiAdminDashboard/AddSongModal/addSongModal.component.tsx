@@ -191,7 +191,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                 </Box>
               )}
 
-              <Typography>Selected Lyrics:</Typography>
+              {/* <Typography>Selected Lyrics:</Typography>
               {lyrics && (
                 <Box>
                   <FilePreview>
@@ -205,7 +205,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                     />{' '}
                   </FilePreview>
                 </Box>
-              )}
+              )} */}
             </Box>
             <MainForm>
               <StyledTextField
@@ -220,9 +220,9 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                 <CustomButton onClick={toggleAudioModal}>
                   ADD AUDIO FILE
                 </CustomButton>
-                <CustomButton onClick={toggleLyricModal}>
+                {/* <CustomButton onClick={toggleLyricModal}>
                   ADD LYRIC FILE
-                </CustomButton>
+                </CustomButton> */}
               </ButtonContainer>
               <AudioFileModal
                 state={showAudioModal}
@@ -232,12 +232,12 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                 fromDadaji={true}
                 setAudio={setAudio}
               />
-              <LyricFileModal
+              {/* <LyricFileModal
                 state={showLyricModal}
                 toggleModal={toggleLyricModal}
                 handleUpload={handleUploadFile}
                 fromDadaji={true}
-              />
+              /> */}
 
               <Box
                 sx={{

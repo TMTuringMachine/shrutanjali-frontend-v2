@@ -22,7 +22,7 @@ import useAudioPlayer from '../../hooks/useAudioPlayer';
 import MuxAudio from '@mux/mux-audio-react';
 
 const DadajiSongs = () => {
-  const { getDadajiSongs, dadajiSongs } = useMedia();
+  const { getDadajiSongs, getDadajisLiveSongs, dadajiSongs } = useMedia();
   const [songs, setSongs] = useState<IBasicMedia[]>([]);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
@@ -44,7 +44,7 @@ const DadajiSongs = () => {
   });
 
   useEffect(() => {
-    getDadajiSongs();
+    getDadajisLiveSongs();
   }, []);
 
   useEffect(() => {

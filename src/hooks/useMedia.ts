@@ -76,6 +76,11 @@ const useMedia = () => {
     dispatch(setDadajiSongs(res.data));
   }, []);
 
+  const getDadajisLiveSongs = useCallback(async () => {
+    const res = await axiosInstance.get('/basicMedia/live');
+    dispatch(setDadajiSongs(res.data));
+  }, []);
+
   const toggleMedia = useCallback(async (mediaId: String) => {
     const { data } = await axiosInstance.post(`/media/toggle/${mediaId}`);
     store.dispatch({
@@ -92,7 +97,7 @@ const useMedia = () => {
     const { data } = await axiosInstance.post(
       `/basicMedia/toggle/${basicMediaId}`
     );
-    // console.log(data, 'dattaa');
+    console.log(data, 'dattaa');
     store.dispatch({
       type: 'control/showSnackbar',
       payload: {
@@ -297,6 +302,7 @@ const useMedia = () => {
     allSongs,
     getLiveMedia,
     getDadajiSongs,
+    getDadajisLiveSongs,
     dadajiSongs,
     getSongLyrics,
     lyricState,
