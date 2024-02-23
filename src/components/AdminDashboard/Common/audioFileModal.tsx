@@ -1,21 +1,21 @@
-import { Box, Button, LinearProgress, Modal, Slide } from "@mui/material";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import { Box, Button, LinearProgress, Modal, Slide } from '@mui/material';
+import React, { FunctionComponent, useCallback, useState } from 'react';
 import {
   CustomButton,
   ModalContainer,
   StyledTextField,
-} from "../../../global/global.styles";
+} from '../../../global/global.styles';
 import {
   FileOverview,
   ModalFormContainer,
   RootContainer,
-} from "../AddSongModal/addSongModal.styles";
-import { Icon } from "@iconify/react";
-import { useDropzone } from "react-dropzone";
-import { trimText } from "../../../utils/helper";
-import useMedia from "../../../hooks/useMedia";
+} from '../AddSongModal/addSongModal.styles';
+import { Icon } from '@iconify/react';
+import { useDropzone } from 'react-dropzone';
+import { trimText } from '../../../utils/helper';
+import useMedia from '../../../hooks/useMedia';
 
-import * as UpChunk from "@mux/upchunk";
+import * as UpChunk from '@mux/upchunk';
 interface Props {
   state: boolean;
   toggleModal: Function;
@@ -35,17 +35,17 @@ const AudioFileModal: FunctionComponent<Props> = ({
   const [audioFile, setAudioFile] = useState<File | null>();
   const [files, setFiles] = useState<File[]>([]);
   const [progress, setProgress] = useState(0);
-  const [audioLanaguage, setAudioLanguage] = useState<String>("");
+  const [audioLanaguage, setAudioLanguage] = useState<String>('');
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
-      audio: [".mp3", ".mpeg", ".aac"],
+      audio: ['.mp3', '.mpeg', '.aac'],
     },
     onDrop: useCallback(
       (acceptedFiles: File[]) => {
         setAudioFile(acceptedFiles[0]);
         setFiles([...files, acceptedFiles[0]]);
       },
-      [audioFile],
+      [audioFile]
     ),
     multiple: false,
   });
@@ -62,11 +62,11 @@ const AudioFileModal: FunctionComponent<Props> = ({
       if (audioFile !== null) {
         setIsUploading(true);
         const response = await fetch(
-          "https://shrutanjali-api-ce3d.onrender.com/api/mux",
+          'https://shrutanjali-api-ce3d.onrender.com/api/mux',
           // 'http://localhost:5000/api/mux',
           {
-            method: "POST",
-          },
+            method: 'POST',
+          }
         );
         const url = await response.json();
         const audioId = await getAudioId(url.uploadID);
@@ -77,16 +77,16 @@ const AudioFileModal: FunctionComponent<Props> = ({
           chunkSize: 5120, // Uploads the file in ~5mb chunks
         });
         // Subscribe to events
-        upload.on("error", (error: any) => {
+        upload.on('error', (error: any) => {
           console.log(error);
         });
 
-        upload.on("progress", (progress: any) => {
+        upload.on('progress', (progress: any) => {
           setProgress(progress.detail);
           console.log(progress.detail);
         });
 
-        upload.on("success", (data: any) => {
+        upload.on('success', (data: any) => {
           // const language = audioLanaguage;
           setAudio({ audioId, language: audioLanaguage });
           setIsUploading(false);
@@ -98,7 +98,7 @@ const AudioFileModal: FunctionComponent<Props> = ({
           // console.log('UPLOAD COMPLETE', language);
         });
       } else {
-        console.log("PLEASE SELECT AUDIO FILE");
+        console.log('PLEASE SELECT AUDIO FILE');
       }
     } catch (error) {
       setIsUploading(false);
@@ -132,7 +132,7 @@ const AudioFileModal: FunctionComponent<Props> = ({
               />
             )}
             <RootContainer
-              {...getRootProps({ className: "dropzone" })}
+              {...getRootProps({ className: 'dropzone' })}
               isActive={isDragActive}
             >
               <input {...getInputProps()} />
@@ -154,7 +154,7 @@ const AudioFileModal: FunctionComponent<Props> = ({
                       icon="material-symbols:delete-rounded"
                       width="20px"
                       height="20px"
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                       onClick={() => removeFile(file.name)}
                     />
                   </FileOverview>

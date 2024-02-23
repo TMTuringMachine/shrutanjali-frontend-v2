@@ -1,6 +1,6 @@
 export interface IAddBasicMedia {
   title: string;
-  audio?: string;
+  audio?: any;
   lyrics?: string;
   isFeatured: boolean;
 }

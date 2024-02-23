@@ -60,8 +60,8 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
   const [isFeatured, setFeatured] = useState<boolean>(false);
   const { addBasicMedia, uploadFile, getAudioId } = useMedia();
   const [progress, setProgress] = useState(0);
-  const [audio, setAudio] = useState<string>('');
-  const [lyrics, setLyrics] = useState<string>('');
+  const [audio, setAudio] = useState<any>('');
+  const [lyrics, setLyrics] = useState<any>('');
   const [preview, setPreview] = useState<string>();
 
   const toggleAudioModal = () => {
@@ -79,7 +79,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       lyrics,
       isFeatured,
     };
-    console.log(data);
+    console.log('dataaa ' + data);
     addBasicMedia(data);
     toggleModal(!state);
   };
@@ -100,7 +100,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
     try {
       if (audioFile !== null) {
         const response = await fetch(
-          "https://shrutanjali-api-ce3d.onrender.com/api/mux",
+          'https://shrutanjali-api-ce3d.onrender.com/api/mux',
           // 'http://localhost:5000/api/mux',
           {
             method: 'POST',
@@ -109,6 +109,8 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         const url = await response.json();
 
         const audioId = await getAudioId(url.uploadID);
+
+        console.log('audioo iddd' + audioId);
 
         const upload = UpChunk.createUpload({
           endpoint: url.url, // Authenticated url
@@ -127,6 +129,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
         });
 
         upload.on('success', (data: any) => {
+          console.log('works till here....' + audioId);
           setAudio(audioId);
           console.log('UPLOAD COMPLETE');
           setShowAudioModal(!showAudioModal);
@@ -227,6 +230,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
                 handleUpload={handleUploadAudio}
                 _progress={progress}
                 fromDadaji={true}
+                setAudio={setAudio}
               />
               <LyricFileModal
                 state={showLyricModal}
