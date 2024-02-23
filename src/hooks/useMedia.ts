@@ -127,6 +127,7 @@ const useMedia = () => {
   }, []);
 
   const deleteBasicMedia = useCallback(async (basicMediaId: String) => {
+    console.log('works? ' + basicMediaId);
     await axiosInstance.delete(`/basicMedia/${basicMediaId}`);
     store.dispatch({
       type: 'control/showSnackbar',
@@ -159,11 +160,13 @@ const useMedia = () => {
 
   const addBasicMedia = useCallback(async (data: IAddBasicMedia) => {
     console.log('bruhh???' + JSON.stringify(data));
-    const form = new FormData();
-    form.append('title', data.title.toString());
-    form.append('audio', data.audio?.audioId.toString() || '');
-    form.append('lyrics', data.lyrics?.toString() || '');
-    form.append('isFeatured', data.isFeatured.toString());
+
+    const form = {
+      title: data.title.toString(),
+      audio: data.audio,
+      lyrics: JSON.stringify(data.lyrics) || '',
+      isFeatured: data.isFeatured.toString(),
+    };
 
     const res: any = await axiosInstance.post('/basicMedia', form);
     if (res) {
