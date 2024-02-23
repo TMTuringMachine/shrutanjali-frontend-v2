@@ -10,6 +10,7 @@ import { Icon } from "@iconify/react";
 import { Box, Popover, Slider, Tooltip } from "@mui/material";
 import {
   BottomPlayerContainer,
+  OuterContainer,
   SongActionsContainer,
   SongImageContainer,
   SongPlayerOptions,
@@ -57,138 +58,151 @@ const BottomPlayer: FunctionComponent<Prop> = ({
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   return (
-    <BottomPlayerContainer>
-      <SongImageContainer>
-        <img src={song?.thumbnailUrl} className="song-image" alt="" />
-        <Box sx={{ fontWeight: 600, fontSize: "1.2em" }}>
-          <p>{song?.title}</p>
-        </Box>
-      </SongImageContainer>
-      <SongPlayerOptions>
-        <Box className="player-options">
-        <Tooltip title={"Previous Song"} arrow >
-          <Icon
-            color="black"
-            icon="material-symbols:skip-previous-rounded"
-            width="40px"
-            height="40px"
-            onClick={() => {
-              previousSong();
-            }}
-            />
+    <OuterContainer>
+      <BottomPlayerContainer>
+        <SongImageContainer>
+          <img src={song?.thumbnailUrl} className="song-image" alt="" />
+          <Box className="song-name">
+            <p>{song?.title}</p>
+          </Box>
+        </SongImageContainer>
+        <SongPlayerOptions>
+          <Box className="player-options">
+            <Tooltip title={"Previous Song"} arrow>
+              <Icon
+                color="black"
+                icon="material-symbols:skip-previous-rounded"
+                width="40px"
+                height="40px"
+                onClick={() => {
+                  previousSong();
+                }}
+              />
             </Tooltip>
-        <Tooltip title={"Play"} arrow >
-
-          <Icon
-            color="black"
-            icon={
-              isPlaying
-              ? "material-symbols:pause-circle-rounded"
-              : "material-symbols:play-circle-rounded"
-            }
-            width="50px"
-            height="50px"
-            onClick={() => {
-              togglePlay();
+            <Tooltip title={"Play"} arrow>
+              <Icon
+                color="black"
+                icon={
+                  isPlaying
+                    ? "material-symbols:pause-circle-rounded"
+                    : "material-symbols:play-circle-rounded"
+                }
+                width="50px"
+                height="50px"
+                onClick={() => {
+                  togglePlay();
+                }}
+              />
+            </Tooltip>
+            <Tooltip title={"Next Song"} arrow>
+              <Icon
+                color="black"
+                icon="material-symbols:skip-next-rounded"
+                width="40px"
+                height="40px"
+                onClick={() => {
+                  nextSong();
+                }}
+              />
+            </Tooltip>
+          </Box>
+          <Slider
+            className="slider"
+            sx={{ width: "90%" }}
+            color="primary"
+            value={progress}
+            onChange={(e: any) => {
+              seek(e?.target?.value);
             }}
+          />
+        </SongPlayerOptions>
+        <SongActionsContainer>
+          <Tooltip title={"Lyrics"} arrow>
+            <Icon
+              color="black"
+              icon="basil:book-open-solid"
+              width="30px"
+              height="30px"
+              onClick={() => {
+                setLyricModalState({
+                  open: true,
+                  song: song,
+                });
+              }}
             />
           </Tooltip>
-          <Tooltip title={"Next Song"} arrow >
-          <Icon
-            color="black"
-            icon="material-symbols:skip-next-rounded"
-            width="40px"
-            height="40px"
-            onClick={() => {
-              nextSong();
-            }}
+          <Tooltip title={"Audio Options"} arrow>
+            <Icon
+              icon="material-symbols:headphones"
+              width="35px"
+              height="35px"
+              aria-describedby={id}
+              onClick={handleClick}
             />
-            </Tooltip>
-        </Box>
-        <Slider
-          sx={{ width: "90%" }}
-          color="primary"
-          value={progress}
-          onChange={(e: any) => {
-            seek(e?.target?.value);
-          }}
-        />
-      </SongPlayerOptions>
-      <SongActionsContainer>
-      <Tooltip title={"Lyrics"} arrow >
-        <Icon
-          color="black"
-          icon="basil:book-open-solid"
-          width="30px"
-          height="30px"
-          onClick={() => {
+          </Tooltip>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+          >
+            <Box sx={{ width: "fit-content", padding: "5px" }}>
+              {song?.audios?.map((item: IAudio, idx: number) => (
+                <OptionButton
+                  key={idx}
+                  active={idx == currentAudioIndex}
+                  onClick={() => {
+                    setCurrentAudioIndex(idx);
+                    // pause();
+                    // setIsPlaying(false);
+                  }}
+                >
+                  {item.language}
+                </OptionButton>
+              ))}
+            </Box>
+          </Popover>
+          <Tooltip title={"Fullscreen Mode"} arrow>
+            <Icon
+              color="black"
+              icon="material-symbols:fullscreen-rounded"
+              width="30px"
+              height="30px"
+            />
+          </Tooltip>
+        </SongActionsContainer>
+
+        <LyricsModal
+          state={lyricModalState.open}
+          toggleModal={() => {
             setLyricModalState({
-              open: true,
-              song: song,
+              ...lyricModalState,
+              open: false,
             });
           }}
-          />
-          </Tooltip>
-        <Tooltip title={"Audio Options"} arrow >
-        <Icon
-          icon="material-symbols:headphones"
-          width="35px"
-          height="35px"
-          aria-describedby={id}
-          onClick={handleClick}
-          />
-          </Tooltip>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-        >
-          <Box sx={{ width: "fit-content", padding: "5px" }}>
-            {song?.audios?.map((item: IAudio, idx: number) => (
-              <OptionButton
-                key={idx}
-                active={idx == currentAudioIndex}
-                onClick={() => {
-                  setCurrentAudioIndex(idx);
-                  // pause();
-                  // setIsPlaying(false);
-                }}
-              >
-                {item.language}
-              </OptionButton>
-            ))}
-          </Box>
-        </Popover>
-        <Tooltip title={"Fullscreen Mode"} arrow >
-        <Icon
-          color="black"
-          icon="material-symbols:fullscreen-rounded"
-          width="30px"
-          height="30px"
-          />
-          </Tooltip>
-      </SongActionsContainer>
-
-      <LyricsModal
-        state={lyricModalState.open}
-        toggleModal={() => {
-          setLyricModalState({
-            ...lyricModalState,
-            open: false,
-          });
+          song={lyricModalState.song}
+        />
+      </BottomPlayerContainer>
+      <Slider
+        size="small"
+        className="mobile-slider"
+        sx={{ width: "94%" }}
+        color="primary"
+        value={progress}
+        onChange={(e: any) => {
+          seek(e?.target?.value);
         }}
-        song={lyricModalState.song}
       />
-    </BottomPlayerContainer>
+    </OuterContainer>
+
     // <Box
     //   sx={{
     //     display: 'flex',
