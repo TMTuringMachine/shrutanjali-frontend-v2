@@ -266,6 +266,14 @@ const useMedia = () => {
     return res.data;
   }, []);
 
+  const checkSongsAvailable = useCallback(async (list: string[]) => {
+    const res = await axiosInstance.post('/media/checkSongsAvailable', { list });
+    return res?.data;
+  }, []);
+
+
+  checkSongsAvailable
+
   return {
     addMedia,
     uploadFile,
@@ -291,6 +299,10 @@ const useMedia = () => {
     populateMedia,
     getMediaPaginated,
     getLiveMediaPaginated,
+<<<<<<< HEAD
+=======
+    checkSongsAvailable
+>>>>>>> c37335fb0277ef3f19d45cde7d9f5dd0c396440f
   };
 };
 
