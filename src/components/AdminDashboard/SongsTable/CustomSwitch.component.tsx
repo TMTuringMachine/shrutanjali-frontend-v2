@@ -9,13 +9,12 @@ interface Props {
 const CustomSwitch: FunctionComponent<Props> = ({ checked, handleChange }) => {
   const [active, setActive] = useState(checked);
   const handleSwitchChange = () => {
-    console.log("I AM GETTING CALLLLLEDDDDD");
     setActive(!active);
     handleChange();
   };
   return (
     <>
-      <Switch checked={active} onChange={handleSwitchChange} />
+      <Switch checked={active} onChange={()=>handleSwitchChange} />
     </>
   );
 };
