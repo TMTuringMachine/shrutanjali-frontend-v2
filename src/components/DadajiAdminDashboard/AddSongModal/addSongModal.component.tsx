@@ -80,7 +80,7 @@ const AddSongModal: FunctionComponent<Props> = ({ toggleModal, state }) => {
       isFeatured,
     };
     console.log('dataaa ' + data);
-    addBasicMedia(data);
+    await addBasicMedia(data);
     toggleModal(!state);
   };
 
