@@ -54,7 +54,7 @@ const AdminDashboard = () => {
           <ActionPanelContainer>
             <p className="panel-header">ACTION PANEL</p>
             <ActionButton onClick={toggleAddSongModal}>ADD SONG</ActionButton>
-            <ActionButton onClick={toggleBlogModal}>ADD BLOG</ActionButton>
+            {/* <ActionButton onClick={toggleBlogModal}>ADD BLOG</ActionButton> */}
           </ActionPanelContainer>
           <AddSongModal
             state={showAddSongModal}
