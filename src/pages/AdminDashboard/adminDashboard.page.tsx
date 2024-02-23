@@ -26,7 +26,7 @@ import AddBlogModal from "../../components/AdminDashboard/AddBlogModal/addBlogMo
 
 const AdminDashboard = () => {
   const [showAddSongModal, setShowAddSongModal] = useState(false);
-  const [showAddBlogModal, setShowAddBlogModal] = useState(true);
+  const [showAddBlogModal, setShowAddBlogModal] = useState(false);
   const toggleAddSongModal = () => {
     setShowAddSongModal(!showAddSongModal);
   };
