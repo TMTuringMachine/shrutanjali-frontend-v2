@@ -11,15 +11,15 @@ import { LayoutOuterContainer, LayoutOutletContainer } from "../layouts.styles";
 interface Props { }
 
 const UserLayout: FunctionComponent<Props> = () => {
-  const { isLoggedIn } = useAuth();
-  const navigate = useNavigate();
+  // const { isLoggedIn } = useAuth();
+  // const navigate = useNavigate();
 
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/admin/login")
-    }
-  }, [isLoggedIn])
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     navigate("/admin/login")
+  //   }
+  // }, [isLoggedIn])
 
   return (
     <LayoutOuterContainer>
