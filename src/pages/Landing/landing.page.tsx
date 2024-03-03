@@ -45,11 +45,11 @@ const LandingPage: FunctionComponent<Props> = () => {
   }
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/admin/login")
-    }
+    // if (!isLoggedIn) {
+    //   navigate("/admin/login")
+    // }
     checkWishlist()
-  }, [isLoggedIn])
+  }, [])
 
 
   return (

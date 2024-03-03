@@ -1,4 +1,4 @@
-import axiosInstance from "./axiosInstance.ts";
+import axiosInstance from "./axiosInstance";
 import jwtDecode from "jwt-decode";
 
 export const isValidToken = (accessToken: string | null) => {
