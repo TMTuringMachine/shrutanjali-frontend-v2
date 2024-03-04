@@ -47,7 +47,7 @@ const AboutGuru: FunctionComponent<Prop> = () => {
                   icon="material-symbols:arrow-back-rounded"
                 />
               </Box>
-              <ScrollContent>{data[0].details}</ScrollContent>
+              <ScrollContent>{data[1].details}</ScrollContent>
             </ReadMoreContainer>
           ) : (
             <ImageContainer
@@ -72,7 +72,7 @@ const AboutGuru: FunctionComponent<Prop> = () => {
                 onClick={() => setDadajiReadMore(true)}
                 readmore={toggleOnDadaji}
               >
-                {toggleOnDadaji && !dadajiReadMore ? 'Read more' : data[0].name}
+                {toggleOnDadaji && !dadajiReadMore ? 'Read more' : data[1].name}
               </ReadMoreButton>
             </ImageContainer>
           )}
@@ -91,7 +91,7 @@ const AboutGuru: FunctionComponent<Prop> = () => {
                   icon="material-symbols:arrow-back-rounded"
                 />
               </Box>
-              <ScrollContent>{data[1].details}</ScrollContent>
+              <ScrollContent>{data[0].details}</ScrollContent>
             </ReadMoreContainer>
           ) : (
             <ImageContainer imgWidth="400px" hover={toggleOnMA || MAReadMore}>
@@ -113,7 +113,7 @@ const AboutGuru: FunctionComponent<Prop> = () => {
                 onClick={() => setMAReadMore(true)}
                 readmore={toggleOnMA}
               >
-                {toggleOnMA && !MAReadMore ? 'Read more' : data[1].name}
+                {toggleOnMA && !MAReadMore ? 'Read more' : data[0].name}
               </ReadMoreButton>
             </ImageContainer>
           )}
