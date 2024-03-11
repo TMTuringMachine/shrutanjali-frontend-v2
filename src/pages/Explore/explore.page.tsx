@@ -25,9 +25,10 @@ import useMedia from "../../hooks/useMedia";
 import { IMedia } from "../../interfaces/media.interface";
 import { convertApiMedia } from "../Home/home.utils";
 import useAudioPlayer from "../../hooks/useAudioPlayer";
-import { useFullScreenHandle } from "react-full-screen";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import MuxAudio from "@mux/mux-audio-react";
 import useWishlist from "../../hooks/useWishlist";
+import FullScreenPlayer from "../../components/FullScreenPlayer/FullScreenPlayer.component";
 
 type modeType = "wishlist" | "all";
 
@@ -58,6 +59,7 @@ const Explore = () => {
     seek,
     playSong: playIdxSong,
     isPlaying: playing,
+    restartSong,
   } = useAudioPlayer({
     songList: topSongs,
   });
@@ -222,7 +224,17 @@ const Explore = () => {
             <Grid container spacing={3} columns={10}>
               {topSongs && topSongs?.length > 0
                 ? topSongs.map((song, idx) => (
-                    <Grid item xs={10} sm={5} md={3} lg={2} key={song?.title}>
+                    <Grid
+                      item
+                      xs={10}
+                      sm={5}
+                      md={3}
+                      lg={2}
+                      key={song?.title}
+                      sx={{
+                        [breakpoints.down("sm")]: { padding: "0px !important" },
+                      }}
+                    >
                       <SongOverview
                         song={song}
                         handleClick={playSong}
@@ -270,7 +282,27 @@ const Explore = () => {
             </Grid>
           </ContinueListeningSection>
         )}
+        <FullScreen handle={fullScreenHandler}>
+          {fullScreenHandler.active ? (
+            <FullScreenPlayer
+              fullScreenHandler={fullScreenHandler}
+              // song={activeSong}
+              song={currentSong}
+              nextSong={playNextSong}
+              previousSong={playPreviousSong}
+              togglePlay={togglePlay}
+              progress={progress}
+              isPlaying={isPlaying}
+              seek={seek}
+              currentAudioIndex={currentAudioIndex}
+              setCurrentAudioIndex={setCurrentAudioIndex}
+              restartSong={restartSong}
+            />
+          ) : null}
+        </FullScreen>
+
         <BottomPlayer
+          restartSong={restartSong}
           fullScreenHandler={fullScreenHandler}
           nextSong={playNextSong}
           previousSong={playPreviousSong}

@@ -39,7 +39,7 @@ const LandingPage: FunctionComponent<Props> = () => {
   };
 
   const checkWishlist = async()=>{
-    localStorage.removeItem('wishlist');
+    // localStorage.removeItem('wishlist');
     const list = getWishlist();
     const updatedList = await checkSongsAvailable(list);
     setWishList(updatedList)

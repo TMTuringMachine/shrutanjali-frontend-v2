@@ -1,9 +1,12 @@
 .App {
-  height: 100vh;
+  height: 80vh;
+  min-height:80vh;
   display: flex;
+  flex:1;
   justify-content: start;
   align-items: center;
   flex-direction: column;
+  /* justify-content: space-between; */
 }
 .page-container {
   /* width: 1600; */

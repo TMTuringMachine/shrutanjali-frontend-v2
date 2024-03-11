@@ -1,26 +1,27 @@
-import { FunctionComponent, useState } from 'react';
-import { Box } from '@mui/system';
-import { Typography, Slide } from '@mui/material';
+import { FunctionComponent, useState } from "react";
+import { Box } from "@mui/system";
+import { Typography, Slide } from "@mui/material";
 
 //components
-import Transition from '../../components/Transition';
+import Transition from "../../components/Transition";
 
 //styles
-import { PageContainer } from '../page.styles';
+import { PageContainer } from "../page.styles";
 import {
   AboutContainer,
   ImageContainer,
   ReadMoreButton,
   ReadMoreContainer,
   ScrollContent,
-} from './about.styles';
-import { AnimatePresence } from 'framer-motion';
+} from "./about.styles";
+import { AnimatePresence } from "framer-motion";
 
 //assets
-import dadaji from '../../assets/images/dadaji.png';
-import maimg from '../../assets/images/MA-image1.png';
-import data from './about.data';
-import { Icon } from '@iconify/react';
+import dadaji from "../../assets/images/dadaji.png";
+import maimg from "../../assets/images/MA-image1.png";
+import maimg2 from "../../assets/images/MA_IMAGE.png";
+import data from "./about.data";
+import { Icon } from "@iconify/react";
 
 interface Prop {}
 const AboutGuru: FunctionComponent<Prop> = () => {
@@ -34,15 +35,15 @@ const AboutGuru: FunctionComponent<Prop> = () => {
         <AboutContainer>
           {MAReadMore ? (
             <ReadMoreContainer
-              initial={{ y: '20vh', opacity: 0 }}
-              animate={{ y: '0', opacity: 1 }}
-              exit={{ y: '20vh', opacity: 0 }}
-              transition={{ ease: 'easeInOut', duration: 0.5 }}
+              initial={{ y: "20vh", opacity: 0 }}
+              animate={{ y: "0", opacity: 1 }}
+              exit={{ y: "20vh", opacity: 0 }}
+              transition={{ ease: "easeInOut", duration: 0.5 }}
               key="modal"
             >
               <Box onClick={() => setMAReadMore(false)}>
                 <Icon
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                   width="30"
                   icon="material-symbols:arrow-back-rounded"
                 />
@@ -72,21 +73,21 @@ const AboutGuru: FunctionComponent<Prop> = () => {
                 onClick={() => setDadajiReadMore(true)}
                 readmore={toggleOnDadaji}
               >
-                {toggleOnDadaji && !dadajiReadMore ? 'Read more' : data[1].name}
+                {toggleOnDadaji && !dadajiReadMore ? "Read more" : data[0].name}
               </ReadMoreButton>
             </ImageContainer>
           )}
           {dadajiReadMore ? (
             <ReadMoreContainer
-              initial={{ y: '20vh', opacity: 0 }}
-              animate={{ y: '0', opacity: 1 }}
-              exit={{ y: '20vh', opacity: 0 }}
-              transition={{ ease: 'easeInOut', duration: 0.5 }}
+              initial={{ y: "20vh", opacity: 0 }}
+              animate={{ y: "0", opacity: 1 }}
+              exit={{ y: "20vh", opacity: 0 }}
+              transition={{ ease: "easeInOut", duration: 0.5 }}
               key="modal"
             >
               <Box onClick={() => setDadajiReadMore(false)}>
                 <Icon
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                   width="30"
                   icon="material-symbols:arrow-back-rounded"
                 />
@@ -102,7 +103,8 @@ const AboutGuru: FunctionComponent<Prop> = () => {
                 onMouseLeave={() => {
                   setToggleOnMA(false);
                 }}
-                src={maimg}
+                // src={maimg}
+                src={maimg2}
                 alt=""
               />
 
@@ -113,7 +115,7 @@ const AboutGuru: FunctionComponent<Prop> = () => {
                 onClick={() => setMAReadMore(true)}
                 readmore={toggleOnMA}
               >
-                {toggleOnMA && !MAReadMore ? 'Read more' : data[0].name}
+                {toggleOnMA && !MAReadMore ? "Read more" : data[1].name}
               </ReadMoreButton>
             </ImageContainer>
           )}

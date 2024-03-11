@@ -4,7 +4,7 @@ import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { Page, pdfjs, Document } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url,
+  import.meta.url
 ).toString();
 import LifeOfLight from "../../assets/books/LifeOfLight.pdf";
 import { Icon } from "@iconify/react";
@@ -33,7 +33,7 @@ const SingleBook: FunctionComponent<Props> = () => {
   }
 
   function handleNext() {
-    if (pageNumber < numPages) {
+    if (pageNumber < numPages!) {
       setPageNumber(pageNumber + 1);
     }
   }
@@ -44,7 +44,18 @@ const SingleBook: FunctionComponent<Props> = () => {
   }
 
   return (
-    <Box sx={{ height: "100%", overflow: "hidden" }}>
+    <Box
+      sx={{
+        height: "100%",
+        overflow: "hidden",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between",
+        // borderBottom:"20px solid green"
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -112,52 +123,53 @@ const SingleBook: FunctionComponent<Props> = () => {
             />
           </Document>
         </div>
-        <Box
-          sx={{
-            display: "flex",
-            // flexDirection: "column",
-            gap: "30px",
-            padding: "10px",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              color: "black",
-              display: "flex",
-              gap: "5px",
-              justifyContent: "space-between",
-            }}
-            disabled={pageNumber === 1}
-            onClick={handlePrevious}
-          >
-            <Icon
-              icon="solar:arrow-left-linear"
-              style={{ width: "30px", height: "30px" }}
-            />
-          </Button>
-          <Typography sx={{ fontSize: "1.1em", fontWeight: 500 }}>
-            {pageNumber} of {numPages}
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{
-              color: "black",
-              display: "flex",
-              gap: "5px",
-              justifyContent: "space-between",
-            }}
-            disabled={pageNumber === numPages}
-            onClick={handleNext}
-          >
-            <Icon
-              icon="solar:arrow-right-linear"
-              style={{ width: "30px", height: "30px" }}
-            />
-          </Button>
-        </Box>
       </div>
+
+      <Box
+        sx={{
+          display: "flex",
+          // flexDirection: "column",
+          gap: "30px",
+          padding: "10px",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          variant="contained"
+          sx={{
+            color: "black",
+            display: "flex",
+            gap: "5px",
+            justifyContent: "space-between",
+          }}
+          disabled={pageNumber === 1}
+          onClick={handlePrevious}
+        >
+          <Icon
+            icon="solar:arrow-left-linear"
+            style={{ width: "30px", height: "30px" }}
+          />
+        </Button>
+        <Typography sx={{ fontSize: "1.1em", fontWeight: 500 }}>
+          {pageNumber} of {numPages}
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{
+            color: "black",
+            display: "flex",
+            gap: "5px",
+            justifyContent: "space-between",
+          }}
+          disabled={pageNumber === numPages}
+          onClick={handleNext}
+        >
+          <Icon
+            icon="solar:arrow-right-linear"
+            style={{ width: "30px", height: "30px" }}
+          />
+        </Button>
+      </Box>
     </Box>
   );
 };

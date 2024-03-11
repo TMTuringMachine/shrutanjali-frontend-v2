@@ -16,9 +16,15 @@ import {
   SongPlayerOptions,
 } from "./BottomPlayer.styles";
 import { IAudio, IMedia } from "../../interfaces/media.interface";
-import { FullScreenHandle } from "react-full-screen";
+import {
+  FullScreen,
+  FullScreenHandle,
+  useFullScreenHandle,
+} from "react-full-screen";
 import LyricsModal from "../Home/LyricsModal/LyricsModal.component";
 import { OptionButton } from "../../pages/Home/home.styles";
+import FullScreenPlayer from "../FullScreenPlayer/FullScreenPlayer.component";
+import useWishlist from "../../hooks/useWishlist";
 
 interface Prop {
   fullScreenHandler: FullScreenHandle;
@@ -31,6 +37,7 @@ interface Prop {
   seek: Function;
   currentAudioIndex: number;
   setCurrentAudioIndex: Function;
+  restartSong: Function;
 }
 const BottomPlayer: FunctionComponent<Prop> = ({
   song,
@@ -43,12 +50,15 @@ const BottomPlayer: FunctionComponent<Prop> = ({
   seek,
   currentAudioIndex,
   setCurrentAudioIndex,
+  restartSong,
 }) => {
   const [lyricModalState, setLyricModalState] = useState<any>({
     open: false,
     song: null,
   });
+  const [wish, setWish] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [render, setRender] = useState<Boolean>(false);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -57,6 +67,15 @@ const BottomPlayer: FunctionComponent<Prop> = ({
   };
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+  useEffect(() => {
+    // getFeaturedMedia();
+    setWish(getWishlist());
+  }, [render]);
+  const isWishListed = (songId: string) => {
+    if (wish?.includes(songId)) return true;
+    return false;
+  };
+  const { getWishlist, removeFromWishlist, addToWishlist } = useWishlist();
   return (
     <OuterContainer>
       <BottomPlayerContainer>
@@ -65,6 +84,36 @@ const BottomPlayer: FunctionComponent<Prop> = ({
           <Box className="song-name">
             <p>{song?.title}</p>
           </Box>
+          {isWishListed(song?._id!) ? (
+            <>
+              <Tooltip title={"Remove From Wishlist"} arrow>
+                <Icon
+                  icon="fe:heart"
+                  width="30x"
+                  height="30px"
+                  style={{ color: "red" }}
+                  onClick={() => {
+                    removeFromWishlist(song?._id!);
+                    setRender(!render);
+                  }}
+                />
+              </Tooltip>
+            </>
+          ) : (
+            <>
+              <Tooltip title={"Add To Wishlist"} arrow>
+                <Icon
+                  icon="fe:heart"
+                  width="35px"
+                  height="35px"
+                  onClick={() => {
+                    addToWishlist(song?._id!);
+                    setRender(!render);
+                  }}
+                />
+              </Tooltip>
+            </>
+          )}
         </SongImageContainer>
         <SongPlayerOptions>
           <Box className="player-options">
@@ -161,6 +210,9 @@ const BottomPlayer: FunctionComponent<Prop> = ({
                   active={idx == currentAudioIndex}
                   onClick={() => {
                     setCurrentAudioIndex(idx);
+                    setTimeout(() => {
+                      restartSong();
+                    }, 500);
                     // pause();
                     // setIsPlaying(false);
                   }}
@@ -176,6 +228,7 @@ const BottomPlayer: FunctionComponent<Prop> = ({
               icon="material-symbols:fullscreen-rounded"
               width="30px"
               height="30px"
+              onClick={fullScreenHandler.enter}
             />
           </Tooltip>
         </SongActionsContainer>
