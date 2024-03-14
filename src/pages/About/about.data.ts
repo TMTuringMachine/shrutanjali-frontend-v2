@@ -32,7 +32,7 @@ const data = [
     Find Dilip Kumar Roy’s autobiography in Pilgrims of the Stars.`,
   },
   {
-    name: 'Indria Devi - Ma',
+    name: 'Indira Devi - Ma',
     details: `As Janak Kumari in her pre-initiated life, Indira Devi was born to wealth and led an affluent family
     life. Drawn by an irresistible urge to seek something more profound, more significant, more real,
     and much more fulfilling than the material things she had, she turned to her Guru Sri Dilip Kumar
