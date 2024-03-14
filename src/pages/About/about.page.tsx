@@ -48,7 +48,10 @@ const AboutGuru: FunctionComponent<Prop> = () => {
                   icon="material-symbols:arrow-back-rounded"
                 />
               </Box>
-              <ScrollContent>{data[1].details}</ScrollContent>
+              <ScrollContent
+                dangerouslySetInnerHTML={{ __html: data[1].details }}
+              />
+              {/* <ScrollContent >{data[1].details}</ScrollContent> */}
             </ReadMoreContainer>
           ) : (
             <ImageContainer
@@ -92,7 +95,9 @@ const AboutGuru: FunctionComponent<Prop> = () => {
                   icon="material-symbols:arrow-back-rounded"
                 />
               </Box>
-              <ScrollContent>{data[0].details}</ScrollContent>
+              <ScrollContent
+                dangerouslySetInnerHTML={{ __html: data[0].details }}
+              />
             </ReadMoreContainer>
           ) : (
             <ImageContainer imgWidth="400px" hover={toggleOnMA || MAReadMore}>

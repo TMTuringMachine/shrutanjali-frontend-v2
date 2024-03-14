@@ -3,7 +3,7 @@ import { styled, Box } from "@mui/material";
 export const SongOverviewContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   height: "350px",
-  position:"relative",
+  position: "relative",
   backgroundColor: theme.palette.background.default,
   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   borderRadius: "15px",
@@ -15,7 +15,9 @@ export const SongOverviewContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     // width: "100%",
     // margin: "1rem 0px",
-    flexDirection: "row",
+    // flexDirection: "row",
+    height: "400px",
+
   },
   cursor: "pointer",
   transition: "all 0.4s ease-in",
@@ -92,7 +94,7 @@ export const SongOverviewImage = styled("div")<SongOverviewImageProps>(
     [theme.breakpoints.down("md")]: {
       width: "100%",
     },
-  }),
+  })
 );
 
 // export const SongOverviewImage = styled('img')(() => ({
