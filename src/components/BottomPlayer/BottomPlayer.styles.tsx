@@ -20,7 +20,7 @@ export const OuterContainer = styled(Box)(({ theme }) => ({
     alignItems: "center",
     "& .mobile-slider": {
       display: "flex",
-      padding:"0px"
+      padding: "0px",
     },
   },
 }));
@@ -41,6 +41,7 @@ export const BottomPlayerContainer = styled(Box)(({ theme }) => ({
 
   [theme.breakpoints.down("sm")]: {
     height: "80%",
+    // position: "relative",
     // height:"90%"
     // flex:1,
     // flexDirection:"column"
@@ -98,16 +99,34 @@ export const SongPlayerOptions = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const SongActionsContainer = styled(Box)(({ theme }) => ({
-  width: "25%",
-  height: "100%",
-  // backgroundColor: "blue",
-  display: "flex",
-  gap: "30px",
-  alignItems: "center",
-  justifyContent: "end",
-  paddingRight: "30px",
-  [theme.breakpoints.down("sm")]: {
-    display: "none",
-  },
-}));
+interface ActionsContainerProps {
+  showMobileOptions?: boolean;
+}
+
+export const SongActionsContainer = styled(Box)<ActionsContainerProps>(
+  ({ theme, showMobileOptions }) => ({
+    width: "25%",
+    height: "100%",
+    // backgroundColor: "blue",
+    display: "flex",
+    gap: "30px",
+    alignItems: "center",
+    justifyContent: "end",
+    paddingRight: "30px",
+    [theme.breakpoints.down("sm")]: {
+      // display: "none",
+      display: showMobileOptions ? "" : "none",
+      position: "absolute",
+      width: "fit-content",
+      height: "fit-content",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%,-200%)",
+      backgroundColor: "white",
+      padding: "10px 30px",
+      borderRadius: "10px",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  })
+);

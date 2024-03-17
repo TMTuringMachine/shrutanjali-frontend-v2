@@ -25,6 +25,7 @@ import LyricsModal from "../Home/LyricsModal/LyricsModal.component";
 import { OptionButton } from "../../pages/Home/home.styles";
 import FullScreenPlayer from "../FullScreenPlayer/FullScreenPlayer.component";
 import useWishlist from "../../hooks/useWishlist";
+import { useWindowSize } from "../../hooks/useWindowSize";
 
 interface Prop {
   fullScreenHandler: FullScreenHandle;
@@ -59,12 +60,14 @@ const BottomPlayer: FunctionComponent<Prop> = ({
   const [wish, setWish] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [render, setRender] = useState<Boolean>(false);
+  const [showMobileOptions, setShowMobileOptions] = useState<boolean>(false);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const mywindow = useWindowSize();
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   useEffect(() => {
@@ -75,6 +78,87 @@ const BottomPlayer: FunctionComponent<Prop> = ({
     if (wish?.includes(songId)) return true;
     return false;
   };
+
+  const getLikeIconForActionsContainer = () => {
+    if (mywindow.width! > 600) {
+      return null;
+    }
+    if (isWishListed(song?._id!)) {
+      return (
+        <Tooltip title={"Remove From Wishlist"} arrow>
+          <Icon
+            icon="fe:heart"
+            width="35px"
+            height="35px"
+            color="red"
+            onClick={() => {
+              removeFromWishlist(song?._id!);
+              setRender(!render);
+            }}
+          />
+        </Tooltip>
+      );
+    } else {
+      return (
+        <Tooltip title={"Add To Wishlist"} arrow>
+          <Icon
+            icon="fe:heart"
+            width="35px"
+            height="35px"
+            onClick={() => {
+              addToWishlist(song?._id!);
+              setRender(!render);
+            }}
+          />
+        </Tooltip>
+      );
+    }
+  };
+  const getLikeIcon = () => {
+    if (mywindow.width! < 600) {
+      return (
+        <Icon
+          icon="iconamoon:options-light"
+          width="35px"
+          height="35px"
+          onClick={() => {
+            setShowMobileOptions(!showMobileOptions);
+          }}
+        />
+      );
+    }
+    if (isWishListed(song?._id!)) {
+      return (
+        <Tooltip title={"Remove From Wishlist"} arrow>
+          <Icon
+            icon="fe:heart"
+            width="30x"
+            height="30px"
+            style={{ color: "red" }}
+            onClick={() => {
+              removeFromWishlist(song?._id!);
+              setRender(!render);
+            }}
+          />
+        </Tooltip>
+      );
+    } else {
+      return (
+        <Tooltip title={"Add To Wishlist"} arrow>
+          <Icon
+            icon="fe:heart"
+            width="35px"
+            height="35px"
+            onClick={() => {
+              addToWishlist(song?._id!);
+              setRender(!render);
+            }}
+          />
+        </Tooltip>
+      );
+    }
+  };
+
   const { getWishlist, removeFromWishlist, addToWishlist } = useWishlist();
   return (
     <OuterContainer>
@@ -84,7 +168,8 @@ const BottomPlayer: FunctionComponent<Prop> = ({
           <Box className="song-name">
             <p>{song?.title}</p>
           </Box>
-          {isWishListed(song?._id!) ? (
+          {getLikeIcon()}
+          {/* {isWishListed(song?._id!) ? (
             <>
               <Tooltip title={"Remove From Wishlist"} arrow>
                 <Icon
@@ -113,7 +198,7 @@ const BottomPlayer: FunctionComponent<Prop> = ({
                 />
               </Tooltip>
             </>
-          )}
+          )} */}
         </SongImageContainer>
         <SongPlayerOptions>
           <Box className="player-options">
@@ -165,7 +250,8 @@ const BottomPlayer: FunctionComponent<Prop> = ({
             }}
           />
         </SongPlayerOptions>
-        <SongActionsContainer>
+        <SongActionsContainer showMobileOptions={showMobileOptions}>
+          {getLikeIconForActionsContainer()}
           <Tooltip title={"Lyrics"} arrow>
             <Icon
               color="black"
